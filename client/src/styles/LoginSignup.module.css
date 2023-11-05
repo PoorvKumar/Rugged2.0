@@ -76,7 +76,7 @@ form.sign-in-form {
   height: 55px;
   border-radius: 5px;
   display: grid;
-  grid-template-columns: 15% 85%;
+  /* grid-template-columns: 15% 85%; */
   padding: 0 0.4rem;
   position: relative;
 }
@@ -130,13 +130,13 @@ form.sign-in-form {
 }
 
 .social-icon:hover {
-  color: #F86F03;
-  border-color: #F86F03;
+  color: rgb(3, 175, 248);
+  border-color: #03aff8;
 }
 
 .btn {
   width: 150px;
-  background-color: #F86F03;
+  background-color: #39dff9;
   border: none;
   outline: none;
   height: 49px;
@@ -147,10 +147,6 @@ form.sign-in-form {
   margin: 10px 0;
   cursor: pointer;
   transition: 0.5s;
-}
-
-.btn:hover {
-  background-color: #f98c39;
 }
 .panels-container {
   position: absolute;

@@ -14,7 +14,7 @@ const Home = () => {
         <button onClick={handleOpenLogin}>Click here to login</button>
         <Modal open={open} onClose={handleCloseLogin} className='min-h-screen flex justify-center items-center'>
             <div>
-            <LoginModal />
+            <LoginModal onClose={handleCloseLogin} />
             </div>
         </Modal>
     </div>
