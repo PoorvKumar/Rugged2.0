@@ -10,6 +10,7 @@ const Home = () => {
 
   return (
     <div>
+        This is home
         <button onClick={handleOpenLogin}>Click here to login</button>
         <Modal open={open} onClose={handleCloseLogin} className='min-h-screen flex justify-center items-center'>
             <div>
