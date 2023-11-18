@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import climbingMountain from "../../assets/Climbing-amico.png";
+import travelling_river from "../../assets/travelling_river.png";
 import { PiEyeDuotone, PiEyeSlashDuotone } from "react-icons/pi";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
@@ -41,8 +42,8 @@ const LoginModal = ({ onClose }) => {
                     <button className='px-5 py-2 bg-white border rounded-xl hover:scale-105 duration-300'>Register</button>
                 </div>
             </div>
-            <div className='sm:block hidden w-1/2 p-5 flex justify-center items-center bg-[#27a6e6e6] rounded-2xl'>
-                <img src={climbingMountain} className='rounded-2xl' />
+            <div className='sm:block hidden w-1/2 p-5 flex justify-center items-center rounded-2xl' style={{ backgroundImage: 'linear-gradient(to bottom, #27a6e6e6, #32d3cee6)' }}>
+                <img src={travelling_river} className='rounded-2xl' />
             </div>
         </div>
     )
