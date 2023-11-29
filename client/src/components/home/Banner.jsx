@@ -1,15 +1,17 @@
 import React from 'react';
 import { homeHeader1, homeHeader2 } from '../../assets';
 import HeaderHome from './HeaderHome';
+import Navbar from '../Navbar';
 
 const Banner = () => {
   return (
     <div className='relative'>
       <div className='bg-cover bg-no-repeat' style={{backgroundImage: `url(${homeHeader1})`}}>
 
-        <HeaderHome />
+        {/* <HeaderHome /> */}
+        <Navbar />
 
-        <div className='slider relative flex flex-col justify-center items-center'>
+        <div className='slider relative flex flex-col justify-center items-center pt-8'>
           <div className='intro top-4 pt-[6rem] pb-[16rem] md:pt-[8rem] text-center'>
             <div className='title mb-4 md:mb-6'>
               <h3 className='text-sm font-bold mb-4 uppercase text-yellow-500 tracking-normal'>Premier Outdoor Gear & Clothing</h3>
@@ -32,7 +34,7 @@ const Banner = () => {
           </div>
         </div>
       </div>
-      <img src={homeHeader2} alt="snowboarding" className='absolute bg-transparent align-center top-[27rem] sm:top-[21rem] md:top-[10rem]' />
+      <img src={homeHeader2} alt="snowboarding" className='absolute  bg-transparent align-center top-[27rem] sm:top-[21rem] md:top-[10rem]' />
     </div>
   )
 }

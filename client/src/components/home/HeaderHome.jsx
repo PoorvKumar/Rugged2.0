@@ -1,56 +1,70 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const HeaderHome = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleNavbar = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
-    <header className="header header-6">
-      <div className="header-top">
-        {/* ... content for header-top */}
-      </div>
-      <div className="sticky-wrapper" style={{ height: '91px' }}>
-        <div className="header-middle sticky-header">
-          <div className="header-left">
-            <button className="mobile-menu-toggler">
-              <span className="sr-only">Toggle mobile menu</span>
-              <i className="icon-bars"></i>
-            </button>
-            <a className="logo" href="/react/molla/demo-24/">
-              <img
-                src="images/home/logo.png"
-                alt="Molla Logo"
-                className="bg-transparent"
-                width="110"
-                height="25"
-              />
-            </a>
-          </div>
-          <div className="header-center">
-            <nav className="main-nav">
-              {/* ... content for navigation */}
-            </nav>
-          </div>
-          <div className="header-right">
-            <div className="header-search show">
-              {/* ... content for header search */}
-            </div>
-            <div className="wishlist">
-              <a href="/react/molla/demo-24/shop/wishlist/">
-                <i className="icon-heart-o"></i>
-                <span className="wishlist-count">1</span>
+    <nav className="bg-gray-900 p-4">
+      <div className="container mx-auto flex justify-between items-center">
+        <div className="flex items-center">
+          <h1 className="text-white text-lg font-bold">Your Brand</h1>
+        </div>
+        <div className="lg:hidden">
+          <button
+            onClick={toggleNavbar}
+            className="text-white focus:outline-none focus:text-white"
+          >
+            <svg
+              className="h-6 w-6 fill-current"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {isOpen ? (
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M4 6h16v2H4V6zm16 5H4v2h16v-2zm0 5H4v2h16v-2z"
+                />
+              ) : (
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M4 6h16v2H4V6zm0 5h16v2H4v-2zm0 5h16v2H4v-2z"
+                />
+              )}
+            </svg>
+          </button>
+        </div>
+        <div className={`lg:flex flex-grow items-center ${isOpen ? 'block' : 'hidden'}`}>
+          <ul className="flex flex-col lg:flex-row lg:ml-auto mt-4 lg:mt-0">
+            <li className="mr-3">
+              <a href="#" className="text-white hover:text-gray-300">
+                Home
               </a>
-            </div>
-            <div className="dropdown cart-dropdown">
-              <a className="dropdown-toggle" href="/react/molla/demo-24/shop/cart/">
-                <i className="icon-shopping-cart"></i>
-                <span className="cart-count">0</span>
+            </li>
+            <li className="mr-3">
+              <a href="#" className="text-white hover:text-gray-300">
+                About
               </a>
-              <div className="dropdown-menu dropdown-menu-right text-center">
-                <p>No products in the cart.</p>
-              </div>
-            </div>
-          </div>
+            </li>
+            <li className="mr-3">
+              <a href="#" className="text-white hover:text-gray-300">
+                Services
+              </a>
+            </li>
+            <li className="mr-3">
+              <a href="#" className="text-white hover:text-gray-300">
+                Contact
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
-    </header>
+    </nav>
   );
 };
 
