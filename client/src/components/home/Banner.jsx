@@ -8,8 +8,8 @@ const Banner = () => {
     <div className='relative'>
       <div className='bg-cover bg-no-repeat' style={{backgroundImage: `url(${homeHeader1})`}}>
 
-        {/* <HeaderHome /> */}
-        <Navbar />
+        <HeaderHome />
+        {/* <Navbar /> */}
 
         <div className='slider relative flex flex-col justify-center items-center pt-8'>
           <div className='intro top-4 pt-[6rem] pb-[16rem] md:pt-[8rem] text-center'>

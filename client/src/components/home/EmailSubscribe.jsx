@@ -14,7 +14,7 @@ const EmailSubscribe = () => {
 
   return (
     <div className='flex flex-col justify-center items-center p-8'>
-      <div className='text-slate-500 uppercase text-sm mt-4 mb-2'>
+      <div className='text-slate-500 uppercase text-sm mt-4 mb-1'>
         Get The Latest News & Deals
       </div>
       <div className='font-extrabold text-3xl mb-14'>

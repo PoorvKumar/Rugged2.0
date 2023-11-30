@@ -27,12 +27,14 @@ const Home = () => {
       <OCarousel />
 
       <ShopNowSection />
-
       <TrendingSection />
       <FeatureProd />
       <SpringSummer />
       <EmailSubscribe />
       <LatestBlogs />
+
+      <hr className='my-16'/>
+
       <FollowInsta />
 
       {/* <Footer /> */}

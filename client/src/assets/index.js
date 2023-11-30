@@ -16,6 +16,16 @@ import trend3 from "./trend3.jpg";
 import trend4 from "./trend4.jpg";
 import trend5 from "./trend5.jpg";
 import videobanner from "./videobanner.jpg";
+import blog1 from "./blog1.jpg";
+import blog2 from "./blog2.jpg";
+import blog3 from "./blog3.jpg";
+import insta1 from "./insta1.jpg";
+import insta2 from "./insta2.jpg";
+import insta3 from "./insta3.jpg";
+import insta4 from "./insta4.jpg";
+import insta5 from "./insta5.jpg";
+import headerBG from "./headerBG.jpg";
+import blogCard1 from "./blogCard1.jpg";
 
 export {
     homeHeader1,
@@ -36,4 +46,14 @@ export {
     trend4,
     trend5,
     videobanner,
+    blog1,
+    blog2,
+    blog3,
+    insta1,
+    insta2,
+    insta3,
+    insta4,
+    insta5,
+    headerBG,
+    blogCard1,
 };

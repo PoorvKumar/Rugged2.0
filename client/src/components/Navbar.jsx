@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { FiSearch, FiShoppingCart, FiHeart, FiMenu, FiX } from 'react-icons/fi'; // Import icons from react-icons
 import { LuMountainSnow } from "react-icons/lu";
+import { useNavigate } from "react-router-dom";
+import { homeHeader1 } from '../assets';
 
 const Navbar = () => {
+
+    const navigate=useNavigate();
+
     const [isScrolled, setIsScrolled] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [searchInput, setSearchInput] = useState('');
@@ -47,10 +52,19 @@ const Navbar = () => {
         // You can implement search functionality here
     };
 
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+          handleSearch();
+        }
+      };
+
     return (
         <nav
-            className={`fixed w-full p-8 z-50 transition duration-300 ease-in-out ${isScrolled ? 'bg-gray-900 py-6' : 'bg-transparent '
+            className={`fixed w-full p-8 z-50 transition duration-300 ease-in-out ${isScrolled ? 'bg-gray-900 py-6' : ''
                 }`}
+                style={{
+                    backgroundImage: isScrolled ? 'none' : `url(${homeHeader1})`,
+                }}
         >
             <div className="container mx-auto flex justify-between items-center">
                 <div className="flex items-center">
@@ -84,7 +98,7 @@ const Navbar = () => {
                         </li>
                         <li>
                             <a
-                                href="/blog"
+                                href="/blogs"
                                 className="text-white uppercase hover:text-cyan-500 hover:underline hover:underline-offset-4"
                             >
                                 Blog
@@ -120,6 +134,7 @@ const Navbar = () => {
                                         type="text"
                                         value={searchInput}
                                         onChange={handleSearchInputChange}
+                                        onKeyPress={handleKeyPress}
                                         placeholder="Search..."
                                         className="text-black px-4 py-2 rounded-lg bg-white border border-white focus:outline-none"
                                     />
@@ -153,7 +168,7 @@ const Navbar = () => {
                                 </div>
                             )}
                         </div>
-                        <button className="text-white hover:text-blue-500">Login</button>
+                        <button className="text-white hover:text-blue-500" onClick={()=>navigate('/login')}>Login</button>
                     </div>
                     {/* Menu icon for smaller devices */}
                     <div className="lg:hidden">
@@ -181,14 +196,38 @@ const Navbar = () => {
                         <a href="/products" className="text-white text-xl mb-4">
                             Shop
                         </a>
-                        <a href="/" className="text-white text-xl mb-4">
+                        <a href="/blogs" className="text-white text-xl mb-4">
                             Blog
                         </a>
                         <a href="/products" className="text-white text-xl mb-8">
                             About
                         </a>
                         {/* ... Other sidebar links ... */}
-                        <FiSearch className="text-white text-xl cursor-pointer mb-4" />
+                        <div className="relative mb-4">
+                            {isSearchOpen ? ( // Conditionally render search input or search icon
+                                <>
+                                    <input
+                                        type="text"
+                                        value={searchInput}
+                                        onChange={handleSearchInputChange}
+                                        onKeyPress={handleKeyPress}
+                                        placeholder="Search..."
+                                        className="text-black px-4 py-2 rounded-lg bg-white border border-white focus:outline-none"
+                                    />
+                                    <button
+                                        onClick={handleSearch}
+                                        className="absolute top-2 right-2 text-black cursor-pointer focus:outline-none"
+                                    >
+                                        <FiSearch className="text-xl" />
+                                    </button>
+                                </>
+                            ) : (
+                                <FiSearch
+                                    className="text-white text-xl cursor-pointer hover:text-cyan-500"
+                                    onClick={toggleSearch} // Toggle search input visibility on icon click
+                                />
+                            )}
+                        </div>
                         <a href="/cart" className='flex items-center gap-2 mb-4'>
                             <FiShoppingCart className="text-white text-xl" /> <span className='text-white text-xl'>Cart</span>
                         </a>

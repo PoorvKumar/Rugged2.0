@@ -7,7 +7,7 @@ const ShopNowSection = () => {
     <div className='p-8 mx-32'>
       <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 flex justify-center items-center'>
         <div className='h-[70vh] relative bg-cover bg-center' style={{ backgroundImage: `url(${banner1})` }}>
-          <div className="absolute top-0 left-0 w-full h-full opacity-0 group-hover:opacity-10 transition-opacity duration-300 bg-black"></div>
+          <div className="absolute top-0 left-0 w-full h-full opacity-0 hover:opacity-10 transition-opacity duration-300 bg-black"></div>
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-white flex flex-col gap-4 z-10">
             <p className={`text-sm text-slate-500 uppercase tracking-wide`}>
               online mega sale
@@ -23,7 +23,7 @@ const ShopNowSection = () => {
           </div>
         </div>
         <div className='h-[70vh] lg:h-[78vh] relative bg-cover bg-center' style={{ backgroundImage: `url(${banner2})` }}>
-          <div className="absolute top-0 left-0 w-full h-full opacity-0 group-hover:opacity-10 transition-opacity duration-300 bg-black"></div>
+          <div className="absolute top-0 left-0 w-full h-full opacity-0 hover:opacity-10 transition-opacity duration-300 bg-black"></div>
           <div className="absolute bg-white py-32 px-2 lg:px-8 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-white flex flex-col gap-4 z-10">
             <p className={`text-sm text-slate-500 uppercase tracking-wide`}>
               summer
@@ -39,7 +39,7 @@ const ShopNowSection = () => {
           </div>
         </div>
         <div className='h-[70vh] relative bg-cover bg-center' style={{ backgroundImage: `url(${banner3})` }}>
-          <div className="absolute top-0 left-0 w-full h-full opacity-0 group-hover:opacity-10 transition-opacity duration-300 bg-black"></div>
+          <div className="absolute top-0 left-0 w-full h-full opacity-0 hover:opacity-10 transition-opacity duration-300 bg-black"></div>
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-white flex flex-col gap-4 z-10">
             <p className={`text-sm text-slate-500 uppercase tracking-wide`}>
             lightning deals
