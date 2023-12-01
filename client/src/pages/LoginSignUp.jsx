@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import styles from "../styles/LoginSignUp.module.css";
 import { TbMailFilled, TbPhoneFilled } from "react-icons/tb";
-import { FaUser, FaLock, FaGoogle, FaGithub } from "react-icons/fa";
+import { FaUser, FaLock, FaGoogle, FaGithub, FaHome } from "react-icons/fa";
 import climbingMountain from "../assets/Climbing-amico.png";
 import mountains from "../assets/mountains.png";
 import { PiEyeDuotone, PiEyeSlashDuotone } from 'react-icons/pi';
+import { useNavigate } from 'react-router-dom';
 
 const LoginSignUp = () => {
+
+  const navigate=useNavigate();
+
   const [isSignUpMode, setIsSignUpMode] = useState(false);
   const [showPass, setShowPass] = useState(true);
 
@@ -20,6 +24,12 @@ const LoginSignUp = () => {
 
   return (
     <div className={`${styles.loginContainer} ${isSignUpMode ? styles["sign-up-mode"] : ""} dark`}>
+      <div className={styles.goBack}>
+        <button onClick={()=>navigate('/')} className={styles.homeButton}>
+          <FaHome className={styles.homeIcon} />
+          Go Home
+        </button>
+      </div>
       <div className={styles["forms-container"]}>
         <div className={styles["signin-signup"]}>
           <form action="#" className={`${styles["sign-in-form"]} ${styles.loginform}`}>
@@ -29,10 +39,10 @@ const LoginSignUp = () => {
               <input type="text" className="w-full" placeholder='Email' />
             </div>
             <div className={`${styles["input-field"]} relative`}>
-            <button type='button' className='absolute top-1/2 right-3 -translate-y-1/2 text-gray' onClick={() => setShowPass(!showPass)}>
-                            {showPass ? <PiEyeDuotone /> : <PiEyeSlashDuotone />}
-                        </button>
-              <input type={showPass?"text":"password"} className="w-full" placeholder='Password' />
+              <button type='button' className='absolute top-1/2 right-3 -translate-y-1/2 text-gray' onClick={() => setShowPass(!showPass)}>
+                {showPass ? <PiEyeDuotone /> : <PiEyeSlashDuotone />}
+              </button>
+              <input type={showPass ? "text" : "password"} className="w-full" placeholder='Password' />
             </div>
             <button className={`${styles.btn} hover:scale-105 duration-300`}>Sign In</button>
 
@@ -46,7 +56,6 @@ const LoginSignUp = () => {
               </a>
             </div>
           </form>
-
           <form action="#" className={`${styles["sign-up-form"]} ${styles.loginForm}`}>
             <h2 className={styles.title}>Sign Up</h2>
             <div className={styles["input-field"]}>

@@ -396,3 +396,35 @@ form.sign-in-form {
     left: 50%;
   }
 }
+
+.goBack {
+  position: absolute;
+  top: 20px; /* Adjust the positioning */
+  left: 20px; /* Adjust the positioning */
+  z-index: 10;
+}
+
+.homeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #39dff9;
+  border: none;
+  outline: none;
+  height: 40px;
+  border-radius: 4px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0 15px;
+  transition: background-color 0.3s ease;
+}
+
+.homeButton:hover {
+  background-color: #37ced0;
+}
+
+.homeIcon {
+  margin-right: 8px;
+}

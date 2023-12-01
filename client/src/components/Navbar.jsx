@@ -168,7 +168,10 @@ const Navbar = () => {
                                 </div>
                             )}
                         </div>
-                        <button className="text-white hover:text-blue-500" onClick={()=>navigate('/login')}>Login</button>
+                        <button className="text-white hover:text-blue-500" 
+                        onClick={() => navigate('/login')}
+                        // onClick={handleOpen}
+                        >Login</button>
                     </div>
                     {/* Menu icon for smaller devices */}
                     <div className="lg:hidden">
@@ -234,7 +237,10 @@ const Navbar = () => {
                         <a href="/wishlist" className='flex items-center gap-2 mb-4'>
                             <FiHeart className="text-white text-xl" /> <span className='text-white text-xl'>Wishlist</span>
                         </a>
-                        <button className="text-white text-xl hover:text-blue-500">Login</button>
+                        <button className="text-white text-xl hover:text-blue-500" 
+                        // onClick={handleOpen}
+                        onClick={()=>navigate('/login')}
+                        >Login</button>
                         {/* ... Other sidebar icons ... */}
                     </div>
                 </div>
