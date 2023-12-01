@@ -4,7 +4,7 @@ import ImageCard from './ImageCard'
 
 const ShopNowSection = () => {
   return (
-    <div className='p-8 mx-32'>
+    <div className='p-8 mx-8 md:mx-16 lg:mx-32'>
       <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 flex justify-center items-center'>
         <div className='h-[70vh] relative bg-cover bg-center' style={{ backgroundImage: `url(${banner1})` }}>
           <div className="absolute top-0 left-0 w-full h-full opacity-0 hover:opacity-10 transition-opacity duration-300 bg-black"></div>

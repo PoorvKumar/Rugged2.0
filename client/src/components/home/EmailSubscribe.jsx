@@ -13,7 +13,7 @@ const EmailSubscribe = () => {
   };
 
   return (
-    <div className='flex flex-col justify-center items-center p-8'>
+    <div className='flex flex-col justify-center items-center p-4 md:p-4 lg:p-8'>
       <div className='text-slate-500 uppercase text-sm mt-4 mb-1'>
         Get The Latest News & Deals
       </div>
@@ -25,7 +25,7 @@ const EmailSubscribe = () => {
           type="email"
           name="userEmail"
           id="userEmail"
-          className="py-2 px-4 focus:outline-none"
+          className="py-2 px-1 md:px-4 focus:outline-none"
           placeholder="Enter your email"
           value={email}
           onChange={handleEmailChange}

@@ -43,10 +43,10 @@ const LatestBlogs = () => {
   };
 
   return (
-    <div className='flex flex-col justify-center items-center mx-32 '>
+    <div className='flex flex-col justify-center items-center mx-8 md:mx-16 lg:mx-32 '>
       <p className='uppercase text-sm text-slate-500 mb-1'>our fresh news</p>
       <h1 className='text-3xl font-bold mb-16'>New Blog Posts</h1>
-      <div className='flex flex-wrap gap-4'>
+      <div className='flex flex-wrap justify-center gap-4'>
         <BlogCard imgSrc={blog1} date={"May 28, 2023"} commentNo={3} title={"Snow trekking Experience"}/>
         <BlogCard imgSrc={blog2} date={"Sept 23, 2023"} commentNo={3} title={"Safety Gear"}/>
         <BlogCard imgSrc={blog3} date={"August 23, 2023"} commentNo={3} title={"Mountain Bikes"}/>
