@@ -7,18 +7,23 @@ import cartReducer from './reducers/cartReducer.jsx';
 import wishListReducer from './reducers/wishListReducer.jsx';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
-
-const store=configureStore({reducer:{
-  cart:cartReducer,
-  wishlist:wishListReducer,
-}});
-
+import { api } from './reducers/dashboard/api.js'
+import Modereducer from './reducers/dashboard/mode.js' 
+import { setupListeners } from "@reduxjs/toolkit/query";
+const store = configureStore({
+  reducer: {
+    mode: Modereducer,
+    cart: cartReducer,
+    wishlist: wishListReducer,
+    [api.reducerPath]: api.reducer,
+  },
+  middleware: (getDefault) => getDefault().concat(api.middleware),
+});
+setupListeners(store.dispatch);
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
   <Provider store={store}>
-    <BrowserRouter>
       <App />
-    </BrowserRouter>
     </Provider>
   </React.StrictMode>,
 )
