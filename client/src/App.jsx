@@ -9,6 +9,8 @@ import Blogs from './pages/Blogs';
 import MainLayout from './layouts/MainLayout';
 import LoginModal from './components/auth/LoginModal';
 import SinglePostBlog from './pages/SInglePostBlog';
+import Cart2 from './components/Cart/Cart2';
+import WishList from './components/WishList/WishList';
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
       <Route path='/' element={<MainLayout />}>
         <Route path='blogs/' element={<Blogs />} />
         <Route path='blogs/:id' element={<SinglePostBlog />} />
+        <Route path='cart/' element={<Cart2/>}/>
+      <Route path='wishlist/' element={<WishList/>} />
       </Route>
     </Routes>
   )
