@@ -182,8 +182,8 @@ const productData = {
 };
 const ProductSearchPage = () => {
   const bc = [
-    { name: "Search", link: "/search" },
-    { name: "Default", link: "/product/Default" },
+    { name: "Search", link: "/products" },
+    // { name: "Default", link: "/product/Default" },
   ];
   const AirbnbSlider = styled(Slider)(({ theme }) => ({
     color: "rgb(6,182,212)",

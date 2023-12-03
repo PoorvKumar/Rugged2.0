@@ -46,7 +46,7 @@ const BreadCrumb = ({ breadcrumbs, style }) => {
                     <a
                       href={breadcrumb.link}
                       className={`ml-1 text-sm font-medium  hover:text-blue-600 md:ml-2 dark:hover:text-blue-300 ${
-                        index+1 === breadcrumbs.length ? "text-black dark:text-gray-50" : "text-gray-700 dark:text-gray-400"
+                        index+1 === breadcrumbs.length ? "text-gray-500 dark:text-blue-600" : "text-gray-700 dark:text-gray-400"
                       } `}
                     >
                       {breadcrumb.name}

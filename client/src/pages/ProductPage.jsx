@@ -8,10 +8,6 @@ import Reviews from "../components/ProductPage/Reviews";
 import Ratings from "../components/ProductPage/Ratings";
 const ProductPage = () => {
   const [tabNo, setTabNo] = useState(0);
-  const bc = [
-    { name: "Product", link: "/product" },
-    { name: "Default", link: "/product/Default" },
-  ];
   const productData = {
     _id: "asdfghjkl123456789",
     name: "Product Name",
@@ -174,6 +170,11 @@ const ProductPage = () => {
     },
     influencersEndorsing: ["Virat Kohli", "SRK"],
   };
+  const bc = [
+    { name: "Product", link: "/product" },
+    { name: `${productData.name}`, link: `/product/${productData._id}` },
+  ];
+  
   return (
     <div className="main px-2">
       <BreadCrumb breadcrumbs={bc} style={`pc`} />
