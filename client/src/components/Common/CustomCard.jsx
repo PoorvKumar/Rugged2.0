@@ -30,7 +30,7 @@ const CustomCard = ({ productData }) => {
   const categoriesList = productData.categories.join(", ");
 
   return (
-    <div className="w-60 mt-10 mx-4 rounded-3xl hover:shadow-[0_3px_10px_rgb(0,0,0,0.2)] ">
+    <div className="w-60 mt-10 mx-4 rounded-3xl relative hover:shadow-[0_3px_10px_rgb(0,0,0,0.2)] ">
       <div className="flex flex-col justify-start items-center">
         {/* Upper Div */}
         <div
@@ -49,7 +49,7 @@ const CustomCard = ({ productData }) => {
                   index < 2 && (
                     <div
                       key={index}
-                      className="rounded-full w-fit bg-cyan-500 p-3 text-sm font-semibold text-white ml-2 mt-2 z-20"
+                      className="rounded-full w-fit bg-cyan-500 p-1 px-2 text-xs font-semibold text-white ml-2 mt-2 z-20"
                     >
                       {tag}
                     </div>
@@ -161,20 +161,20 @@ const CustomCard = ({ productData }) => {
             <img
               src="https://d-themes.com/react_asset_api/molla/uploads/product_5_1_300x300_3dbc9b1611.jpg"
               alt="image1"
-              className={`w-full h-full mt-[-44%] rounded-3xl`}
+              className={`w-full h-full mt-[-44%] rounded-3xl object-cover`}
             />
           )}
           {majorHoverState && (
             <img
               src="https://d-themes.com/react_asset_api/molla/uploads/product_5_2_300x300_100e169228.jpg"
               alt="image1"
-              className="w-full h-full mt-[-44%] rounded-3xl "
+              className="w-full h-full mt-[-44%] rounded-3xl object-cover "
             />
           )}
           <div
             className={`${
               majorHoverState ? "opacity-100 z-30" : "opacity-0 z-0"
-            } transition-opacity duration-[300ms] ease-out flex flex-row justify-around items-center align-middle px-8 bg-[rgba(0,0,0,1)] mt-[-18%]`}
+            } transition-opacity duration-[300ms] ease-out flex flex-row justify-around items-center align-middle px-8 bg-[rgba(0,0,0,1)] mt-[-20%]`}
           >
             <div className="text-white text-2xl p-2 hover:bg-[rgba(255,255,255,0.25)] rounded-full">
               {" "}
