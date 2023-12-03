@@ -119,7 +119,7 @@ const Sidebar = ({
                     variant="h4"
                     fontWeight="bold"
                     onClick={() => {
-                      dispatch(customsetMode('light'))
+                      // dispatch(customsetMode('light'))
                       navigate(`/`);
                     }}
                     style={{ cursor: "pointer" }}

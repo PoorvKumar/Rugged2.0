@@ -27,8 +27,6 @@ function App() {
   const mode = useSelector((state) => state.mode.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline/>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} exact />
@@ -53,7 +51,6 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-    </ThemeProvider>
   );
 }
 
