@@ -42,9 +42,14 @@ function WishList() {
             <div>
               <img src="https://cdn-icons-png.flaticon.com/128/1077/1077035.png"></img>
 
-              <h1 className="flex justify-center text-lg animate-bounce text-red-400 font-semibold">
+              {/* <h1 className="flex justify-center text-lg animate-bounce text-red-400 font-semibold">
                 WishList is Empty !
-              </h1>
+              </h1> */}
+
+              <Link to='/' className='flex justify-center pt-5'><Button variant="outlined" >Add now</Button></Link>
+
+
+              
             </div>
           </div>
         </div>

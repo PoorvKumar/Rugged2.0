@@ -11,6 +11,8 @@ import LoginModal from './components/auth/LoginModal';
 import SinglePostBlog from './pages/SInglePostBlog';
 import Cart2 from './components/Cart/Cart2';
 import WishList from './components/WishList/WishList';
+import AboutUs from './components/AboutUs/AboutUs';
+import RentForm from './components/Rent/RentForm';
 
 function App() {
   return (
@@ -22,6 +24,9 @@ function App() {
         <Route path='blogs/:id' element={<SinglePostBlog />} />
         <Route path='cart/' element={<Cart2/>}/>
       <Route path='wishlist/' element={<WishList/>} />
+      <Route path='/rent' element={<RentForm/>}></Route>
+      <Route path='/about' element={<AboutUs/>}/>
+      
       </Route>
     </Routes>
   )

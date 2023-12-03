@@ -18,7 +18,7 @@ function CartCheck() {
     <div className="w-full ">
     
 
-    <div className="p-5 bg-gray-100 sm:max-md:w-full border border-stone-300 rounded">
+    <div className="px-5 bg-gray-100 sm:max-md:w-full border border-stone-300 rounded">
       <div className="">
         <div>
           <h3 className="decoration-solid text-2xl p-3 border-y bottom-1">

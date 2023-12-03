@@ -31,7 +31,7 @@ function Cart() {
     <div className=" min-h-screen">
       <HeaderTitle title={"Shopping Cart"} subtitle={"View your items"}/>
 
-      <div className="mx-16 gap-5 flex-col flex md:flex-row justify-center items-center ">
+      <div className="mx-16 gap-5 max-[1000px]:flex-col flex  justify-center items-center ">
         <div className="w-9/12 max-[1000px]:w-full">
           {cart.length ? (
             <div className="p-2 grid grid-cols-5 gap-x-1">
@@ -50,50 +50,8 @@ function Cart() {
           {cart.length ? (
             <div>
               {cart.map((item) => (
-                <div>
-                  <div className=" grid grid-cols-5 gap-2 p-2 items-center  border-y border-gray-300 border-collapse">
-                    <div className="box-border h-28 col-span-2  flex justify-start gap-9">
-                      <img src={item.image}></img>
-                      <div className="grid grid-cols-1 justify-center items-center">
-                        <div>{item.name}</div>
-                        <div>{item.desc}</div>
-                      </div>
-                    </div>
-                    <div className=" flex justify-center items-center">
-                      ${item.price}
-                    </div>
-                    <div className="flex justify-center items-center ">
-                      <div className="box-border w-20 max-h-10  p-4 border-solid border border-gray-400 rounded flex justify-center items-center gap-3">
-                        <button
-                          className=""
-                          onClick={() => dispatch(decreaseQuan(item))}
-                        >
-                          -
-                        </button>
-                        <div className="">{item.quantity}</div>
-                        <button
-                          className=""
-                          onClick={() => dispatch(increaseQuan(item))}
-                        >
-                          +
-                        </button>
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-6">
-                      <div className=" flex items-center justify-end">
-                        ${item.quantity * item.price}
-                      </div>
-                      <div className="opacity-22 flex justify-center items-center ">
-                        <button
-                          className=""
-                          onClick={() => dispatch(removeItem(item))}
-                        >
-                          <DeleteOutlineOutlinedIcon />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <CartItemCard item={item}/>
+                
               ))}
               <div className="p-4">
                 <button
@@ -108,7 +66,7 @@ function Cart() {
             <div></div>
           )}
         </div>
-        <div className=" 3/12 flex justify-center pt-12">
+        <div className=" 3/12 flex pb-5 ">
           {cart.length ? <CartCheck /> : ""}
         </div>
       </div>
