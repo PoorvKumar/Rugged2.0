@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 const LoginSignUp = () => {
 
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   const [isSignUpMode, setIsSignUpMode] = useState(false);
   const [showPass, setShowPass] = useState(true);
@@ -25,7 +25,7 @@ const LoginSignUp = () => {
   return (
     <div className={`${styles.loginContainer} ${isSignUpMode ? styles["sign-up-mode"] : ""} dark`}>
       <div className={styles.goBack}>
-        <button onClick={()=>navigate('/')} className={styles.homeButton}>
+        <button onClick={() => navigate('/')} className={styles.homeButton}>
           <FaHome className={styles.homeIcon} />
           Go Home
         </button>
@@ -36,7 +36,15 @@ const LoginSignUp = () => {
             <h2 className={styles.title}>Sign In</h2>
             <div className={`${styles["input-field"]} relative`}>
               <TbMailFilled className="mx-auto my-auto absolute top-1/2 right-3 -translate-y-1/2" />
-              <input type="text" className="w-full" placeholder='Email' />
+              <input
+                type="text"
+                className="w-full"
+                placeholder="Email"
+                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                title="Enter a valid email address"
+                required
+              />
+
             </div>
             <div className={`${styles["input-field"]} relative`}>
               <button type='button' className='absolute top-1/2 right-3 -translate-y-1/2 text-gray' onClick={() => setShowPass(!showPass)}>
@@ -60,7 +68,15 @@ const LoginSignUp = () => {
             <h2 className={styles.title}>Sign Up</h2>
             <div className={styles["input-field"]}>
               {/* <TbMailFilled className="mx-auto my-auto" /> */}
-              <input type="text" className="w-full" placeholder='Email' />
+              <input
+                type="text"
+                className="w-full"
+                placeholder="Email"
+                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                title="Enter a valid email address"
+                required
+              />
+
             </div>
             {/* <div className={styles["input-field"]}>
               <TbPhoneFilled className="mx-auto my-auto" />

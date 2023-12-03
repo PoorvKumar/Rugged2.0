@@ -26,6 +26,8 @@ import insta4 from "./insta4.jpg";
 import insta5 from "./insta5.jpg";
 import headerBG from "./headerBG.jpg";
 import blogCard1 from "./blogCard1.jpg";
+import contactUs from "./contactUs.jpg";
+import aboutUs from "./aboutUs.jpg";
 
 export {
     homeHeader1,
@@ -56,4 +58,6 @@ export {
     insta5,
     headerBG,
     blogCard1,
+    contactUs,
+    aboutUs,
 };
