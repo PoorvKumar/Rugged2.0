@@ -29,6 +29,8 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import FlexBetween from "./FlexBetween";
 import profileImage from "../../assets/banner-1.jpg";
+import { useDispatch } from "react-redux";
+import { customsetMode } from "../../reducers/dashboard/mode";
 
 const navItems = [
   {
@@ -84,7 +86,8 @@ const Sidebar = ({
   const [active, setActive] = useState("");
   const navigate = useNavigate();
   const theme = useTheme();
-
+  const dispatch = useDispatch()
+  
   useEffect(() => {
     setActive(pathname.substring(11));
   }, [pathname]);
@@ -116,6 +119,7 @@ const Sidebar = ({
                     variant="h4"
                     fontWeight="bold"
                     onClick={() => {
+                      dispatch(customsetMode('light'))
                       navigate(`/`);
                     }}
                     style={{ cursor: "pointer" }}
