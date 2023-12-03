@@ -29,7 +29,7 @@ import RentForm from './components/Rent/RentForm';
 import ContactUs from './pages/ContactUs';
 import SinglePostBlog from './pages/blog/SinglePostBlog';
 import Blogs from './pages/blog/Blogs';
-
+// Just Checking
 function App() {
   const mode = useSelector((state) => state.mode.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
