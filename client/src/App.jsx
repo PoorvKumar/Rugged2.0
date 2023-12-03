@@ -25,6 +25,7 @@ import Updateuser from './pages/dash/Updateuser'
 import Orders from './pages/dash/orders'
 import ProductPage from './pages/ProductPage';
 import ProductSearchPage from './pages/ProductSearchPage';
+import Checkout from './components/Checkout';
 function App() {
   const mode = useSelector((state) => state.mode.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
@@ -40,6 +41,7 @@ function App() {
             <Route path="wishlist/" element={<WishList />} />
             <Route path='products/' element={<ProductSearchPage/>} />
             <Route path='products/:id' element={<ProductPage/>} />
+            <Route path="/checkout" element={<Checkout />} />
           </Route>
           <Route element={<DashLayout />}>
             <Route
