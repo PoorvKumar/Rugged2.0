@@ -17,6 +17,7 @@ import {
   Input,
   Checkbox,
 } from "@material-tailwind/react";
+import CustomCardModal from './CustomCardModal';
 
 const products = [
   {
@@ -184,7 +185,8 @@ export default function Checkout() {
 
  
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen((cur) => !cur);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -206,18 +208,21 @@ export default function Checkout() {
                
 
   <button onClick={handleOpen} className="mt-6 ml-4 text-blue-700">+Add New Address</button>
-
+{/* 
       <Dialog
         size="xs"
         open={open}
         handler={handleOpen}
         className="bg-transparent shadow-none "
       >
-       <NewAddressCard/>
+      <div className='flex justify-center items-center w-screen'>
        
-      </Dialog>
+       </div>
+      </Dialog> */}
 
-
+      <CustomCardModal open={open} handleClose={handleClose}>
+      <NewAddressCard/>
+      </CustomCardModal>
 
 
 

@@ -18,13 +18,13 @@ export default function NewAddressCard() {
 
   return (
     
-        <Card className="mx-auto w-full max-w-[42rem] overflow-scroll max-h-screen">
+        <Card className="mx-auto  max-w-[42rem] max-h-screen">
           <CardBody className="flex flex-col gap-4 ">
             <Typography variant="h4" color="blue-gray">
             Shipping Information
             </Typography>
             <Typography
-              className="mb-3 font-normal"
+              className="mb-0 font-normal"
               variant="paragraph"
               color="gray"
             >
