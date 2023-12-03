@@ -23,6 +23,7 @@ import Customers from './pages/dash/customers'
 import Transactions from './pages/dash/transactions'
 import Updateuser from './pages/dash/Updateuser'
 import Orders from './pages/dash/orders'
+import ProductPage from './pages/ProductPage';
 function App() {
   const mode = useSelector((state) => state.mode.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
@@ -36,6 +37,7 @@ function App() {
             <Route path="blogs/:id" element={<SinglePostBlog />} />
             <Route path="cart/" element={<Cart2 />} />
             <Route path="wishlist/" element={<WishList />} />
+            <Route path='product/' element={<ProductPage/>} />
           </Route>
           <Route element={<DashLayout />}>
             <Route
