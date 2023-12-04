@@ -5,7 +5,6 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import helmet from 'helmet'
 import morgan from 'morgan'
-import stripe from "stripe";
 import clientRoutes from './routes/client.js'
 import generalRoutes from './routes/general.js'
 import managementRoutes from './routes/management.js'
@@ -35,7 +34,10 @@ app.use("/general", generalRoutes)
 app.use("/management", managementRoutes)
 app.listenerCount("/sales", salesRoutes)
 
-const stripe = stripe('sk_test_51OInpfSDY4zO64ajgkeujwhWRBCKNkVmpf4cyW4CS0yAJGHZFCAJ2X8D697eT9qP3CxR8YvfDxcMOTh9rfoWAPvm002sB4B6uU');
+import stripePackage from 'stripe';
+
+const stripe = stripePackage('sk_test_51OInpfSDY4zO64ajgkeujwhWRBCKNkVmpf4cyW4CS0yAJGHZFCAJ2X8D697eT9qP3CxR8YvfDxcMOTh9rfoWAPvm002sB4B6uU');
+
 
 // checkout api
 app.post("/api/create-checkout-session",async(req,res)=>{
@@ -76,13 +78,64 @@ app.post("/api/create-checkout-session",async(req,res)=>{
  
 })
 
+const blogData = [
+  {
+    id: 1,
+    title: 'Exploring the World of AI',
+    imgSrc: 'https://picsum.photos/800/600', // Random image from Lorem Picsum
+    date: '2023-12-05',
+    commentNo: 24,
+    category: 'Artificial Intelligence',
+  },
+  {
+    id: 2,
+    title: 'A Journey into Space Exploration',
+    imgSrc: 'https://picsum.photos/800/600', // Random image from Lorem Picsum
+    date: '2023-11-28',
+    commentNo: 16,
+    category: 'Space Science',
+  },
+  {
+    id: 3,
+    title: 'The Beauty of Nature Photography',
+    imgSrc: 'https://picsum.photos/800/600', // Random image from Lorem Picsum
+    date: '2023-11-20',
+    commentNo: 32,
+    category: 'Photography',
+  },
+  {
+    id: 4,
+    title: 'The Wonders of Underwater Life',
+    imgSrc: 'https://picsum.photos/800/600', // Random image from Lorem Picsum
+    date: '2023-10-15',
+    commentNo: 19,
+    category: 'Marine Biology',
+  },
+  {
+    id: 5,
+    title: 'Adventures in the Rainforest',
+    imgSrc: 'https://picsum.photos/800/600', // Random image from Lorem Picsum
+    date: '2023-09-30',
+    commentNo: 27,
+    category: 'Travel',
+  },
+  // Add more blog posts as needed
+];
+
+
+app.get("/blogs",(req,res)=>
+{
+  res.json(blogData);
+});
+
 //Mongoose setup
-const PORT = process.env.PORT || 9000
+const PORT = process.env.PORT || 5001
 mongoose.connect(process.env.MONGO_URL, {
-    useNewUrlParser:true,
-    useUnifiedTopology:true,
+    // useNewUrlParser:true,
+    // useUnifiedTopology:true,
 }).then(() => {
-    app.listen(PORT, () => console.log(`Server Port: ${PORT}`))
+  console.log("MongoDB connection established");
+    app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
     // Product.insertMany(dataProduct)
     // ProductStat.insertMany(dataProductStat)
     // Transaction.insertMany(dataTransaction)

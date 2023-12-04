@@ -1,0 +1,2 @@
+MONGO_URL=mongodb+srv://<username>:<password>@cluster0.yq0aort.mongodb.net/?retryWrites=true&w=majority
+PORT=5001

@@ -18,6 +18,7 @@ import VerticalImageCarousel from "../ProductPage/VerticalImageCarousel";
 import InitialProductInfo from "../ProductPage/InitialProductInfo";
 import { useDispatch } from "react-redux";
 import { addToWishlist } from "../../reducers/wishListReducer";
+import { addToCart } from "../../reducers/cartReducer";
 const CustomCard = ({ productData }) => {
   const valueFormatter = (value) => `${value} persons`;
   const [open, setOpen] = useState(false);
@@ -181,7 +182,7 @@ const CustomCard = ({ productData }) => {
               majorHoverState ? "opacity-100 z-30" : "opacity-0 z-0"
             } transition-opacity duration-[300ms] ease-out flex flex-row justify-around items-center align-middle px-8 bg-[rgba(0,0,0,1)] mt-[-20%]`}
           >
-            <div className="text-white text-2xl p-2 hover:bg-[rgba(255,255,255,0.25)] rounded-full">
+            <div className="text-white text-2xl p-2 hover:bg-[rgba(255,255,255,0.25)] rounded-full" onClick={()=>dispatch(addToCart(productData))}>
               {" "}
               <BsCartPlus />{" "}
             </div>

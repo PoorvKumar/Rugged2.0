@@ -30,7 +30,7 @@ function EmptyCart() {
 
     {/* <p className='flex justify-center animate-bounce text-red-400 font-semibold'> Cart is Empty !</p> */}
 
-    <Link to='/' className='flex justify-center'><Button variant="outlined" >Add now</Button></Link>
+    <Link to='/' className='flex justify-center'><Button variant="outlined" >Go Shop</Button></Link>
 
 
 

@@ -46,7 +46,7 @@ function WishList() {
                 WishList is Empty !
               </h1> */}
 
-              <Link to='/' className='flex justify-center pt-5'><Button variant="outlined" >Add now</Button></Link>
+              <Link to='/products' className='flex justify-center pt-5'><Button variant="outlined" >Go Shop</Button></Link>
 
 
               
