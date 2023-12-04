@@ -12,8 +12,12 @@ import {
   AiOutlineFacebook,
   AiOutlineLink,
 } from "react-icons/ai";
+import { useDispatch } from "react-redux";
+import { addToWishlist } from "../../reducers/wishListReducer";
+import { addToCart } from "../../reducers/cartReducer";
 
 const InitialProductInfo = ({ productData }) => {
+  const dispatch=useDispatch();
   const [buyInfo, setBuyInfo] = useState({
     quantity: 1,
   });
@@ -99,6 +103,7 @@ const InitialProductInfo = ({ productData }) => {
           <div
             onClick={() => {
               setInCart((previnfo) => !previnfo);
+              dispatch(addToWishlist(productData));
             }}
             className="text-red-500 text-2xl mt-[-0.75rem] cursor-pointer"
           >
@@ -199,7 +204,9 @@ const InitialProductInfo = ({ productData }) => {
           href="#"
           className="hover:text-cyan-300 hover:underline text-gray-700 border-[2px] border-transparent px-4 py-2 w-fit m-2 ml-0"
         >
-          <span className="text-[1rem] uppercase transition-all flex flex-row align-middle items-center font-bold">
+          <span className="text-[1rem] uppercase transition-all flex flex-row align-middle items-center font-bold" onClick={()=>{
+            dispatch(addToCart(productData));
+          }}>
             <div className="mr-3 pt-[0.5px] text-2xl">
               <BsCartPlus />
             </div>

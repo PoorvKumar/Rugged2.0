@@ -16,11 +16,15 @@ import { FaCloudUploadAlt } from "react-icons/fa";
 import CustomCardModal from "./CustomCardModal";
 import VerticalImageCarousel from "../ProductPage/VerticalImageCarousel";
 import InitialProductInfo from "../ProductPage/InitialProductInfo";
+import { useDispatch } from "react-redux";
+import { addToWishlist } from "../../reducers/wishListReducer";
 const CustomCard = ({ productData }) => {
   const valueFormatter = (value) => `${value} persons`;
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const dispatch=useDispatch();
 
   const [isAddedToWishlist, setIsAddedToWishlist] = useState(false);
   const [hoverState, setHoverState] = useState(false);
@@ -61,6 +65,7 @@ const CustomCard = ({ productData }) => {
                 <div
                   onClick={() => {
                     setIsAddedToWishlist((curr) => !curr);
+                    dispatch(addToWishlist(productData));
                   }}
                   onMouseEnter={() => {
                     setHoverState(true);
@@ -195,9 +200,11 @@ const CustomCard = ({ productData }) => {
           <div className="text-sm text-gray-400">
             {categoriesList.slice(0, 25)}...
           </div>
+          <a href={`/products/${productData.id}`}>
           <div className="text-base font-medium text-[rgba(0,0,0,0.9)]">
             {productData.name}
           </div>
+          </a>
           <div>
             <span className="text-gray-600 text-sm line-through">₹800.00</span>
             <span className="text-cyan-600 text-2xl font-medium">₹ 500.00</span>

@@ -4,6 +4,7 @@ import { LuMountainSnow } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import LoginSignupModal from '../auth/LoginSignUpModal';
 import Modal from '@mui/material/Modal';
+import { useSelector } from 'react-redux';
 
 const HeaderHome = () => {
 
@@ -19,8 +20,11 @@ const HeaderHome = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    const cartQuantity = 3;
-    const wishlistQuantity = 5;
+    const { cart }=useSelector((state)=>state.cart);
+    const { wishlist }=useSelector((state)=>state.wishlist);
+
+    const cartQuantity = cart.length;
+    const wishlistQuantity = wishlist.length;
 
     useEffect(() => {
         const handleScroll = () => {

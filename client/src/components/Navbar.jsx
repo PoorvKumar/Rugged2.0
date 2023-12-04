@@ -3,6 +3,7 @@ import { FiSearch, FiShoppingCart, FiHeart, FiMenu, FiX } from 'react-icons/fi';
 import { LuMountainSnow } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import { homeHeader1 } from '../assets';
+import { useSelector } from 'react-redux';
 
 const Navbar = () => {
 
@@ -13,8 +14,11 @@ const Navbar = () => {
     const [searchInput, setSearchInput] = useState('');
     const [isSearchOpen, setIsSearchOpen] = useState(false);
 
-    const cartQuantity = 3;
-    const wishlistQuantity = 5;
+    const { cart }=useSelector((state)=>state.cart);
+    const { wishlist }=useSelector((state)=>state.wishlist);
+
+    const cartQuantity = cart.length;
+    const wishlistQuantity = wishlist.length;
 
     useEffect(() => {
         const handleScroll = () => {
@@ -152,6 +156,7 @@ const Navbar = () => {
                                 />
                             )}
                         </div>
+                        <a href="/cart">
                         <div className="relative">
                             <FiShoppingCart className="text-white text-xl cursor-pointer hover:text-green-300" />
                             {cartQuantity > 0 && (
@@ -160,6 +165,8 @@ const Navbar = () => {
                                 </div>
                             )}
                         </div>
+                        </a>
+                        <a href="/wishlist">
                         <div className="relative">
                             <FiHeart className="text-white text-xl cursor-pointer hover:text-red-500" />
                             {wishlistQuantity > 0 && (
@@ -168,6 +175,7 @@ const Navbar = () => {
                                 </div>
                             )}
                         </div>
+                        </a>
                         <button className="text-white hover:text-blue-500" 
                         onClick={() => navigate('/login')}
                         // onClick={handleOpen}

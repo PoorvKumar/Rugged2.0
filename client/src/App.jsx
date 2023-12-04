@@ -29,7 +29,8 @@ import RentForm from './components/Rent/RentForm';
 import ContactUs from './pages/ContactUs';
 import SinglePostBlog from './pages/blog/SinglePostBlog';
 import Blogs from './pages/blog/Blogs';
-// Just Checking
+import CreateBlogPost from './pages/blog/CreateBlogPost';
+
 function App() {
   const mode = useSelector((state) => state.mode.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
@@ -41,6 +42,7 @@ function App() {
         <Route path="/" element={<MainLayout />}>
           <Route path="blogs/" element={<Blogs />} />
           <Route path="blogs/:id" element={<SinglePostBlog />} />
+          <Route path="blogs/create-post" element={<CreateBlogPost />} />
           <Route path="cart/" element={<Cart2 />} />
           <Route path="wishlist/" element={<WishList />} />
           <Route path='products/' element={<ProductSearchPage />} />
