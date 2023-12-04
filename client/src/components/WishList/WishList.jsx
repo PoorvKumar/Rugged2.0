@@ -6,13 +6,20 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import HeaderTitle from "../HeaderTitle";
+import BreadCrumb from "../BreadCrumb";
 
 function WishList() {
   const { wishlist } = useSelector((state) => state.wishlist);
 
+  const bc = [
+    { name: 'Wishlist', link: '/wishlist' },
+    // { name: 'Default', link: '/product/Default' },
+  ];
+
   return (
     <div className="min-h-screen bg-gray-100 px-12">
     <HeaderTitle title={"Your Wishlist"} subtitle={"View your favorites"}/>
+      <BreadCrumb breadcrumbs={bc} style={`pc`} />
       {wishlist.length ? (
         <>
           <div className="grid grid-cols-5 pt-10">
