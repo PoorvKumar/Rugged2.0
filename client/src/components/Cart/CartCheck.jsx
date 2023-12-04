@@ -5,10 +5,12 @@ import { getCartTotal } from "../../reducers/cartReducer";
 import { useState } from "react";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function CartCheck() {
   const { cartTotal, cart, cartQuantity } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+  const navigate=useNavigate();
   useEffect(() => {
     dispatch(getCartTotal());
   }, [cart]);
@@ -122,7 +124,7 @@ function CartCheck() {
         <div className="flex  justify-center borde">
           <button
             className="bg-transparent hover:bg-blue-400 text-blue-400 font-semibold hover:text-white py-2 px-4 border border-blue-300 hover:border-transparent "
-            onClick={() => {}}
+            onClick={() => { navigate('/checkout');}}
           >
             PROCEED TO CHECKOUT
           </button>
