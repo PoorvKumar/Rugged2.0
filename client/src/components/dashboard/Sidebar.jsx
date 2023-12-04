@@ -61,6 +61,10 @@ const navItems = [
     text: "Updateuser",
     icon: <PointOfSaleOutlined />,
   },
+  {
+    text: "AddProduct",
+    icon: <PublicOutlined />,
+  },
 ];
 
 const Sidebar = ({

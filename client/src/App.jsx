@@ -32,9 +32,8 @@ import Blogs from './pages/blog/Blogs';
 import CreateBlogPost from './pages/blog/CreateBlogPost';
 import SingleOrder from './pages/SingleOrder'
 import Trackingpage from './pages/Trackingpage'
+import AddProduct from './pages/dash/Addproduct'
 function App() {
-  const mode = useSelector((state) => state.mode.mode);
-  const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
   return (
     <BrowserRouter>
       <Routes>
@@ -69,7 +68,7 @@ function App() {
           <Route path="/dashboard/customers" element={<Customers />} />
           <Route path="/dashboard/orders" element={<Transactions />} />
           <Route path="/dashboard/updateuser" element={<Updateuser />} />
-          <Route path="/dashboard/order/:id" element={<Orders />} />
+          <Route path="/dashboard/addproduct" element={<AddProduct />} />
         </Route>
       </Routes>
     </BrowserRouter>
