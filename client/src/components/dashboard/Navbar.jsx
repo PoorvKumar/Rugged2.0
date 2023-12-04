@@ -24,7 +24,7 @@ const Navbar = ({
   const theme = useTheme()
   const [anchorEl, setAnchorEl] = useState(null)
   const isOpen = Boolean(anchorEl)
-  const handleCLick = (e) => setAnchorEl(e.current.target)
+  const handleCLick = (e) => setAnchorEl(e.currentTarget)
   const handleClose=()=>setAnchorEl(null)
     return (
       <AppBar

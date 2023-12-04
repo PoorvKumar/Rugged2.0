@@ -54,24 +54,12 @@ const navItems = [
     icon: <ReceiptLongOutlined />,
   },
   {
-    text: "RouteNotAdded1",
-    icon: <PublicOutlined />,
-  },
-  {
     text: "Sales",
     icon: null,
   },
   {
     text: "Updateuser",
     icon: <PointOfSaleOutlined />,
-  },
-  {
-    text: "RouteNotAdded2",
-    icon: <TodayOutlined />,
-  },
-  {
-    text: "RouteNotAdded3",
-    icon: <CalendarMonthOutlined />,
   },
 ];
 

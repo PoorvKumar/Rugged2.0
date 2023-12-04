@@ -22,10 +22,6 @@ const Transactions = () => {
     sort: JSON.stringify(sort),
     search,
   });
-  const handleRowClick = (data) => {
-    // console.log(data)
-    navigate(`/order/${data.id}`);
-  }
   const columns = [
     {
       field: "_id",
@@ -105,7 +101,6 @@ const Transactions = () => {
           pageSize={pageSize}
           paginationMode="server"
           sortingMode="server"
-          onRowClick={handleRowClick}
           onPageChange={(newPage) => setPage(newPage)}
           onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
           onSortModelChange={(newSortModel) => setSort(...newSortModel)}

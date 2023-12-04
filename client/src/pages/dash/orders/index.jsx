@@ -87,7 +87,7 @@ const Product = ({
   );
 };
 
-export default function LabTabs() {
+const Orders=()=> {
   const [value, setValue] = useState('1');
 
   const handleChange = (event, newValue) => {
@@ -182,3 +182,4 @@ export default function LabTabs() {
     </Box>
   );
 }
+export default Orders

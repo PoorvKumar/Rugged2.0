@@ -20,7 +20,7 @@ import Products from './pages/dash/products'
 import Customers from './pages/dash/customers'
 import Transactions from './pages/dash/transactions'
 import Updateuser from './pages/dash/Updateuser'
-import Orders from './pages/dash/orders'
+import Orders from './pages/Orders'
 import ProductPage from './pages/ProductPage';
 import ProductSearchPage from './pages/ProductSearchPage';
 import Checkout from './components/Checkout';
@@ -30,7 +30,8 @@ import ContactUs from './pages/ContactUs';
 import SinglePostBlog from './pages/blog/SinglePostBlog';
 import Blogs from './pages/blog/Blogs';
 import CreateBlogPost from './pages/blog/CreateBlogPost';
-
+import SingleOrder from './pages/SingleOrder'
+import Trackingpage from './pages/Trackingpage'
 function App() {
   const mode = useSelector((state) => state.mode.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
@@ -45,12 +46,18 @@ function App() {
           <Route path="blogs/create-post" element={<CreateBlogPost />} />
           <Route path="cart/" element={<Cart2 />} />
           <Route path="wishlist/" element={<WishList />} />
-          <Route path='products/' element={<ProductSearchPage />} />
-          <Route path='products/:id' element={<ProductPage />} />
+          <Route path="products/" element={<ProductSearchPage />} />
+          <Route path="products/:id" element={<ProductPage />} />
           <Route path="checkout/" element={<Checkout />} />
-          <Route path='rent/' element={<RentForm />} />
-          <Route path='about/' element={<AboutUs />} />
-          <Route path='/contact' element={<ContactUs />} />
+          <Route path="rent/" element={<RentForm />} />
+          <Route path="about/" element={<AboutUs />} />
+          <Route path="/contact" element={<ContactUs />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/order/:id" element={<SingleOrder />} />
+          <Route
+            path="/tracking/:orderid/:statusid"
+            element={<Trackingpage />}
+          />
         </Route>
         <Route element={<DashLayout />}>
           <Route

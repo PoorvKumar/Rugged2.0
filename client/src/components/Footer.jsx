@@ -81,10 +81,10 @@ const Footer = () => {
         <div className='flex flex-col gap-4 sm:mt-2 md:mt-2 lg:mt-0'>
           <h1 className='uppercase text-white font-bold'>my account</h1>
           <ul className='flex flex-col gap-2'>
-            <a href="/"><li className='text-sm text-gray-500 hover:text-cyan-500'>Sign in</li></a>
+            <a href="/login"><li className='text-sm text-gray-500 hover:text-cyan-500'>Sign in</li></a>
             <a href="/cart"><li className='text-sm text-gray-500 hover:text-cyan-500'>View Cart</li></a>
             <a href="/wishlist"><li className='text-sm text-gray-500 hover:text-cyan-500'>My Wishlist</li></a>
-            <a href="/"><li className='text-sm text-gray-500 hover:text-cyan-500'>Track my Order</li></a>
+            <a href="/orders"><li className='text-sm text-gray-500 hover:text-cyan-500'>Track my Order</li></a>
             <a href="/"><li className='text-sm text-gray-500 hover:text-cyan-500'>Help</li></a>
           </ul>
         </div>
