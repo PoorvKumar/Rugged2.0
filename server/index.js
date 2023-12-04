@@ -27,7 +27,13 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }))
 app.use(morgan("common"))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
-app.use(cors())
+
+const corsOptions={
+    origin: "http://localhost:5173",
+};
+
+app.use(cors(corsOptions));
+
 //Routes
 app.use("/client", clientRoutes)
 app.use("/general", generalRoutes)
