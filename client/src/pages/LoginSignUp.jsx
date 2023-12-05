@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from "../styles/LoginSignUp.module.css";
+import styles from "../styles/LoginSignup.module.css";
 import { TbMailFilled, TbPhoneFilled } from "react-icons/tb";
 import { FaUser, FaLock, FaGoogle, FaGithub, FaHome } from "react-icons/fa";
 import climbingMountain from "../assets/Climbing-amico.png";
