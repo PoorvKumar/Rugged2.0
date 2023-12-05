@@ -179,12 +179,25 @@ const Updateuser = () => {
   );
 };
 
-const phoneRegExp =/^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
-
+const phoneRegExp = /^[0-9]+(\.[0-9]+)?$/;
+const nameRegEx = /^[A-Za-z]{4,}$/;
+const emailRegEx = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/i;
 const checkoutSchema = yup.object().shape({
-  firstName: yup.string().required("required"),
-  lastName: yup.string().required("required"),
-  email: yup.string().email("invalid email").required("required"),
+  firstName: yup
+    .string()
+    .matches(
+      nameRegEx,
+      "Name should start with alphabet and has atleast 4 charcters"
+    )
+    .required("required"),
+  lastName: yup
+    .string()
+    .matches(
+      nameRegEx,
+      "Name should start with alphabet and has atleast 4 charcters"
+    )
+    .required("required"),
+  email: yup.string().matches(emailRegEx, "Invalid Email").required("required"),
   contact: yup
     .string()
     .matches(phoneRegExp, "Phone number is not valid")
