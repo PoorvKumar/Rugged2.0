@@ -28,8 +28,10 @@ app.use(morgan("common"))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
+const allowedOrigins=["http://localhost:5173","https://rugged-five.vercel.app"];
+
 const corsOptions={
-    origin: "http://localhost:5173",
+    origin: allowedOrigins,
 };
 
 app.use(cors(corsOptions));
