@@ -6,7 +6,6 @@ const corsOptions=require("./config/corsOptions");
 const connectDB=require("./config/db");
 const app=express();
 
-
 //Database Connection
 connectDB();
 
