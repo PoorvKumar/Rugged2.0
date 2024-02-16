@@ -87,8 +87,8 @@ const UserSignUp = () => {
 
     return (
         <div className='grid gap-3 lg:p-10'>
-            <form onSubmit={handleSubmit}>
-                <div className='grid gap-2'>
+            <form onSubmit={handleSubmit} className="p-2">
+                <div className='grid gap-2 w-full'>
                     <div className="grid gap-1">
                         <Label className="sr-only" htmlFor="name">
                             Name
