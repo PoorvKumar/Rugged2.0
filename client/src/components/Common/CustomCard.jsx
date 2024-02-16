@@ -17,8 +17,8 @@ import CustomCardModal from "./CustomCardModal";
 import VerticalImageCarousel from "../ProductPage/VerticalImageCarousel";
 import InitialProductInfo from "../ProductPage/InitialProductInfo";
 import { useDispatch } from "react-redux";
-import { addToWishlist } from "../../reducers/wishListReducer";
-import { addToCart } from "../../reducers/cartReducer";
+import { addToWishlist } from "../../features/wishListReducer";
+import { addToCart } from "../../features/cartReducer";
 const CustomCard = ({ productData }) => {
   const valueFormatter = (value) => `${value} persons`;
   const [open, setOpen] = useState(false);

@@ -13,8 +13,8 @@ import {
   AiOutlineLink,
 } from "react-icons/ai";
 import { useDispatch } from "react-redux";
-import { addToWishlist } from "../../reducers/wishListReducer";
-import { addToCart } from "../../reducers/cartReducer";
+import { addToWishlist } from "../../features/wishListReducer";
+import { addToCart } from "../../features/cartReducer";
 
 const InitialProductInfo = ({ productData }) => {
   const dispatch=useDispatch();

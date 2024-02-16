@@ -3,7 +3,7 @@ import { useSelector,useDispatch} from 'react-redux';
 import { useState } from 'react';
 import { Button } from '@mui/material';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import { decreaseQuan, increaseQuan, removeItem } from '../../reducers/cartReducer';
+import { decreaseQuan, increaseQuan, removeItem } from '../../features/cartReducer';
 import AddSharpIcon from '@mui/icons-material/AddSharp';
 import RemoveSharpIcon from '@mui/icons-material/RemoveSharp';
 function CartItemCard(item) {

@@ -12,7 +12,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import Header from "../../../components/dashboard/Header";
-import { useGetProductsQuery } from "../../../reducers/dashboard/api";
+import { useGetProductsQuery } from "../../../features/dashboard/api";
 const Product = ({
   _id,
   name,

@@ -11,7 +11,7 @@ import {
 } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { setMode } from "../../reducers/dashboard/mode";
+import { setMode } from "../../features/dashboard/mode";
 import profileImage from '../../assets/banner-1.jpg'
 import { AppBar, IconButton, InputBase, Toolbar, useTheme,Box,Typography,Menu,MenuItem } from "@mui/material";
 import FlexBetween from "./FlexBetween";

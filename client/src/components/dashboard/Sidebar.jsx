@@ -30,7 +30,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import FlexBetween from "./FlexBetween";
 import profileImage from "../../assets/banner-1.jpg";
 import { useDispatch } from "react-redux";
-import { customsetMode } from "../../reducers/dashboard/mode";
+import { customsetMode } from "../../features/dashboard/mode";
 
 const navItems = [
   {

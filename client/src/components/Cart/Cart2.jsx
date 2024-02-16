@@ -1,5 +1,5 @@
 import React from 'react'
-import cartReducer from '../../reducers/cartReducer'
+// import cartReducer from '../../reducers/cartReducer'
 import { useSelector } from 'react-redux/es/hooks/useSelector'
 import Cart from './Cart'
 import EmptyCart from './EmptyCart'

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, Hidden, useTheme } from '@mui/material'
-import { useGetCustomersQuery } from "../../../reducers/dashboard/api";
+import { useGetCustomersQuery } from "../../../features/dashboard/api";
 import Header from '../../../components/dashboard/Header';
 import {DataGrid,GridToolbar} from '@mui/x-data-grid'
 const Customers = () => {

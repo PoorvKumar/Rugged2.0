@@ -1,8 +1,8 @@
 import React from 'react'
 import { useDispatch} from 'react-redux';
 
-import { addToCart } from '../../reducers/cartReducer';
-import { removeFromWishlist } from '../../reducers/wishListReducer';
+import { addToCart } from '../../features/cartReducer';
+import { removeFromWishlist } from '../../features/wishListReducer';
 import { Button } from '@mui/material';
 import WishList from './WishList';
 import { useSelector } from 'react-redux/es/hooks/useSelector';

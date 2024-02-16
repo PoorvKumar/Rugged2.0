@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { getCartTotal } from "../../reducers/cartReducer";
+import { getCartTotal } from "../../features/cartReducer";
 import { useState } from "react";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { useGetTransactionsQuery } from "../../../reducers/dashboard/api";
+import { useGetTransactionsQuery } from "../../../features/dashboard/api";
 import Header from "../../../components/dashboard/Header";
 import DataGridCustomToolbar from "../../../components/dashboard/DataGridCustomToolBar";
 import { useNavigate } from "react-router-dom";

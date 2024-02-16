@@ -1,19 +1,19 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Button, Box, Grid } from "@mui/material";
-import { addToCart } from "../../reducers/cartReducer";
+import { addToCart } from "../../features/cartReducer";
 
 import CartItemCard from "./CartItemCard";
 import CartCheck from "./CartCheck";
 import EmptyCart from "./EmptyCart";
-import { clearCart } from "../../reducers/cartReducer";
+import { clearCart } from "../../features/cartReducer";
 
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import {
   decreaseQuan,
   increaseQuan,
   removeItem,
-} from "../../reducers/cartReducer";
+} from "../../features/cartReducer";
 import AddSharpIcon from "@mui/icons-material/AddSharp";
 import RemoveSharpIcon from "@mui/icons-material/RemoveSharp";
 import HeaderTitle from "../HeaderTitle";

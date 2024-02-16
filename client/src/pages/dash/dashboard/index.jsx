@@ -17,7 +17,7 @@ import {
 import { DataGrid } from "@mui/x-data-grid";
 // import BreakdownChart from "components/BreakdownChart";
 // import OverviewChart from "components/OverviewChart";
-import { useGetDashboardQuery } from "../../../reducers/dashboard/api";
+import { useGetDashboardQuery } from "../../../features/dashboard/api";
 import StatBox from "../../../components/dashboard/StatBox";
 
 const Dashboard = () => {

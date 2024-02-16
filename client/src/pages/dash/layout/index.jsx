@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom'
 import { useSelector } from 'react-redux';
 import Navbar from '../../../components/dashboard/Navbar'
 import Sidebar from "../../../components/dashboard/Sidebar";
-import { useGetUserQuery } from '../../../reducers/dashboard/api';
+import { useGetUserQuery } from '../../../features/dashboard/api';
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "../../../components/dashboard/theme";
