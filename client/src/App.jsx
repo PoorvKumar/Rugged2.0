@@ -33,16 +33,19 @@ import CreateBlogPost from './pages/blog/CreateBlogPost';
 import SingleOrder from './pages/SingleOrder'
 import Trackingpage from './pages/Trackingpage'
 import AddProduct from './pages/dash/Addproduct'
-// import Signin from './pages/Signin';
-// import SignUp from './pages/SignUp';
+import Signin from './pages/Signin';
+import SignUp from './pages/SignUp';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
   return (
+    <>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} exact />
-        <Route path="login" element={<LoginSignUp />} />
-        {/* <Route path='signin' element={<Signin />} />
-        <Route path='signup' element={<SignUp />} /> */}
+        {/* <Route path="login" element={<LoginSignUp />} /> */}
+        <Route path='signin' element={<Signin />} />
+        <Route path='signup' element={<SignUp />} />
         <Route path="/" element={<MainLayout />}>
           <Route path="blogs/" element={<Blogs />} />
           <Route path="blogs/:id" element={<SinglePostBlog />} />
@@ -76,6 +79,8 @@ function App() {
         </Route>
       </Routes>
     </BrowserRouter>
+    <ToastContainer autoClose={5000} />
+    </>
   );
 }
 

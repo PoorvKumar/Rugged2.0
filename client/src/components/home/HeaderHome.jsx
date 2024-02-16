@@ -180,7 +180,7 @@ const HeaderHome = () => {
                             </div>
                         </a>
                         <button className="text-white hover:text-blue-500" 
-                        onClick={() => navigate('/login')}
+                        onClick={() => navigate('/signin')}
                         // onClick={handleOpen}
                         >Login</button>
                     </div>
@@ -250,7 +250,7 @@ const HeaderHome = () => {
                         </a>
                         <button className="text-white text-xl hover:text-blue-500" 
                         // onClick={handleOpen}
-                        onClick={()=>navigate('/login')}
+                        onClick={()=>navigate('/signin')}
                         >Login</button>
                         {/* ... Other sidebar icons ... */}
                     </div>
