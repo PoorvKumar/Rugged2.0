@@ -11,7 +11,8 @@ const orderSchema = new mongoose.Schema({
     totalAmount: { type: Number, required: true },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     shippingAddress: { type: String },
-    status: { type: String, enum: ['pending', 'shipped', 'delivered'], default: 'pending' }
+    paymentMode: { type: String },
+    status: { type: String, enum: ['placed', 'processing', 'shipped', 'delivered', 'cancelled'], default: 'placed' }
 });
 
 module.exports = mongoose.model('Order', orderSchema);

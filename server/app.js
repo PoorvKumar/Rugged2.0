@@ -4,11 +4,15 @@ const mongoose=require("mongoose");
 const cors=require("cors");
 const corsOptions=require("./config/corsOptions");
 const connectDB=require("./config/db");
-const authRouter=require("./routers/authRouter");
+const morgan=require("morgan");
+const rfs=require("rotating-file-stream");
 const path = require("path");
 const app=express();
 
 const errorMiddleware=require("./middlewares/errorMiddleware");
+
+const authRouter=require("./routers/authRouter");
+const orderRouter=require("./routers/orderRouter");
 
 //Database Connection
 connectDB();
@@ -20,12 +24,20 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, "public")));
 
+const accessStream=rfs.createStream('access.log',{
+  interval: "1d",
+  path: path.join(__dirname,"log")
+});
+
+app.use(morgan("combined",{ stream: accessStream }));
+
 app.use('/api/auth',authRouter);
+app.use('/api/orders',orderRouter);
 
 app.get("/", (req, res) => {
-    return res.json({ msg: "Server running!" });
-  });
-  
+  return res.json({ msg: "Server running!" });
+});
+
 app.use(errorMiddleware);
 
 const PORT=process.env.PORT || 5000;
