@@ -1,18 +1,10 @@
-import {
-  Button,
-  Modal,
-  Rating,
-  TextField,
-  Box,
-  Typography,
-  styled,
-} from "@mui/material";
+import {Rating} from "@mui/material";
 import React, { useState } from "react";
-import { FcBinoculars } from "react-icons/fc";
+// import { FcBinoculars } from "react-icons/fc";
 import { BsCartPlus, BsHeart, BsHeartFill } from "react-icons/bs";
 import { FaBinoculars } from "react-icons/fa";
 import { MdCompare, MdCompareArrows } from "react-icons/md";
-import { FaCloudUploadAlt } from "react-icons/fa";
+// import { FaCloudUploadAlt } from "react-icons/fa";
 import CustomCardModal from "./CustomCardModal";
 import VerticalImageCarousel from "../ProductPage/VerticalImageCarousel";
 import InitialProductInfo from "../ProductPage/InitialProductInfo";
@@ -20,12 +12,11 @@ import { useDispatch } from "react-redux";
 import { addToWishlist } from "../../features/wishListReducer";
 import { addToCart } from "../../features/cartReducer";
 const CustomCard = ({ productData }) => {
-  const valueFormatter = (value) => `${value} persons`;
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
 
   const [isAddedToWishlist, setIsAddedToWishlist] = useState(false);
   const [hoverState, setHoverState] = useState(false);
@@ -35,7 +26,7 @@ const CustomCard = ({ productData }) => {
   const categoriesList = productData.categories.join(", ");
 
   return (
-    <div className="w-60 mt-10 mx-4 rounded-3xl relative hover:shadow-[0_3px_10px_rgb(0,0,0,0.2)] ">
+    <div className="w-60 mt-10 mx-4 rounded-3xl relative hover:shadow-lg ">
       <div className="flex flex-col justify-start items-center">
         {/* Upper Div */}
         <div
@@ -76,8 +67,8 @@ const CustomCard = ({ productData }) => {
                   }}
                   className={`${
                     hoverState
-                      ? "bg-[#fcb941] rounded-full z-20 text-white mt-4 mr-4 p-2"
-                      : "rounded-full mt-4 mr-4"
+                      ? "bg-[#fcb941] rounded-full z-20 text-white mr-4 p-2 mt-[-8px]"
+                      : "rounded-full mr-4 mt-[-8px]"
                   } h-full flex flex-row align-middle items-center justify-center`}
                 >
                   <div
@@ -124,9 +115,11 @@ const CustomCard = ({ productData }) => {
                   }}
                   className={`${
                     hoverCompare
-                      ? "bg-[#fcb941] rounded-full z-20 text-white mt-4 mr-4 p-2"
-                      : "rounded-full mt-4 mr-4"
-                  } ${isAddedToCompareList?"bg-cyan-600":"bg-[#fcb941]"} h-full flex flex-row align-middle items-center justify-center`}
+                      ? "bg-[#fcb941] rounded-full z-20 text-white mt-2 mr-4 p-2"
+                      : "rounded-full mt-2 mr-4"
+                  } ${
+                    isAddedToCompareList ? "bg-cyan-600" : "bg-[#fcb941]"
+                  } h-full flex flex-row align-middle items-center justify-center`}
                 >
                   <div
                     className={`font-medium text-[10px] pr-2 ${
@@ -146,7 +139,7 @@ const CustomCard = ({ productData }) => {
                           : ""
                       }`}
                     >
-                      <MdCompare className="bg-cyan-600 rounded-full"/>
+                      <MdCompare className="bg-cyan-600 rounded-full" />
                     </div>
                   ) : (
                     <div
@@ -177,12 +170,16 @@ const CustomCard = ({ productData }) => {
               className="w-full h-full mt-[-44%] rounded-3xl object-cover "
             />
           )}
+          {/* Lower navbar */}
           <div
             className={`${
               majorHoverState ? "opacity-100 z-30" : "opacity-0 z-0"
             } transition-opacity duration-[300ms] ease-out flex flex-row justify-around items-center align-middle px-8 bg-[rgba(0,0,0,1)] mt-[-20%]`}
           >
-            <div className="text-white text-2xl p-2 hover:bg-[rgba(255,255,255,0.25)] rounded-full" onClick={()=>dispatch(addToCart(productData))}>
+            <div
+              className="text-white text-2xl p-2 hover:bg-[rgba(255,255,255,0.25)] rounded-full"
+              onClick={() => dispatch(addToCart(productData))}
+            >
               {" "}
               <BsCartPlus />{" "}
             </div>
@@ -202,9 +199,9 @@ const CustomCard = ({ productData }) => {
             {categoriesList.slice(0, 25)}...
           </div>
           <a href={`/products/${productData.id}`}>
-          <div className="text-base font-medium text-[rgba(0,0,0,0.9)]">
-            {productData.name}
-          </div>
+            <div className="text-base font-medium text-[rgba(0,0,0,0.9)]">
+              {productData.name}
+            </div>
           </a>
           <div>
             <span className="text-gray-600 text-sm line-through">₹800.00</span>
@@ -221,18 +218,18 @@ const CustomCard = ({ productData }) => {
         </div>
       </div>
       <CustomCardModal open={open} handleClose={handleClose}>
-          <div className="lg:grid grid-cols-2 gap-4 px-10 py-4">
-            <div className="col-span-1">
-              <VerticalImageCarousel
-                data={productData.diaplayUrl}
-                txtList={productData.tags}
-                isModal={true}
-              />
-            </div>
-            <div className="col-span-1 mt-4">
-              <InitialProductInfo productData={productData}/>
-            </div>
+        <div className="lg:grid grid-cols-2 gap-4 px-10 py-4">
+          <div className="col-span-1">
+            <VerticalImageCarousel
+              data={productData.diaplayUrl}
+              txtList={productData.tags}
+              isModal={true}
+            />
           </div>
+          <div className="col-span-1 mt-4">
+            <InitialProductInfo productData={productData} />
+          </div>
+        </div>
         {/* </div> */}
       </CustomCardModal>
     </div>

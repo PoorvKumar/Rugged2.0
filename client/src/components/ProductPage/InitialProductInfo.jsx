@@ -24,12 +24,17 @@ const InitialProductInfo = ({ productData }) => {
   const [inCart, setInCart] = useState(false);
   const [isComparison, setIsComparison] = useState(false);
   const handleChangeInput = (event) => {
-    if (Number(buyInfo.quantity) <= 1) {
+    if (event.target.value=="") {
+      setBuyInfo((prevInfo) => {
+        return { ...prevInfo, quantity: 1 };
+      });
+    }else if (Number(buyInfo.quantity) <= 1) {
       setBuyInfo((prevInfo) => {
         return { ...prevInfo, quantity: 1 };
       });
     } else {
       setBuyInfo((prevState) => {
+        console.log({ ...prevState, [event.target.name]: event.target.value });
         return { ...prevState, [event.target.name]: event.target.value };
       });
     }
