@@ -4,13 +4,13 @@ const UserSchema=new mongoose.Schema({
     name:
     {
         type: String,
-        require: true,
+        required: true,
         trim: true
     },
     email: 
     {
         type: String,
-        require: true,
+        required: true,
         unique: true
     },
     password: 
@@ -20,11 +20,11 @@ const UserSchema=new mongoose.Schema({
     address: { type: String },
     phoneNumber: { type: String },
     roles:
-    [{
-        type: String,
+    {
+        type: [String],
         enum: ["admin","customer","seller","blogger"],
         default: ["customer"]
-    }],
+    },
     refreshToken:
     {
         type: String

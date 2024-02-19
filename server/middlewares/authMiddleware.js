@@ -1,4 +1,4 @@
-const jwt=require("jsonwetoken");
+const jwt=require("jsonwebtoken");
 const User=require("../models/user");
 
 function authenticateToken(req,res,next)
@@ -16,6 +16,7 @@ function authenticateToken(req,res,next)
     {
         if(err)
         {
+            console.log(token);
             return res.status(430).json({ error: "Unauthorized! Invalid token" });
         }
 
