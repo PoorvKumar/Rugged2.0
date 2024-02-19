@@ -200,12 +200,7 @@ const ProductSearchPage = () => {
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
 
-  useEffect(() => {
-    
-    return () => {
-      second
-    }
-  }, [third])
+  
   
   return (
     <div className="flex flex-col mt-2">
