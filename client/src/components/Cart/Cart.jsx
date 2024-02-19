@@ -29,7 +29,7 @@ function Cart() {
 
   return (
     <div className=" min-h-screen">
-      <HeaderTitle title={"Shopping Cart"} subtitle={"View your items"}/>
+      
 
       <div className="mx-16 gap-5 max-[1000px]:flex-col flex  justify-center items-center ">
         <div className="w-9/12 max-[1000px]:w-full">

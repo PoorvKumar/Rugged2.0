@@ -1,6 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque&family=Inter:wght@400;600;700&family=Poppins:wght@400;500;600;700&display=swap');
  
 @layer base {
   :root {
@@ -73,4 +75,29 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+/* width */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Styling for selected text */
+::selection {
+  background: #00bfff; /* Yellow background color */
+  color: #000000; /* Black text color */
 }

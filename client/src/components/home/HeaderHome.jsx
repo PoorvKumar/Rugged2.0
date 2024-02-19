@@ -14,6 +14,7 @@ const HeaderHome = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [searchInput, setSearchInput] = useState('');
     const [isSearchOpen, setIsSearchOpen] = useState(false);
+    const [userData, setUserData] = useState(null);
 
     // LoginSignUp Modal
     const [open, setOpen] = useState(false);
@@ -27,6 +28,11 @@ const HeaderHome = () => {
     const wishlistQuantity = wishlist.length;
 
     useEffect(() => {
+        const userData = JSON.parse(localStorage.getItem('user'));
+        if (userData) {
+            setUserData(userData);
+        }
+
         const handleScroll = () => {
             const scrollPosition = window.scrollY;
 
@@ -66,6 +72,11 @@ const HeaderHome = () => {
         if (event.key === 'Enter') {
             handleSearch();
         }
+    };
+
+    const handleLogout=()=>
+    {
+
     };
 
     return (
@@ -179,10 +190,24 @@ const HeaderHome = () => {
                                 )}
                             </div>
                         </a>
-                        <button className="text-white hover:text-blue-500" 
-                        onClick={() => navigate('/signin')}
-                        // onClick={handleOpen}
-                        >Login</button>
+                        {userData ? ( 
+                            <div className="relative">
+                                <button className="text-white hover:text-blue-500">
+                                    {userData.name}
+                                </button>
+                                <ul className="absolute top-8 right-0 bg-white shadow-md py-2 rounded-md hidden group-hover:block">
+                                    <li>
+                                        <button className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200" onClick={handleLogout}>
+                                            Logout
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        ) : (
+                            <button className="text-white hover:text-blue-500" onClick={() => navigate('/signin')}>
+                                Login
+                            </button>
+                        )}
                     </div>
                     {/* Menu icon for smaller devices */}
                     <div className="lg:hidden">
