@@ -7,20 +7,27 @@ import { useSelector } from 'react-redux';
 
 const Navbar = () => {
 
-    const navigate=useNavigate();
+    const navigate = useNavigate();
 
     const [isScrolled, setIsScrolled] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [searchInput, setSearchInput] = useState('');
     const [isSearchOpen, setIsSearchOpen] = useState(false);
+    const [userData, setUserData] = useState(null);
 
-    const { cart }=useSelector((state)=>state.cart);
-    const { wishlist }=useSelector((state)=>state.wishlist);
+    const { cart } = useSelector((state) => state.cart);
+    const { wishlist } = useSelector((state) => state.wishlist);
 
     const cartQuantity = cart.length;
     const wishlistQuantity = wishlist.length;
 
     useEffect(() => {
+
+        const userData = JSON.parse(localStorage.getItem('user'));
+        if (userData) {
+            setUserData(userData);
+        }
+
         const handleScroll = () => {
             const scrollPosition = window.scrollY;
 
@@ -58,17 +65,21 @@ const Navbar = () => {
 
     const handleKeyPress = (event) => {
         if (event.key === 'Enter') {
-          handleSearch();
+            handleSearch();
         }
-      };
+    };
+
+    const handleLogout = () => {
+        
+    };
 
     return (
         <nav
             className={`fixed w-full p-8 z-50 transition duration-300 ease-in-out ${isScrolled ? 'bg-gray-900 py-6' : ''
                 }`}
-                style={{
-                    backgroundImage: isScrolled ? 'none' : `url(${homeHeader1})`,
-                }}
+            style={{
+                backgroundImage: isScrolled ? 'none' : `url(${homeHeader1})`,
+            }}
         >
             <div className="container mx-auto flex justify-between items-center">
                 <div className="flex items-center">
@@ -82,7 +93,7 @@ const Navbar = () => {
                     </a>
                 </div>
                 <div className="hidden lg:flex lg:justify-center lg:flex-1">
-                    <ul className={`flex ${isSearchOpen?'ml-40':'justify-center'} space-x-8`}>
+                    <ul className={`flex ${isSearchOpen ? 'ml-40' : 'justify-center'} space-x-8`}>
                         {/* Your navigation links for larger devices */}
                         <li>
                             <a
@@ -157,29 +168,43 @@ const Navbar = () => {
                             )}
                         </div>
                         <a href="/cart">
-                        <div className="relative">
-                            <FiShoppingCart className="text-white text-xl cursor-pointer hover:text-green-300" />
-                            {cartQuantity > 0 && (
-                                <div className="absolute -top-2 -right-2 bg-green-300 rounded-full w-4 h-4 flex items-center justify-center text-[10px] text-black">
-                                    {cartQuantity}
-                                </div>
-                            )}
-                        </div>
+                            <div className="relative">
+                                <FiShoppingCart className="text-white text-xl cursor-pointer hover:text-green-300" />
+                                {cartQuantity > 0 && (
+                                    <div className="absolute -top-2 -right-2 bg-green-300 rounded-full w-4 h-4 flex items-center justify-center text-[10px] text-black">
+                                        {cartQuantity}
+                                    </div>
+                                )}
+                            </div>
                         </a>
                         <a href="/wishlist">
-                        <div className="relative">
-                            <FiHeart className="text-white text-xl cursor-pointer hover:text-red-500" />
-                            {wishlistQuantity > 0 && (
-                                <div className="absolute -top-2 -right-2 bg-red-500 rounded-full w-4 h-4 flex items-center justify-center text-[10px] text-white">
-                                    {wishlistQuantity}
-                                </div>
-                            )}
-                        </div>
+                            <div className="relative">
+                                <FiHeart className="text-white text-xl cursor-pointer hover:text-red-500" />
+                                {wishlistQuantity > 0 && (
+                                    <div className="absolute -top-2 -right-2 bg-red-500 rounded-full w-4 h-4 flex items-center justify-center text-[10px] text-white">
+                                        {wishlistQuantity}
+                                    </div>
+                                )}
+                            </div>
                         </a>
-                        <button className="text-white hover:text-blue-500" 
-                        onClick={() => navigate('/login')}
-                        // onClick={handleOpen}
-                        >Login</button>
+                        {userData ? (
+                            <div className="relative">
+                                <button className="text-white hover:text-blue-500">
+                                    {userData.name}
+                                </button>
+                                <ul className="absolute top-8 right-0 bg-white shadow-md py-2 rounded-md hidden group-hover:block">
+                                    <li>
+                                        <button className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200" onClick={handleLogout}>
+                                            Logout
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        ) : (
+                            <button className="text-white hover:text-blue-500" onClick={() => navigate('/signin')}>
+                                Login
+                            </button>
+                        )}
                     </div>
                     {/* Menu icon for smaller devices */}
                     <div className="lg:hidden">
@@ -245,9 +270,9 @@ const Navbar = () => {
                         <a href="/wishlist" className='flex items-center gap-2 mb-4'>
                             <FiHeart className="text-white text-xl" /> <span className='text-white text-xl'>Wishlist</span>
                         </a>
-                        <button className="text-white text-xl hover:text-blue-500" 
-                        // onClick={handleOpen}
-                        onClick={()=>navigate('/login')}
+                        <button className="text-white text-xl hover:text-blue-500"
+                            // onClick={handleOpen}
+                            onClick={() => navigate('/signin')}
                         >Login</button>
                         {/* ... Other sidebar icons ... */}
                     </div>

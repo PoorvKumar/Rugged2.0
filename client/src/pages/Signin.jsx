@@ -7,7 +7,7 @@ const Signin = () => {
   return (
     <>
       <div className='hidden'>
-        <img src="/images/login-bg.jpg" alt="loginBG" width={1280} height={843} className='object-contain' />
+        <img alt="loginBG" width={1280} height={843} className='object-contain' />
       </div>
 
       <div className='container relative hidden h-[100vh] flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0'>
@@ -39,11 +39,10 @@ const Signin = () => {
               <p className="text-lg ">
                 &ldquo;A place to get excellent gear for camping, trekking, hiking and other adventure sports.&rdquo;
               </p>
-                <span className='text-sm'>Poorv Kumar</span> 
+                <span className='text-sm'>RUGGED Team</span> 
               <footer className="flex flex-col">
                 <div className='flex gap-2'>
-                <a href="mailto:poorvkumar14@gmail.com" className='text-sm underline underline-offset-2'>Gmail</a> 
-                <a href="https://github.com/PoorvKumar" className='text-sm underline underline-offset-2'>Github</a>
+                <a href="https://github.com/PoorvKumar/Rugged2.0" className='text-sm underline underline-offset-2'>Github</a>
                 </div>
                 </footer>
             </blockquote>

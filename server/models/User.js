@@ -17,11 +17,13 @@ const UserSchema=new mongoose.Schema({
     {
         type: String,
     },
+    address: { type: String },
+    phoneNumber: { type: String },
     roles:
     [{
         type: String,
-        enum: ["dev","guest"],
-        default: ["user"]
+        enum: ["admin","customer","seller","blogger"],
+        default: ["customer"]
     }],
     refreshToken:
     {

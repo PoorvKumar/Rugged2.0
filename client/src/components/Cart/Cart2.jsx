@@ -18,7 +18,7 @@ const Cart2=()=> {
 
   return (
     <div className='min-h-screen'>
-      <HeaderTitle title={"Your Cart"} subtitle={"View your products"}/>
+      <HeaderTitle title={"Shopping Cart"} subtitle={"View your items"}/>
       <BreadCrumb breadcrumbs={bc} style={`pc`} />
     {
         cart.length>0?<Cart/>:<EmptyCart/>

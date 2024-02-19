@@ -11,7 +11,7 @@ function EmptyCart() {
   return (
 
 
-    <div className=' min-w-full min-h-screen flex items-center justify-center'>
+    <div className=' h-[60vh] flex items-center justify-center'>
 
     {
 

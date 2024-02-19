@@ -1,22 +1,16 @@
 import React, { useState } from 'react'
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
-// import { useAuthenticate } from '../../context/AuthContext';
+import { useAuthenticate } from '../../context/AuthContext';
 import { Icons } from '../ui/icons';
 import { Button } from '../ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
 import { toast } from 'react-toastify';
-import { useDispatch, useSelector } from 'react-redux';
-import { login, googleLogin } from '../../reducers/auth/authMiddleware';
 
 const UserAuthForm = () => {
 
-    // const { login, loading, googleLogin } = useAuthenticate();
-
-    const isAuthenticated=useSelector((state)=> state.auth.isAuthenticated);
-    const loading = useSelector(state => state.auth.loading);
-    const dispatch=useDispatch();
+    const { login, loading, googleLogin } = useAuthenticate();
 
     const navigate=useNavigate();
 
@@ -34,7 +28,7 @@ const UserAuthForm = () => {
     {
         try
         {
-            const response=await dispatch(googleLogin(code));
+            const response=await googleLogin(code);
 
             if(response)
             {
@@ -70,7 +64,7 @@ const UserAuthForm = () => {
 
         try
         {
-            const result=await dispatch(login({email,password}));
+            const result=await login({email,password});
 
             if(result)
             {
@@ -88,9 +82,9 @@ const UserAuthForm = () => {
     };
 
     return (
-        <div className='grid gap-3 lg:p-8'>
-            <form onSubmit={handleSubmit}>
-                <div className='grid gap-2'>
+        <div className='grid gap-3 lg:p-10'>
+            <form onSubmit={handleSubmit} className="p-2">
+                <div className='grid gap-2 w-full'>
                     <div className="grid gap-1">
                         <Label className="sr-only" htmlFor="email">
                             Email

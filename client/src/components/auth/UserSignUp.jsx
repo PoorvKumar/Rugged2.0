@@ -1,20 +1,17 @@
 import React, { useState } from 'react'
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
+import { useAuthenticate } from '../../context/AuthContext';
 import { Icons } from '../ui/icons';
 import { Button } from '../ui/button';
 import api from '../../api/api';
 import { useNavigate } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
 import { toast } from 'react-toastify';
-import { useDispatch, useSelector } from 'react-redux';
-import { googleLogin } from '../../reducers/auth/authMiddleware';
 
 const UserSignUp = () => {
 
-    const loading = useSelector(state => state.auth.loading);
-
-    const dispatch=useDispatch();
+    const { loading, googleLogin } = useAuthenticate();
 
     const navigate=useNavigate();
 
@@ -31,12 +28,26 @@ const UserSignUp = () => {
 
             if(response.status===201)
             {
+                toast.success("User Created Successfully",{
+                    position: "top-center"
+                });
                 navigate('/signin');
             }
         }
         catch(error)
         {
-            console.error('Error creating user', error.message);
+            if(error.response.status===409)
+            {
+                toast.error("User already exists",{
+                    position: "top-center"
+                });
+                console.error('Error creating user', error);
+                return ;
+            }
+            console.error('Error creating user', error);
+            toast.error("Error Creating User",{
+                position: "top-center"
+            });
         }
     };
 
@@ -51,7 +62,7 @@ const UserSignUp = () => {
     {
         try
         {
-            const response=await dispatch(googleLogin(code));
+            const response=await googleLogin(code);
 
             if(response)
             {
@@ -75,9 +86,9 @@ const UserSignUp = () => {
       });
 
     return (
-        <div className=' grid gap-3 lg:p-8'>
-            <form onSubmit={handleSubmit}>
-                <div className='grid gap-2'>
+        <div className='grid gap-3 lg:p-10'>
+            <form onSubmit={handleSubmit} className="p-2">
+                <div className='grid gap-2 w-full'>
                     <div className="grid gap-1">
                         <Label className="sr-only" htmlFor="name">
                             Name
