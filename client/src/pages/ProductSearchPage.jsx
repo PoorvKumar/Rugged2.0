@@ -1,22 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomCard from "../components/Common/CustomCard";
 import BreadCrumb from "../components/ProductPage/BreadCrumb";
-import Accordion from "@mui/material/Accordion";
+import { Slider } from "@/components/ui/slider";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Button, Checkbox, Pagination, Rating } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
-import MuiAccordion from "@mui/material/Accordion";
-import MuiAccordionSummary from "@mui/material/AccordionSummary";
-import MuiAccordionDetails from "@mui/material/AccordionDetails";
-// import Typography from '@mui/material/Typography';
 import PropTypes from "prop-types";
-import Slider, { SliderThumb } from "@mui/material/Slider";
+// import Slider, { SliderThumb } from "@mui/material/Slider";
 import MultipleSelectChip from "../components/ProductSearchPage/MultiAutoComplete";
-import HeaderTitle from '../components/HeaderTitle';
+import HeaderTitle from "../components/HeaderTitle";
+import { CirclePicker } from "react-color";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "../components/ui/accordion";
 
 const productData = {
   _id: "asdfghjkl123456789",
@@ -180,195 +182,230 @@ const productData = {
   },
   influencersEndorsing: ["Virat Kohli", "SRK"],
 };
+
 const ProductSearchPage = () => {
   const bc = [
     { name: "Search", link: "/products" },
     // { name: "Default", link: "/product/Default" },
   ];
-  const AirbnbSlider = styled(Slider)(({ theme }) => ({
-    color: "rgb(6,182,212)",
-    height: 5,
-    padding: "13px 0",
-    "& .MuiSlider-thumb": {
-      height: 27,
-      width: 27,
-      backgroundColor: "#fff",
-      border: "1px solid currentColor",
-      "&:hover": {
-        boxShadow: "0 0 0 8px rgba(58, 133, 137, 0.15)",
-      },
-      "& .airbnb-bar": {
-        height: 9,
-        width: 1,
-        backgroundColor: "currentColor",
-        marginLeft: 1,
-        marginRight: 1,
-      },
-    },
-    "& .MuiSlider-track": {
-      height: 3,
-    },
-    "& .MuiSlider-rail": {
-      color: theme.palette.mode === "dark" ? "#bfbfbf" : "#d8d8d8",
-      opacity: theme.palette.mode === "dark" ? undefined : 1,
-      height: 3,
-    },
-    '& .MuiSlider-valueLabel': {
-      lineHeight: 1.2,
-      fontSize: 12,
-      background: 'unset',
-      padding: 1,
-      width: 48,
-      height: 48,
-      borderRadius: '50% 50% 50% 0',
-      backgroundColor: 'rgba(6,182,212,1)',
-      transformOrigin: 'bottom left',
-      transform: 'translate(50%, -100%) rotate(-45deg) scale(0)',
-      '&:before': { display: 'none' },
-      '&.MuiSlider-valueLabelOpen': {
-        transform: 'translate(50%, -100%) rotate(-45deg) scale(1)',
-      },
-      '& > *': {
-        transform: 'rotate(45deg)',
-      },
-    },
-  }));
-  function AirbnbThumbComponent(props) {
-    const { children, ...other } = props;
-    return (
-      <SliderThumb {...other}>
-        {children}
-        <span className="airbnb-bar" />
-        <span className="airbnb-bar" />
-        <span className="airbnb-bar" />
-      </SliderThumb>
-    );
-  }
-  AirbnbThumbComponent.propTypes = {
-    children: PropTypes.node,
-  };
   const [page, setPage] = useState(1);
   const handleChange = (event, value) => {
     setPage(value);
   };
-  const [priceSliderValue, setPriceSliderValue] = useState([200, 4000]);
+  const [priceSliderValue, setPriceSliderValue] = useState(10000);
   const [customerRating, setcustomerRating] = useState(0);
-  const [availability, setAvailability] = useState();
-  function valueLabelFormat(value) {
-    return `₹ ${value}`;
-  }
+  const [availability, setAvailability] = useState(false);
+  const [color, setColor] = useState("all");
+  const [isRuggedVerrified, setIsRuggedVerrified] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [brands, setBrands] = useState([]);
+
+  useEffect(() => {
+    
+    return () => {
+      second
+    }
+  }, [third])
+  
   return (
     <div className="flex flex-col mt-2">
-      <HeaderTitle title={'Shop'} subtitle={'Explore from our range of Products'} />
+      <HeaderTitle
+        title={"Shop"}
+        subtitle={"Explore from our range of Products"}
+      />
       <BreadCrumb breadcrumbs={bc} style={`pc`} />
       <hr className="bg-gray-800 mt-2" />
       <div className="flex flex-row mx-[5%] h-full ">
-        <div className="flex flex-col w-2/5 mr-4 py-4">
+        <div className="flex flex-col w-2/5 py-4">
           <div className="flex flex-row justify-between items-center align-middle ">
             <div>Filters:</div>
-            <Button onClick={() => {}}>
+            <Button
+              onClick={() => {
+                setAvailability(false);
+                setColor("all");
+                setcustomerRating(0);
+                setPriceSliderValue(10000);
+                setIsRuggedVerrified(false);
+                setAvailability(false);
+                setCategories([]);
+                setBrands([]);
+              }}
+            >
               <div className="text-cyan-600 text-sm font-semibold">
                 Clean All
               </div>
             </Button>
           </div>
-          {/* Customer Rating */}
-          <Accordion style={{ boxShadow: "none" }}>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-              <Typography><span className="text-cyan-600">Customer Rating</span></Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography className="text-[rgba(55,55,55,1)]" >Higher customer rating equals better customer satisfaction.</Typography>
-              <Rating onChange={(e,newVal)=>{setcustomerRating(newVal)}} />
-            </AccordionDetails>
-          </Accordion>
-          {/* Price */}
-          <Accordion style={{ boxShadow: "none" }}>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-              <Typography><span className="text-cyan-600" >Price</span></Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography>Stick to a budget ?</Typography>
+          <Accordion type="multiple" collapsible className="w-[195px]">
+            {/* Customer Rating */}
+            <AccordionItem value="item-1">
+              <AccordionTrigger className="text-cyan-600">
+                Customer Rating
+              </AccordionTrigger>
+              <AccordionContent>
+                {/* Higher customer rating equals better customer satisfaction. */}
 
-              <AirbnbSlider
-                slots={{ thumb: AirbnbThumbComponent }}
-                getAriaLabel={(index) =>
-                  index === 0 ? "Minimum price" : "Maximum price"
-                }
-                // defaultValue={[200, 4000]}
-                valueLabelDisplay="on"
-                className="mt-20"
-                min={0}
-                valueLabelFormat={valueLabelFormat}
-                max={10000}
-                onChangeCommitted={(e,newVal)=>{setPriceSliderValue(newVal)}}
-                value={priceSliderValue}
-              />
-            </AccordionDetails>
-          </Accordion>
-          {/* Influencers Choice */}
-          <Accordion style={{ boxShadow: "none" }}>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-              <Typography><span className="text-cyan-600" >Influencers Choice</span></Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography>Fan of someone ? Follow their style .</Typography>
-              <MultipleSelectChip/>
-            </AccordionDetails>
-          </Accordion>
-          {/* Rugged Verrified */}
-          {/* <Accordion
-            style={{ boxShadow: "none" }}
-          >
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-              <Typography>Rugged Verrified</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-                eget.
-              </Typography>
-            </AccordionDetails>
-          </Accordion> */}
-          {/* Availability */}
-          <Accordion style={{ boxShadow: "none" }}>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-            <Typography><span className="text-cyan-600" >Availability</span></Typography>
-            </AccordionSummary>
-            <AccordionDetails className="flex flex-row" >
-              <div className="w-3/4" >
-              <Typography><span className="text-xs leading-3 font-semibold text-[rgba(55,55,55,1)]" >Show only Available products</span></Typography>
-              </div>
-              <div className="w-1/4" >
-              <Checkbox onChange={(e,v)=>{setAvailability(v)}} />
-              </div>
-            </AccordionDetails>
+                <Rating
+                  value={customerRating}
+                  onChange={(e, newVal) => {
+                    setcustomerRating(newVal);
+                  }}
+                />
+              </AccordionContent>
+            </AccordionItem>
+
+            {/* Price */}
+            <AccordionItem value="item-2">
+              <AccordionTrigger className="text-cyan-600">
+                Price
+              </AccordionTrigger>
+              <AccordionContent>
+                Stick to a budget ?
+                <div className="flex flex-col">
+                  <div className="flex flex-row w-full justify-between">
+                    <div>0</div>
+                    <div>10000+</div>
+                  </div>
+                  <input
+                    type="range"
+                    name=""
+                    id=""
+                    min={0}
+                    max={10000}
+                    value={priceSliderValue}
+                    onChange={(e) => {
+                      console.log(e.target.value);
+                      setPriceSliderValue(e.target.value);
+                    }}
+                  />
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+
+            {/* Rugged Verrified */}
+            <AccordionItem value="item-3">
+              <AccordionTrigger className="text-cyan-600">
+                Rugged Verrified
+              </AccordionTrigger>
+              <AccordionContent className="flex flex-row-reverse align-middle items-center">
+                <div className="w-3/4">
+                  <span className="text-xs leading-3 font-normal text-[rgba(55,55,55,1)]">
+                    Rugged Verrified
+                  </span>
+                </div>
+                <div className="w-1/4">
+                  <Checkbox
+                    checked={isRuggedVerrified}
+                    onChange={(e, v) => {
+                      setIsRuggedVerrified(v);
+                    }}
+                  />
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+
+            {/* Availability */}
+            <AccordionItem value="item-4">
+              <AccordionTrigger className="text-cyan-600">
+                Availability
+              </AccordionTrigger>
+              <AccordionContent className="flex flex-row-reverse align-middle items-center">
+                <div className="w-3/4">
+                  <span className="text-xs leading-3 font-normal text-[rgba(55,55,55,1)]">
+                    Show only Available products
+                  </span>
+                </div>
+                <div className="w-1/4">
+                  <Checkbox
+                    checked={availability}
+                    onChange={(e, v) => {
+                      setAvailability(v);
+                    }}
+                  />
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+
+            {/* Category */}
+            <AccordionItem value="item-5">
+              <AccordionTrigger className="text-cyan-600">
+                Categories
+              </AccordionTrigger>
+              <AccordionContent>
+                <div className="flex flex-col w-full">
+                  <div className="flex flex-row-reverse justify-end w-full">
+                    <label htmlFor="Camping">Camping</label>
+                    <input type="checkbox" name="Camping" id="Camping" />
+                  </div>
+                  <div className="flex flex-row-reverse justify-end w-full">
+                    <label htmlFor="Hiking">Hiking</label>
+                    <input type="checkbox" name="Hiking" id="Hiking" />
+                  </div>
+                  <div className="flex flex-row-reverse justify-end w-full">
+                    <label htmlFor="Trekking">Trekking</label>
+                    <input type="checkbox" name="Trekking" id="Trekking" />
+                  </div>
+                  <div className="flex flex-row-reverse justify-end w-full">
+                    <label htmlFor="Sports">Sports</label>
+                    <input type="checkbox" name="Sports" id="Sports" />
+                  </div>
+                  <div className="flex flex-row-reverse justify-end w-full">
+                    <label htmlFor="Miscellaneous">Miscellaneous</label>
+                    <input type="checkbox" name="Miscellaneous" id="Miscellaneous"/>
+                  </div>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+
+            {/* Brand */}
+            <AccordionItem value="item-6">
+              <AccordionTrigger className="text-cyan-600">
+                Brand
+              </AccordionTrigger>
+              <AccordionContent>
+                Yes. It's animated by default, but you can disable it if you
+                prefer.
+              </AccordionContent>
+            </AccordionItem>
+
+            {/* Colours */}
+            <AccordionItem value="item-7">
+              <AccordionTrigger className="text-cyan-600">
+                Colour
+              </AccordionTrigger>
+              <AccordionContent>
+                <CirclePicker
+                  colors={[
+                    "red",
+                    "blue",
+                    "green",
+                    "yellow",
+                    "black",
+                    "grey",
+                    "purple",
+                  ]}
+                  color={color}
+                  onChangeComplete={({ hex }) => {
+                    setColor(hex);
+                  }}
+                  width="100%"
+                  className="m-1"
+                />
+              </AccordionContent>
+            </AccordionItem>
           </Accordion>
         </div>
         <div className="flex flex-col">
           <div>
-            Showing <em><b>12</b></em> of <em><b>52</b></em> results
+            Showing{" "}
+            <em>
+              <b>12</b>
+            </em>{" "}
+            of{" "}
+            <em>
+              <b>52</b>
+            </em>{" "}
+            results
           </div>
           <div className="flex flex-row flex-wrap justify-around gap-2">
             <CustomCard productData={productData} />
@@ -387,9 +424,14 @@ const ProductSearchPage = () => {
         </div>
       </div>
       <div className="self-center mt-8 ">
-      <Pagination color="primary" count={10} page={page} onChange={handleChange} />
+        <Pagination
+          color="primary"
+          count={10}
+          page={page}
+          onChange={handleChange}
+        />
       </div>
-      <div className="my-4" ></div>
+      <div className="my-4"></div>
     </div>
   );
 };
