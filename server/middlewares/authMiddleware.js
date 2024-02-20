@@ -38,7 +38,7 @@ const authorizeRoles=(roles)=>
         }
 
         next();
-    }
+    };
 }
 
 module.exports={

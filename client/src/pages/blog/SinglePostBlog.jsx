@@ -5,6 +5,9 @@ import { BiLogoInstagramAlt } from 'react-icons/bi';
 import { AiFillYoutube } from 'react-icons/ai';
 
 const SinglePostBlog = () => {
+
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
   const [comment, setComment] = useState('');
 
   const data = {
