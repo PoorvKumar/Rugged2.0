@@ -57,8 +57,44 @@ function reverseTokens(tokensDark) {
   });
   return reversedTokens;
 }
-export const tokensLight = reverseTokens(tokensDark);
-
+// export const tokensLight = reverseTokens(tokensDark);
+export const tokensLight = {
+  grey: {  //white
+    50: "#ffffff",
+    100: "#f5f5f5",
+    200: "#eeeeee",
+    300: "#e0e0e0",
+    400: "#bdbdbd",
+    500: "#9e9e9e",
+    600: "#757575",
+    700: "#616161",
+    800: "#424242",
+    900: "#212121",
+  },
+  primary: { //black
+    50: "#f5f5f5",
+    100: "#e0e0e0",
+    200: "#bdbdbd",
+    300: "#9e9e9e",
+    400: "#757575",
+    500: "#616161",
+    600: "#424242",
+    700: "#212121",
+    800: "#000000",
+  },
+  secondary: { // cyan
+    50: "#e0f7fa",
+    100: "#b2ebf2",
+    200: "#80deea",
+    300: "#4dd0e1",
+    400: "#26c6da",
+    500: "#00bcd4",
+    600: "#00acc1",
+    700: "#0097a7",
+    800: "#00838f",
+    900: "#111827",
+  },
+};
 // mui theme settings
 export const themeSettings = (mode) => {
   return {

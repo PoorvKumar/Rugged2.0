@@ -36,6 +36,7 @@ import Signin from './pages/Signin';
 import SignUp from './pages/SignUp';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Profile from './pages/dash/Profile'
 function App() {
   return (
     <>
@@ -67,14 +68,15 @@ function App() {
         <Route element={<DashLayout />}>
           <Route
             path="/dashboard"
-            element={<Navigate to="/dashboard/home" replace />}
+            element={<Navigate to="/dashboard/analytics" replace />}
           />
-          <Route path="/dashboard/home" element={<Dashboard />} />
+          <Route path="/dashboard/analytics" element={<Dashboard />} />
           <Route path="/dashboard/products" element={<Products />} />
           <Route path="/dashboard/customers" element={<Customers />} />
           <Route path="/dashboard/orders" element={<Transactions />} />
           <Route path="/dashboard/updateuser" element={<Updateuser />} />
           <Route path="/dashboard/addproduct" element={<AddProduct />} />
+          <Route path="/dashboard/profile" element={<Profile />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -140,7 +140,7 @@ const Updateuser = () => {
               sx={{
                 "& .MuiDialog-root": {
                   backgroundColor: theme.palette.background.alt,
-                  color: theme.palette.secondary[100],
+                  color: theme.palette.secondary[900],
                 },
               }}
             >
@@ -148,6 +148,14 @@ const Updateuser = () => {
                 onClick={handleClickOpen}
                 color="secondary"
                 variant="contained"
+                sx={{
+                  backgroundColor: theme.palette.secondary[900],
+                  color: theme.palette.grey[50],
+                  "&:hover": {
+                    color: theme.palette.secondary[800],
+                    backgroundColor:theme.palette.secondary[900]
+                  },
+                }}
               >
                 Update
               </Button>
@@ -165,8 +173,8 @@ const Updateuser = () => {
                   </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                  <Button onClick={handleClose}>No</Button>
-                  <Button type="submit" onClick={handleSubmit}>
+                  <Button sx={{backgroundColor:theme.palette.secondary[900]}}onClick={handleClose}>No</Button>
+                  <Button sx={{backgroundColor:theme.palette.secondary[900]}}type="submit" onClick={handleSubmit}>
                     Yes
                   </Button>
                 </DialogActions>
