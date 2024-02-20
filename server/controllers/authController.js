@@ -116,9 +116,9 @@ const googleLogin=async (req,res,next)=>
 
         return res.status(201).json({ token, refreshToken, userData });
     }
-    catch(error)
+    catch(err)
     {
-        next(error);
+        next(err);
     }
 };
 

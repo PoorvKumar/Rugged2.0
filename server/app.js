@@ -12,6 +12,7 @@ const app=express();
 const errorMiddleware=require("./middlewares/errorMiddleware");
 
 const authRouter=require("./routers/authRouter");
+const userRouter=require("./routers/userRouter");
 const orderRouter=require("./routers/orderRouter");
 const blogRouter=require("./routers/blogRouter");
 
@@ -33,6 +34,7 @@ const accessStream=rfs.createStream('access.log',{
 app.use(morgan("combined",{ stream: accessStream }));
 
 app.use('/api/auth',authRouter);
+app.use('/api/users',userRouter);
 app.use('/api/orders',orderRouter);
 app.use('/api/blogs',blogRouter);
 
