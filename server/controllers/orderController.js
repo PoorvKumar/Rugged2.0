@@ -6,7 +6,8 @@ const getAllOrders=async(req,res,next)=>
 {
     try
     {
-        const orders=await Order.find();
+        const { page=1, limit=10 }=req.query;
+        const orders=await Order.find().limit(limit*1).skip((page-1)*limit).sort({ createdAt: -1 });
 
         return res.json(orders);
     }

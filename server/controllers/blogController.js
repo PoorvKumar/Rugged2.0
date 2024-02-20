@@ -5,7 +5,8 @@ const getAllBlogs=async (req,res,next)=>
 {
     try
     {
-        const blogs=await Blog.find();
+        const { page=1, limit=10 }=req.query;
+        const blogs=await Blog.find().limit(limit*1).skip((page-1)*limit).sort({ createdAt: -1 });
 
         return res.json({ blogs });
     }

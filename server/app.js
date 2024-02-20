@@ -42,6 +42,12 @@ app.get("/", (req, res) => {
   return res.json({ msg: "Server running!" });
 });
 
+// Route not found
+app.use((req,res,next)=>
+{
+  return res.status(404).json({ msg: "Route not found" });
+})
+
 app.use(errorMiddleware);
 
 const PORT=process.env.PORT || 5000;
