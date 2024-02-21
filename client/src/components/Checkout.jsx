@@ -358,7 +358,7 @@ export default function Checkout() {
                       <div className="flex">
                         <button
                           type="button"
-                          className="font-medium text-indigo-600 hover:text-indigo-500"
+                          className="font-medium text-cyan-500 hover:text-cyan-500"
                         >
                           Remove
                         </button>
@@ -397,7 +397,7 @@ export default function Checkout() {
               <Link to="/">
                 <button
                   type="button"
-                  className="font-medium text-indigo-600 hover:text-indigo-500 mx-4"
+                  className="font-medium text-cyan-500 hover:text-cyan-700 mx-4"
                   // onClick={() => setOpen(false)}
                 >
                   Continue Shopping
@@ -411,7 +411,8 @@ export default function Checkout() {
     </div>
 
 
-
+    {/* text-cyan-500 */}
+    {/* bg-cyan-500 */}
 
 </div> 
 </div> 
