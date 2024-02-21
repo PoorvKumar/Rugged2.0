@@ -5,47 +5,48 @@ const {
   authenticateToken,
   authorizeRoles,
 } = require("../middlewares/authMiddleware");
-router.get(
-  "/products",
-  authenticateToken,
-  authorizeRoles(["seller"]),
-  sellerController.getAllProducts
-);
+// router.get(
+//   "/products",
+//   authenticateToken,
+//   authorizeRoles(["seller"]),
+//   sellerController.getAllProducts
+// );
 router.post(
   "/product",
   authenticateToken,
   authorizeRoles(["seller"]),
   sellerController.addProduct
 );
-router.patch(
-  "/products/:id",
-  authenticateToken,
-  authorizeRoles(["seller"]),
-  sellerController.updateProduct
-);
+// router.patch(
+//   "/products/:id",
+//   authenticateToken,
+//   authorizeRoles(["seller"]),
+//   sellerController.updateProduct
+// );
 // Important Route
-router.delete(    
-  "/products/:id",
-  authenticateToken,
-  authorizeRoles(["seller"]),
-  sellerController.deleteProduct
-);
-router.get(
-  "/:id",
-  authenticateToken,
-  authorizeRoles(["seller"]),
-  sellerController.getDetails
-);
-router.patch(
-  "/:id",
-  authenticateToken,
-  authorizeRoles(["seller"]),
-  sellerController.updateDetails
-);
-router.patch(
-  "/:id/analytics",
-  authenticateToken,
-  authorizeRoles(["seller"]),
-  sellerController.getAnalytics
-);
+// router.delete(
+//   "/products/:id",
+//   authenticateToken,
+//   authorizeRoles(["seller"]),
+//   sellerController.deleteProduct
+// );
+// router.get(
+//   "/:id",
+//   authenticateToken,
+//   authorizeRoles(["seller"]),
+//   sellerController.getDetails
+// );
+// router.patch(
+//   "/:id",
+//   authenticateToken,
+//   authorizeRoles(["seller"]),
+//   sellerController.updateDetails
+// );
+// router.patch(
+//   "/:id/analytics",
+//   authenticateToken,
+//   authorizeRoles(["seller"]),
+//   sellerController.getAnalytics
+// );
+module.exports = router;
 

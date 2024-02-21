@@ -15,7 +15,7 @@ const authRouter=require("./routers/authRouter");
 const userRouter=require("./routers/userRouter");
 const orderRouter=require("./routers/orderRouter");
 const blogRouter=require("./routers/blogRouter");
-
+const sellerRouter=require("./routers/sellerRouter")
 //Database Connection
 connectDB();
 
@@ -37,7 +37,7 @@ app.use('/api/auth',authRouter);
 app.use('/api/users',userRouter);
 app.use('/api/orders',orderRouter);
 app.use('/api/blogs',blogRouter);
-
+app.use('/api/seller',sellerRouter)
 app.get("/", (req, res) => {
   return res.json({ msg: "Server running!" });
 });

@@ -75,7 +75,7 @@ const productSchema = new mongoose.Schema({
     },
     colors: [
         { 
-            typ: String 
+            type: String 
         }
     ],
     dimensions: {
@@ -89,15 +89,12 @@ const productSchema = new mongoose.Schema({
             type: Number
         }
     },
-    createdAt: { 
-        type: Date, 
-        default: ate.now 
-    },
-    updatedAt: { 
-        type: Date, 
-        default:Date.now 
-    },
-});
+},
+{
+    timestamps: true
+}
+
+);
 
 const Product = mongoose.model('Product', productSchema);
 module.exports = Product

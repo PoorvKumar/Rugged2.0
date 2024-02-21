@@ -11,8 +11,12 @@ import {
   useTheme,
   Chip
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import api from '../../api/api'
 import ReactQuill from "react-quill";
-const CustomProductModal = ({ open, handleClose, children,type }) => {
+const CustomProductModal = ({ open, handleClose, children, type }) => {
+  const navigate=useNavigate()
   const theme = useTheme()
   const [images, setImages] = useState([{name:""}]);
   const handleAddImage = () => {
@@ -109,10 +113,53 @@ const CustomProductModal = ({ open, handleClose, children,type }) => {
   const handleDescriptionChange = (e) => {
     setDescription(e)
   }
-
-   const handleSubmit = () => {
-     // Handle form submission logic here
-     console.log("Form submitted!");
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    console.log("HELP")
+     try {
+       const res = await api.post(
+         "/seller/product",
+         {
+           productName,
+           shortDescription,
+           price,
+           brand,
+           stockQuantity,
+           discount,
+           length,
+           width,
+           height,
+           description,
+           images,
+           categories,
+           colors,
+         },
+         {
+           headers: {
+            Authorization:"Bearer "+localStorage.getItem("token")
+           },
+         }
+       );
+       if (res.status === 201) {
+         toast.success("Added Product Successfully", {
+           position: "top-center",
+         });
+         navigate("/dashboard/products");
+       }
+     }
+     catch (err){
+       if (err.response.status === 400) {
+         toast.error("Duplicate Product", {
+           position: "top-center",
+         });
+         console.error("Error adding product", err);
+         return;
+       }
+       console.error("Error adding product", err);
+       toast.error("Error Adding Product", {
+         position: "top-center",
+       });
+     }
   };
   // 
   return (
@@ -183,7 +230,7 @@ const CustomProductModal = ({ open, handleClose, children,type }) => {
           }}
           spacing="15px"
         >
-          <form className="w-full p-2 overflow-y-scroll overflow-x-scroll">
+          <form className="w-full p-2 overflow-y-scroll overflow-x-scroll" onSubmit={handleSubmit}>
             <div style={{ display: "flex", gap: "20px", width: "100%" }}>
               <Stack
                 sx={{ alignItems: "center", width: "100%" }}
@@ -421,6 +468,7 @@ const CustomProductModal = ({ open, handleClose, children,type }) => {
                   " @media(max-width:479px)": { padding: "8px" },
                   textTransform: "none",
                 }}
+                type="submit"
               >
                 <Typography
                   variant="subtitle1"
