@@ -13,6 +13,7 @@ const errorMiddleware=require("./middlewares/errorMiddleware");
 
 const authRouter=require("./routers/authRouter");
 const orderRouter=require("./routers/orderRouter");
+const productRoutes = require("./routers/productRoutes");
 
 //Database Connection
 connectDB();
@@ -33,6 +34,7 @@ app.use(morgan("combined",{ stream: accessStream }));
 
 app.use('/api/auth',authRouter);
 app.use('/api/orders',orderRouter);
+app.use('/api/products',productRoutes);
 
 app.get("/", (req, res) => {
   return res.json({ msg: "Server running!" });

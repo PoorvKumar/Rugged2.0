@@ -1,94 +1,123 @@
-
 const Product = require("../models/product");
 
-export const getProductById=async (req,res,next)=>
-{
-    try {
-        
-    } catch (error) {
-        
-    }
+const getProductById = async (req, res, next) => {
+  try {
+    const productId = req.body.prodId;
+    let product = await Product.findById(productId);
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+const getAllProducts = async (req, res, next) => {
+  try {
+    let products = await Product.find();
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };
 
-export const getSearchedProducts=async (req,res,next)=>
-{
+const getAverageRating = (product) => {
+  let sum = 0;
+  sum += product.ratingCounts[1] + product.ratingCounts[2] + product.ratingCounts[3] + product.ratingCounts[4] + product.ratingCounts[5];
+  let avg = ((product.ratingCounts[1] * 1) * (product.ratingCounts[2] * 2) + (product.ratingCounts[3] * 3) + (product.ratingCounts[4] * 4) + (product.ratingCounts[5] * 5)) / sum;
+  return avg;
+}
+
+const getSearchedProducts = async (req, res, next) => {
+  try {
     const searchTerm = req.query.q;
-
-  function getProductsRatingArray(products) {
-    let productsRatingArray = [
-      // {
-      //   productID: String,
-      //   ratingArray: [],
-      // },
-    ];
-    for (let index = 0; index < products.length; index++) {
-      productsRatingArray.push({
-        productID: products[index]._id.toString(),
-        ratingArray: [0, 0, 0, 0, 0, 0],
-      });
-    }
-    for (let index = 0; index < products.length; index++) {
-      let product = products[index];
-      let prai = productsRatingArray[index];
-      for (let j = 0; j < product.reviewsArray.length; j++) {
-        prai.ratingArray[product.reviewsArray[j].rating] =
-          prai.ratingArray[product.reviewsArray[j].rating] + 1;
-      }
-    }
-    return productsRatingArray;
-  }
-
-  // Query MongoDB for products matching the search term
-
-  // {$or:
-  //   [ 
-  //     { name: { pattern } }, 
-  //     { categories: { $in: [ pattern ] } },
-  //     { tags: { pattern  } }
-  // ]}
-  // { $regex: searchTerm, $options: "i" }
-
-  let pattern=new RegExp(searchTerm,"i");
-
-  Product.find({$or:
-    [ 
-      { name: { $regex: searchTerm, $options: "i" }}, 
-      { categories: { $in: [ pattern ] } },
-      { tags: { $in:[ pattern ] } }
-  ]})
-    .then((products) => {
-      const productsRatingArray = getProductsRatingArray(products);
-      if (req.session.isLoggedin) {
-        req.user
-          .populate("cart.item.productID")
-          .then((user) => {
-            const cartproducts = user.cart.item;
-            // res.json(products);
-            res.render("productSearchPage", {
-              productsData: products,
-              isLoggedin: req.session.isLoggedin,
-              user: req.session.user,
-              searchTerm: searchTerm,
-              cartprod: cartproducts,
-              productsRatingArray: productsRatingArray
-            });
-          })
-          .catch((err) => console.log(err));
-      }
-      else {
-        res.render("productSearchPage", {
-          productsData: products,
-          isLoggedin: req.session.isLoggedin,
-          user: { firstname: "User" },
-          searchTerm: searchTerm,
-          productsRatingArray: productsRatingArray,
-        });
-
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Server Error");
-      return;
+    let pattern = new RegExp(searchTerm, "i");
+    let products = await Product.find({
+      $or:
+        [
+          { name: { $regex: searchTerm, $options: "i" } },
+          { categories: { $in: [pattern] } },
+          { tags: { $in: [pattern] } },
+          { brand: { $in: [pattern] } },
+        ]
     });
+    const customerRating = Number(req.query.customerRating);
+    const brands = req.query.brandSelected;
+    const priceLL = Number(req.query.priceLL);
+    const priceUL = Number(req.query.priceUL);
+    const ruggedVerified = req.query.RuggedVerrified;
+    const coloursSelected = req.query.colours.split(',');
+    const availability = req.query.availability;
+    const pageNo=req.query.pageNo;
+    const noOfResultsPerPage= Number(req.query.noOfResultsPerPage);
+    const priceFilter = (product) => {
+      let priceAfterDiscount = product.price * (1 - product.discount * 0.01);
+      return priceAfterDiscount > priceLL && priceAfterDiscount < priceUL;
+    };
+    const customerRatingFilter = (product) => {
+      return getAverageRating(product) >= customerRating;
+    };
+    const brandFilter = (product) => {
+      let index = 0;
+      for (index = 0; index < brands.length; index++) {
+        if (product.brand === brands[index]) {
+          return true;
+        }
+      }
+      return false;
+    };
+    const ruggedVerrifiedFilter = (product) => {
+      return product.ruggedVerrified === 'true';
+    };
+    const colorFilter = (product) => {
+      let index = 0;
+      for (index = 0; index < coloursSelected.length; index++) {
+        let jindex=0;
+        for(jindex=0;jindex<product.colours.length;jindex++){
+          console.log(product.colours[jindex]);
+          console.log(typeof(product.colours[jindex]));
+          console.log("index=",index,"\t jindex=",jindex);
+          if(coloursSelected[index]===product.colours[jindex]){
+            return true;
+          }
+        }
+      }
+      return false;
+    };
+    const availabilityFilter = (product) => {
+      return product.stockQuantity > 1;
+    };
+    // Filter the products based on user's requirements and sort them accordingly
+    if (brands) {
+      products = products.filter(brandFilter);
+    }
+    if (ruggedVerified==="true") {
+      products = products.filter(ruggedVerrifiedFilter);
+    }
+    if (coloursSelected) {
+      products = products.filter(colorFilter);
+    }
+    if (availability) {
+      products = products.filter(availabilityFilter);
+    }
+    if (true) {
+      products = products.filter(priceFilter);
+    }
+    if (customerRating >= 0) {
+      products = products.filter(customerRatingFilter);
+    }
+    let newProducts=[];
+    let i=0;
+    let j=0;
+    for(i=(noOfResultsPerPage*(pageNo-1))-1;i<(noOfResultsPerPage*pageNo);i++){
+      newProducts[j]=products[i];
+      j=j+1;;
+    }
+    res.status(200).json(newProducts);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
+
+module.exports = {
+  getProductById,
+  getSearchedProducts,
+  getAllProducts,
 };

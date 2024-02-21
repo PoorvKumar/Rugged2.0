@@ -48,50 +48,59 @@ const productSchema = new mongoose.Schema({
         }
     ], // Array of review objects
     ratingCounts: {
-        1: { 
+        "1": { 
             type: Number, 
             default: 0 
         },
-        2: { 
+        "2": { 
             type: Number, 
-            efault: 0 
+            default: 0 
         },
-        3: { 
+        "3": { 
             type: Number, 
-            efault: 0 
+            default: 0 
         },
-        4: { 
+        "4": { 
             type: Number, 
-            efault: 0 
+            default: 0 
         },
-        5: { 
+        "5": { 
             type: Number, 
-            efault: 0 
+            default: 0 
         }
     },
     discount: { 
         type:Number, 
         default: 0 
     },
-    colors: [
+    colours: [
         { 
-            typ: String 
+            type: String, 
+            required:true,
         }
     ],
     dimensions: {
         length: { 
-           type: Number 
+           type: Number ,
+           required:true,
         },
         width: { 
-            type: Number 
+            type: Number ,
+            required:true,
         },
         height: {
-            type: Number
+            type: Number,
+            required:true,
         }
+    },
+    ruggedVerrified:{
+        type:Boolean,
+        required:true,
+        default:false,
     },
     createdAt: { 
         type: Date, 
-        default: ate.now 
+        default: Date.now
     },
     updatedAt: { 
         type: Date, 

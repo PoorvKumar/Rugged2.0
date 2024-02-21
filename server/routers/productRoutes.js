@@ -3,7 +3,7 @@ const router=express.Router();
 
 const productController=require("../controllers/productControllers");
 
-router.get("/products/productID=?",productController.getProductById);
-router.get("/products/search/",productController.getSearchedProducts)
-
+router.get("/productByID",productController.getProductById);
+router.get("/search",productController.getSearchedProducts);
+router.get("/allProducts",productController.getAllProducts);
 module.exports=router;
