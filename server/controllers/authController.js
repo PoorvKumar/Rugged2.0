@@ -34,9 +34,9 @@ const signup=async (req,res,next)=>
 
         return res.status(201).json({msg: "User registered seccessfully!"});
     }
-    catch(error)
+    catch(err)
     {
-        next(error);
+        next(err);
     }
 };
 
@@ -75,9 +75,9 @@ const signin=async (req,res,next)=>
 
         return res.status(200).json({ token, refreshToken, userData });
     }
-    catch(error)
+    catch(err)
     {
-        next(error);
+        next(err);
     }
 };
 

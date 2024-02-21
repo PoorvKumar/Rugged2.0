@@ -14,6 +14,9 @@ const errorMiddleware=require("./middlewares/errorMiddleware");
 const authRouter=require("./routers/authRouter");
 const userRouter=require("./routers/userRouter");
 const orderRouter=require("./routers/orderRouter");
+const blogRouter=require("./routers/blogRouter");
+const sellerRouter=require("./routers/sellerRouter");
+const productRouter=require("./routers/productRoutes");
 
 //Database Connection
 connectDB();
@@ -37,7 +40,7 @@ app.use('/api/users',userRouter);
 app.use('/api/orders',orderRouter);
 app.use('/api/blogs',blogRouter);
 app.use('/api/seller',sellerRouter);
-app.use('/api/products',productRoutes);
+app.use('/api/products',productRouter);
 
 app.get("/", (req, res) => {
   return res.json({ msg: "Server running!" });
