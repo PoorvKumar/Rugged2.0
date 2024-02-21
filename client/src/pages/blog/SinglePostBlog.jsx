@@ -1,14 +1,44 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RiFacebookFill } from 'react-icons/ri';
 import { FaPinterest, FaTwitter } from 'react-icons/fa';
 import { BiLogoInstagramAlt } from 'react-icons/bi';
 import { AiFillYoutube } from 'react-icons/ai';
+import { useParams } from 'react-router-dom';
+import api from '@/api/api';
+import { toast } from 'react-toastify';
 
 const SinglePostBlog = () => {
+
+  const { id }=useParams();
+  // console.log(id);
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [comment, setComment] = useState('');
+
+  useEffect(()=>
+  {
+
+    const fetchBlog=async ()=>
+    {
+      try
+      {
+        const response=await api.get(`/blogs/${id}`);
+        const data=response.data;
+
+        console.log(data);
+      }
+      catch(err)
+      {
+        console.error("Error fetching blog details:", err);
+        toast.error("Error while fetching blog details",{
+          position: "top-center"
+        });
+      }
+
+      fetchBlog();
+    }
+  },[id]);
 
   const data = {
     id: 1,

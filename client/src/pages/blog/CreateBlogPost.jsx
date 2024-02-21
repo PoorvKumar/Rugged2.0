@@ -34,9 +34,13 @@ const BlogPage = () => {
     }
 
     try {
-      const response = await api.post("/api/blogs", {
+      const response=await api.post("/blogs",{
         title,
         content
+      }, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem("token")}`
+        }
       });
   
       // Check if the blog post was created successfully

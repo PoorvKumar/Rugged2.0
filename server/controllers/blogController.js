@@ -8,7 +8,7 @@ const getAllBlogs=async (req,res,next)=>
         const { page=1, limit=10 }=req.query;
         const blogs=await Blog.find().limit(limit*1).skip((page-1)*limit).sort({ createdAt: -1 });
 
-        return res.json({ blogs });
+        return res.json(blogs);
     }
     catch(err)
     {
@@ -106,10 +106,33 @@ const deleteBlog=async (req,res,next)=>
     }
 };
 
+const addComment=async (req,res,next)=>
+{
+    try
+    {
+        const { id }=req.params;
+        const updates=req.body;
+
+        const blog=await Blog.findByIdAndUpdate(id, updates, { new: true });
+
+        if(!blog)
+        {
+            return res.status(404).json({ msg: "Blog not found" });
+        }
+
+        return res.json(blog);
+    }
+    catch(err)
+    {
+        next(err);
+    }
+};
+
 module.exports={
     getAllBlogs,
     getBlog,
     createBlog,
     updateBlog,
     deleteBlog,
+    addComment
 };

@@ -11,4 +11,6 @@ router.post('/',authenticateToken,blogController.createBlog);
 router.patch('/:id',authenticateToken,authorizeRoles(['blogger','admin']),blogController.updateBlog);
 router.delete('/:id',authenticateToken,authorizeRoles(['blogger','admin']),blogController.deleteBlog);
 
+router.patch('/:id',authenticateToken,blogController.addComment);
+
 module.exports=router;
