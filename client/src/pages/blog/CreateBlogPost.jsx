@@ -1,117 +1,124 @@
-import React, { useState } from 'react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import axios from 'axios';
-import HeaderTitle from '../../components/HeaderTitle';
-import BreadCrumb from '../../components/BreadCrumb';
+import React, { useState } from "react";
+import BreadCrumb from "@/components/BreadCrumb";
+import HeaderTitle from "@/components/HeaderTitle";
+import { useAuthenticate } from "@/context/AuthContext";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import { toast } from "react-toastify";
+import api from "@/api/api";
+import { redirect } from "react-router-dom";
 
-const CreateBlogPost = () => {
-  const [title, setTitle] = useState('');
-  const [image, setImage] = useState('');
-  const [author, setAuthor] = useState('');
-  const [text, setText] = useState('');
+const BlogPage = () => {
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+
+  const { user }=useAuthenticate();
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
   };
 
-  const handleImageChange = (e) => {
-    setImage(e.target.value);
+  const handleContentChange = (value) => {
+    setContent(value);
   };
 
-  const handleAuthorChange = (e) => {
-    setAuthor(e.target.value);
-  };
-
-  const handleEditorChange = (content) => {
-    setText(content);
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
 
-    try {
-      // Make an API call using Axios
-      const response = await axios.post('YOUR_API_ENDPOINT', {
-        title,
-        image,
-        author,
-        content: text // Assuming the API expects the content in 'content' field
+    if(!user)
+    {
+      toast.warn("You must be logged in to create post",{
+        position: "top-center"
       });
-
-      // Handle the response or any other logic here
-      console.log(response.data);
-    } catch (error) {
-      // Handle error
-      console.error('Error:', error);
+      return ;
     }
-  };
 
-  const handleClear = () => {
-    setText('');
+    try {
+      const response=await api.post("/blogs",{
+        title,
+        content
+      }, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem("token")}`
+        }
+      });
+  
+      // Check if the blog post was created successfully
+      if (response.status === 201) {
+        toast.success("Blog post created successfully", {
+          position: "top-center"
+        });
+  
+        setTitle("");
+        setContent("");
+  
+        return redirect("/blogs");
+      }
+    } catch (error) {
+      console.error("Error creating blog post:", error);
+      toast.error("Failed to create blog post. Please try again later", {
+        position: "top-center"
+      });
+    }
   };
 
   const bc = [
     { name: "Blogs", link: "/blogs" },
     { name: "Create Blog Post", link: "/blogs/create-post" },
-    // { name: "Default", link: "/product/Default" },
   ];
 
   return (
-    <div className='flex flex-col '>
+    <>
       <HeaderTitle title={"Create a Blog Post"} subtitle={"Where Adventures Speak: Stories, Gear, and Trails Shared"} />
       <BreadCrumb breadcrumbs={bc} style={`pc`} />
-      <div className='flex flex-col items-center justify-center'>
-      <form onSubmit={handleSubmit} className=' max-w-2xl w-full  p-2 md:p-4'>
-        <input
-          type='text'
-          placeholder='Title'
-          value={title}
-          onChange={handleTitleChange}
-          className='border border-gray-300 rounded p-2 mb-4 w-full'
-        />
-        <input
-          type='text'
-          placeholder='Image URL'
-          value={image}
-          onChange={handleImageChange}
-          className='border border-gray-300 rounded p-2 mb-4 w-full'
-        />
-        <input
-          type='text'
-          placeholder='Author'
-          value={author}
-          onChange={handleAuthorChange}
-          className='border border-gray-300 rounded p-2 mb-4 w-full'
-        />
-        <ReactQuill
-          id='text'
-          name='text'
-          value={text}
-          onChange={handleEditorChange}
-          theme='snow'
-          className='mb-4'
-          style={{ width: '100%' }}
-        />
-        <div className='flex justify-between'>
-          <button
-            type='submit'
-            className='bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 mr-4'
-          >
-            Submit
-          </button>
-          <button
-            type='button'
-            onClick={handleClear}
-            className='bg-gray-300 text-gray-700 py-2 px-4 rounded hover:bg-gray-400'
-          >
-            Clear
-          </button>
+    <div className="max-w-4xl mx-auto mt-6 mb-4">
+      <form onSubmit={handleSubmit}>
+        <div className="mb-4">
+          <label htmlFor="title" className="block text-gray-700 font-bold mb-2">
+            Title
+          </label>
+          <input
+            type="text"
+            id="title"
+            value={title}
+            onChange={handleTitleChange}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="Enter title"
+            required
+          />
         </div>
+        <div className="mb-8">
+          <label htmlFor="content" className="block text-gray-700 font-bold mb-2">
+            Content
+          </label>
+          <ReactQuill
+            theme="snow"
+            value={content}
+            onChange={handleContentChange}
+            className="bg-white mb-2"
+            modules={{
+              toolbar: [
+                [{ 'header': '1'}, {'header': '2'}, { 'font': [] }],
+                [{size: []}],
+                ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                [{'list': 'ordered'}, {'list': 'bullet'}, 
+                {'indent': '-1'}, {'indent': '+1'}],
+                ['link', 'image', 'video'],
+                ['clean']
+              ],
+            }}
+          />
+        </div>
+        <button
+          type="submit"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Submit
+        </button>
       </form>
-      </div>
     </div>
+    </>
   );
 };
 
-export default CreateBlogPost;
+export default BlogPage;

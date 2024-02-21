@@ -12,8 +12,8 @@ const app=express();
 const errorMiddleware=require("./middlewares/errorMiddleware");
 
 const authRouter=require("./routers/authRouter");
+const userRouter=require("./routers/userRouter");
 const orderRouter=require("./routers/orderRouter");
-const productRoutes = require("./routers/productRoutes");
 
 //Database Connection
 connectDB();
@@ -33,12 +33,21 @@ const accessStream=rfs.createStream('access.log',{
 app.use(morgan("combined",{ stream: accessStream }));
 
 app.use('/api/auth',authRouter);
+app.use('/api/users',userRouter);
 app.use('/api/orders',orderRouter);
+app.use('/api/blogs',blogRouter);
+app.use('/api/seller',sellerRouter);
 app.use('/api/products',productRoutes);
 
 app.get("/", (req, res) => {
   return res.json({ msg: "Server running!" });
 });
+
+// Route not found
+app.use((req,res,next)=>
+{
+  return res.status(404).json({ msg: "Route not found" });
+})
 
 app.use(errorMiddleware);
 

@@ -59,7 +59,7 @@ const makePayment = async()=>{
 
 export default function StripePayButton() {
   return (
-    <button className='ml-28 flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700' onClick={makePayment} type='button'>
+    <button className='ml-28 flex items-center justify-center rounded-md border border-transparent bg-cyan-500 px-6 py-3 text-base font-medium text-white shadow-sm hover:cyan-700' onClick={makePayment} type='button'>
            Proceed to Pay        
     </button>
   )

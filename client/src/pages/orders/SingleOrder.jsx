@@ -1,8 +1,8 @@
 import React from 'react'
-import Header from '../components/HeaderTitle'
-import HeaderTitle from '../components/HeaderTitle';
+import Header from '../../components/HeaderTitle'
+import HeaderTitle from '../../components/HeaderTitle';
 import { useParams } from 'react-router-dom';
-import { insta1 } from '../assets';
+import { insta1 } from '../../assets';
 import {useState,useEffect} from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';

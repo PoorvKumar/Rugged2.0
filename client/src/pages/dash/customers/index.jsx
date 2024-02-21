@@ -63,7 +63,7 @@ const Customers = () => {
           },
           "& .MuiDataGrid-columnHeaders": {
             backgroundColor: theme.palette.background.alt,
-            color: theme.palette.secondary[100],
+            color: theme.palette.secondary[900],
             borderBottom: "none",
           },
           "& .MuiDataGrid-virtualScroller": {
@@ -72,11 +72,11 @@ const Customers = () => {
           },
           "& .MuiDataGrid-footerContainer": {
             backgroundColor: theme.palette.background.alt,
-            color: theme.palette.secondary[100],
+            color: theme.palette.secondary[900],
             borderTop: "none",
           },
           "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-            color: `${theme.palette.secondary[200]} !important`,
+            color: `${theme.palette.secondary[900]} !important`,
           },
         }}
       >

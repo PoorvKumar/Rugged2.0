@@ -150,7 +150,7 @@ const Dashboard = () => {
             },
             "& .MuiDataGrid-columnHeaders": {
               backgroundColor: theme.palette.background.alt,
-              color: theme.palette.secondary[100],
+              color: theme.palette.secondary[900],
               borderBottom: "none",
             },
             "& .MuiDataGrid-virtualScroller": {
@@ -158,11 +158,11 @@ const Dashboard = () => {
             },
             "& .MuiDataGrid-footerContainer": {
               backgroundColor: theme.palette.background.alt,
-              color: theme.palette.secondary[100],
+              color: theme.palette.secondary[900],
               borderTop: "none",
             },
             "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-              color: `${theme.palette.secondary[200]} !important`,
+              color: `${theme.palette.secondary[900]} !important`,
             },
           }}
         >
@@ -181,7 +181,7 @@ const Dashboard = () => {
           p="1.5rem"
           borderRadius="0.55rem"
         >
-          <Typography variant="h6" sx={{ color: theme.palette.secondary[100] }}>
+          <Typography variant="h6" sx={{ color: theme.palette.secondary[900] }}>
             Sales By Category
           </Typography>
           <PieChart

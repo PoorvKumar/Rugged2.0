@@ -2,6 +2,63 @@ const Order=require("../models/order");
 const RazorPay=require("razorpay");
 const crypto=require("crypto");
 
+const getAllOrders=async(req,res,next)=>
+{
+    try
+    {
+        const { page=1, limit=10 }=req.query;
+        const orders=await Order.find().limit(limit*1).skip((page-1)*limit).sort({ createdAt: -1 });
+
+        return res.json(orders);
+    }
+    catch(err)
+    {
+        next(err);
+    }
+};
+
+const getPlacedOrders=async(req,res,next)=>
+{
+    try
+    {
+        const orders=await Order.find({ status: "placed" });
+
+        return res.json(orders);
+    }
+    catch(err)
+    {
+        next(err);
+    }
+};
+
+const getDeliveredOrders=async(req,res,next)=>
+{
+    try
+    {
+        const orders=await Order.find({ status: "delivered" });
+
+        return res.json(orders);
+    }
+    catch(err)
+    {
+        next(err);
+    }
+};
+
+const getCancelledOrders=async(req,res,next)=>
+{
+    try
+    {
+        const orders=await Order.find({ status: "cancelled" });
+
+        return res.json(orders);
+    }
+    catch(err)
+    {
+        next(err);
+    }
+};
+
 const createOrder=async (req,res,next)=>
 {
     try
@@ -53,6 +110,56 @@ const createOrder=async (req,res,next)=>
     return res.json({ msg: "Successfull!" });
 };
 
+const cancelOrder=async(req,res,next)=>
+{
+    try
+    {
+        const { orderId }=req.body;
+        const order=await Order.findById(orderId);
+
+        if(!order)
+        {
+            return res.status(404).json({ msg: "Order not found" });
+        }
+
+        order.status="cancelled";
+        order.save();
+
+        return res.json(order);
+    }
+    catch(err)
+    {
+        next(err);
+    }
+};
+
+const deleteOrder=async(req,res,next)=>
+{
+    try
+    {
+        const { id }=req.params;
+
+        const order=await Order.findByIdAndDelete(id);
+
+        if(!order)
+        {
+            return res.status(404).json({ msg: "Order not found" });
+        }
+
+        return res.json({ msg: "Order deleted successfully" });
+    }
+    catch(err)
+    {
+        next(err);
+    }
+};
+
 module.exports={
+    getAllOrders,
+    getPlacedOrders,
+    getDeliveredOrders,
+    getCancelledOrders,
     createOrder,
+    cancelOrder,
+    deleteOrder
 };

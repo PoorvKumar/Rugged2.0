@@ -1,3 +1,4 @@
+import { LuMountainSnow } from "react-icons/lu";
 import React from "react";
 import {
   Box,
@@ -34,19 +35,23 @@ import { customsetMode } from "../../features/dashboard/mode";
 
 const navItems = [
   {
-    text: "Home",
-    icon: <HomeOutlined />,
-  },
-  {
-    text: "Client Facing",
+    text: "Seller",
     icon: null,
   },
+  {
+    text: "Analytics",
+    icon: <HomeOutlined />,
+  },
+  // {
+  //   text: "Client Facing",
+  //   icon: null,
+  // },
   {
     text: "Products",
     icon: <ShoppingCartOutlined />,
   },
   {
-    text: "Customers",
+    text: "Profile",
     icon: <Groups2Outlined />,
   },
   {
@@ -95,7 +100,7 @@ const Sidebar = ({
           sx={{
             width: drawerWidth,
             "& .MuiDrawer-paper": {
-              color: theme.palette.secondary[200],
+              color: theme.palette.primary[800],
               backgroundColor: theme.palette.background.alt,
               boxSixing: "border-box",
               borderWidth: isNonMobile ? 0 : "2px",
@@ -105,19 +110,18 @@ const Sidebar = ({
         >
           <Box width="100%">
             <Box m="1.5rem 2rem 2rem 3rem">
-              <FlexBetween color={theme.palette.secondary.main}>
+              <FlexBetween color={theme.palette.primary}>
                 <Box display="flex" alignItems="center" gap="0.5rem">
-                  <Typography
-                    variant="h4"
-                    fontWeight="bold"
-                    onClick={() => {
-                      // dispatch(customsetMode('light'))
-                      navigate(`/`);
-                    }}
-                    style={{ cursor: "pointer" }}
-                  >
-                    RUGGED
-                  </Typography>
+                <div className="flex items-center">
+                    <a href="/">
+                        <div className="flex gap-1 items-center">
+                            <span className='text-cyan-950 text-2xl font-bold'>
+                                <LuMountainSnow />
+                            </span>
+                            <h1 className="text-cyan-950 text-2xl font-bold"> RUGGED</h1>
+                        </div>
+                    </a>
+                </div>
                 </Box>
                 {!isNonMobile && (
                   <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
@@ -130,7 +134,7 @@ const Sidebar = ({
               {navItems.map(({ text, icon }) => {
                 if (!icon) {
                   return (
-                    <Typography key={text} sx={{ m: "2.25rem 0 1rem 3rem" }}>
+                    <Typography key={text} sx={{ m: "1rem 0 1rem 3rem" }}>
                       {text}
                     </Typography>
                   );
@@ -138,7 +142,25 @@ const Sidebar = ({
                 const lcText = text.toLowerCase();
 
                 return (
-                  <ListItem key={text} disablePadding>
+                  <ListItem
+                    key={text}
+                    sx={{
+                      "&:hover": {
+                        backgroundColor: theme.palette.secondary[900],
+                        color: theme.palette.primary[100],
+                        "& .MuiButtonBase-root": {
+                          // Select the ListItemButton on hover
+                          backgroundColor: theme.palette.secondary[900],
+                          color: theme.palette.grey[100],
+                        },
+                        "& .MuiListItemIcon-root": {
+                          // Select the ListItemIcon on hover
+                          color: theme.palette.grey[100],
+                        },
+                      },
+                    }}
+                    disablePadding
+                  >
                     <ListItemButton
                       onClick={() => {
                         navigate(`/dashboard/${lcText}`);
@@ -147,12 +169,12 @@ const Sidebar = ({
                       sx={{
                         backgroundColor:
                           active === lcText
-                            ? theme.palette.secondary[300]
+                            ? theme.palette.secondary[900]
                             : "transparent",
                         color:
                           active === lcText
-                            ? theme.palette.primary[600]
-                            : theme.palette.secondary[100],
+                            ? theme.palette.grey[100]
+                            : theme.palette.primary[800],
                       }}
                     >
                       <ListItemIcon
@@ -160,8 +182,8 @@ const Sidebar = ({
                           ml: "2rem",
                           color:
                             active === lcText
-                              ? theme.palette.primary[600]
-                              : theme.palette.secondary[200],
+                              ? theme.palette.grey[100]
+                              : theme.palette.primary[900],
                         }}
                       >
                         {icon}
@@ -193,20 +215,20 @@ const Sidebar = ({
                 <Typography
                   fontWeight="bold"
                   fontSize="0.9rem"
-                  sx={{ color: theme.palette.secondary[100] }}
+                  sx={{ color: theme.palette.primary[100] }}
                 >
                   {user.name}
                 </Typography>
                 <Typography
                   fontSize="0.8rem"
-                  sx={{ color: theme.palette.secondary[200] }}
+                  sx={{ color: theme.palette.primary[800] }}
                 >
                   {user.occupation}
                 </Typography>
               </Box>
               <SettingsOutlined
                 sx={{
-                  color: theme.palette.secondary[300],
+                  color: theme.palette.primary[800],
                   fontSize: "25px ",
                 }}
               />

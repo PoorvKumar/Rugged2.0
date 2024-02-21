@@ -18,6 +18,7 @@ const Blogs = () => {
     const fetchBlogPosts = async () => {
       try {
         const response = await api.get('/blogs');
+        console.log(response);
         const data = response.data;
         setPosts(data);
       } catch (error) {
@@ -45,12 +46,12 @@ const Blogs = () => {
         ) : posts.length > 0 ? (
           posts.map((post) => (
             <BlogPostCard
-              key={post.id} // Using unique post id as the key
+              key={post._id} // Using unique post id as the key
               imgSrc={blogCard1}
-              date={post.date}
-              commentNo={post.commentNo}
+              date={new Date(post.createdAt).toLocaleDateString()}
+              commentNo={post.comments.length}
               title={post.title}
-              category={post.category}
+              category={"Sports"}
             />
           ))
         ) : (
