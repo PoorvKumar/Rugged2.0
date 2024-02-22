@@ -77,9 +77,32 @@ const deleteUser=async (req,res,next)=>
     }
 };
 
+const addAddress=async (req,res,next)=>
+{
+    try
+    {
+        const { id }=req.params;
+        const user=await User.findByIdAndUpdate(id,{
+          $push: { address: req.body }  
+        },{ new: true });
+
+        if(!user)
+        {
+            return res.status(404).json({ msg: "User not found" });
+        }
+
+        return res.json(user);
+    }
+    catch(err)
+    {
+        next(err);
+    }
+};
+
 module.exports={
     getAllUsers,
     getUserById,
     updateProfile,
     deleteUser,
+    addAddress
 };

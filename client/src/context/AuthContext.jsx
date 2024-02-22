@@ -126,6 +126,7 @@ const AuthProvider = ({ children }) => {
     const logout = () => {
         setUser(null);
         setIsAuthenticated(false);
+        localStorage.clear();
     };
 
     const hasAnyRole = (requiredRoles) => {

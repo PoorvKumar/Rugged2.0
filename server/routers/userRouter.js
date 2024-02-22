@@ -8,5 +8,6 @@ router.get('/',authenticateToken,authorizeRoles(['admin']),userController.getAll
 router.get('/:id',authenticateToken,userController.getUserById);
 router.patch('/:id',authenticateToken,userController.updateProfile);
 router.delete('/:id',authenticateToken,userController.deleteUser);
+router.patch('/:id/add-address',authenticateToken,userController.addAddress);
 
 module.exports=router;
