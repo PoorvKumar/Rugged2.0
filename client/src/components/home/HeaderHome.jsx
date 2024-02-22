@@ -11,7 +11,7 @@ const HeaderHome = () => {
 
     const navigate = useNavigate();
 
-    const { user, logout } = useAuthenticate();
+    const { user, logout, cart, wishlist } = useAuthenticate();
 
     const [isScrolled, setIsScrolled] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -19,12 +19,12 @@ const HeaderHome = () => {
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
 
-    const { cart } = useSelector((state) => state.cart);
-    const { wishlist } = useSelector((state) => state.wishlist);
+    // const { cart } = useSelector((state) => state.cart);
+    // const { wishlist } = useSelector((state) => state.wishlist);
 
     const dispatch = useDispatch();
 
-    const cartQuantity = cart.length;
+    const cartQuantity = cart?.items?.length;
     const wishlistQuantity = wishlist.length;
 
     useEffect(() => {

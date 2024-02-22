@@ -6,9 +6,18 @@ import { useState } from "react";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useAuthenticate } from "@/context/AuthContext";
 
 function CartCheck() {
-  const { cartTotal, cart, cartQuantity } = useSelector((state) => state.cart);
+  // const { cartTotal, cart, cartQuantity } = useSelector((state) => state.cart);
+
+  const { cart }=useAuthenticate();
+
+  const totalPrice = cart.items.reduce((total, item) => {
+    return total + (item.product.price * item.quantity);
+}, 0);
+
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
@@ -29,7 +38,7 @@ function CartCheck() {
             <tbody>
               <tr className="p-3">
                 <td>Subtotal:</td>
-                <td>${cartTotal}</td>
+                <td>₹{totalPrice}</td>
               </tr>
               <tr className="summary-shipping p-4">
                 <td>Shipping:</td>
@@ -55,7 +64,7 @@ function CartCheck() {
                     </label>
                   </div>
                 </td>
-                <td>$0.00</td>
+                <td>₹0.00</td>
               </tr>
               <tr className="">
                 <td>
@@ -76,7 +85,7 @@ function CartCheck() {
                     </label>
                   </div>
                 </td>
-                <td>$10.00</td>
+                <td>₹10.00</td>
               </tr>
               <tr className="p-3">
                 <td>
@@ -97,22 +106,22 @@ function CartCheck() {
                     </label>
                   </div>
                 </td>
-                <td>$20.00</td>
+                <td>₹20.00</td>
               </tr>
               <div className="py-2">
-                <tr>
+                {/* <tr>
                   <td>
                     <Link to="/" className="text-sky-500 pt-3">
                       Change address
                     </Link>
                   </td>
-                </tr>
+                </tr> */}
               </div>
 
               <tr className="py-5">
                 <td className="text-lg">Total:</td>
                 <td className="text bg-blend-color-burn">
-                  ${cartTotal + ltotal}
+                ₹{totalPrice + ltotal}
                 </td>
               </tr>
             </tbody>
@@ -120,7 +129,7 @@ function CartCheck() {
           <div className="pt-5 pb-3">
             <div className="flex  justify-center borde">
               <button
-                className="bg-transparent hover:bg-blue-400 text-blue-400 font-semibold hover:text-white py-2 px-4 border border-blue-300 hover:border-transparent "
+                className="bg-cyan-500 hover:bg-cyan-600 text-white py-2 px-4 rounded-xl"
                 onClick={() => {
                   navigate("/checkout");
                 }}

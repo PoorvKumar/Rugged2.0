@@ -10,8 +10,10 @@ import VerticalImageCarousel from "../ProductPage/VerticalImageCarousel";
 import InitialProductInfo from "../ProductPage/InitialProductInfo";
 import { useDispatch } from "react-redux";
 import { addToWishlist } from "../../features/wishListReducer";
-import { addToCart } from "../../features/cartReducer";
-const CustomCard = ({ productData }) => {
+// import { addToCart } from "../../features/cartReducer";
+import { useAuthenticate } from "@/context/AuthContext";
+
+const CustomCard = ({ productData, id }) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -24,6 +26,18 @@ const CustomCard = ({ productData }) => {
   const [majorHoverState, setMajorHoverState] = useState(false);
   const [isAddedToCompareList, setIsAddedToCompareList] = useState(false);
   const categoriesList = productData.categories.join(", ");
+
+  const { addToCart }=useAuthenticate();
+
+  const handleAddToCart=()=>
+  {
+    const cartData={
+      productId: id,
+      quantity: 1
+    };
+
+    addToCart(cartData);
+  }
 
   let totalNumberOfRatingCounts=0;
   let average=0;
@@ -192,7 +206,7 @@ const CustomCard = ({ productData }) => {
           >
             <div
               className="text-white text-2xl p-2 hover:bg-[rgba(255,255,255,0.25)] rounded-full"
-              onClick={() => dispatch(addToCart(productData))}
+              onClick={handleAddToCart}
             >
               {" "}
               <BsCartPlus />{" "}
@@ -241,7 +255,7 @@ const CustomCard = ({ productData }) => {
             />
           </div>
           <div className="col-span-1 mt-4">
-            <InitialProductInfo productData={productData} />
+            <InitialProductInfo productData={productData} id={id} />
           </div>
         </div>
         {/* </div> */}

@@ -44,6 +44,7 @@ import Checkout from './pages/orders/Checkout';
 import ProtectedRoute from './components/ProtectedRoute';
 import { useAuthenticate } from './context/AuthContext';
 import Loader from './components/Loader';
+import ReverseProtectedRoute from './components/ReverseProtectedRoute';
 
 
 function App() {
@@ -82,20 +83,24 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} exact />
           {/* <Route path="login" element={<LoginSignUp />} /> */}
+          <Route element={<ReverseProtectedRoute />}>
           <Route path="signin" element={<Signin />} />
           <Route path="signup" element={<SignUp />} />
+          </Route>
           <Route path="/" element={<MainLayout />}>
             <Route path="blogs/" element={<Blogs />} />
             <Route path="blogs/:blogId" element={<SinglePostBlog />} />
-            <Route path="blogs/create-post" element={<CreateBlogPost />} />
-            <Route path="cart/" element={<Cart2 />} />
-            <Route path="wishlist/" element={<WishList />} />
+            
+            
             <Route path="products/" element={<ProductSearchPage />} />
             <Route path="products/:id" element={<ProductPage />} />
 
             {/* Add all the routes which are protected as children of this  */}
             <Route element={<ProtectedRoute />} >
             <Route path="checkout/" element={<Checkout />} />
+            <Route path="blogs/create-post" element={<CreateBlogPost />} />
+            <Route path="cart/" element={<Cart2 />} />
+            <Route path="wishlist/" element={<WishList />} />
             </Route>
 
 

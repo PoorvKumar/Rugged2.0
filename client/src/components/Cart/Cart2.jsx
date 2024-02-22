@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 const Cart2 = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -20,10 +20,10 @@ const Cart2 = () => {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         });
-        console.log(response);
         const data = response.data;
-        setProducts(data);
-        dispatch(setCart(data));
+        // console.log(response.data.items);
+        setProducts(response.data.items);
+        // dispatch(setCart(data));
       } catch (error) {
         console.error(`Error fetching blogs: ${error}`);
       } finally {
@@ -32,7 +32,7 @@ const Cart2 = () => {
     };
     fetchProducts();
   }, []);
-  const { cart } = useSelector((state) => state.cart);
+  // const { cart } = useSelector((state) => state.cart);
   // console.log(cart);
 
   const bc = [
@@ -44,7 +44,7 @@ const Cart2 = () => {
     <div className="min-h-screen">
       <HeaderTitle title={"Shopping Cart"} subtitle={"View your items"} />
       <BreadCrumb breadcrumbs={bc} style={`pc`} />
-      {cart.length > 0 ? <Cart /> : <EmptyCart />}
+      {products.length > 0 ? <Cart cart={products} /> : <EmptyCart />}
     </div>
   );
 };

@@ -84,7 +84,7 @@ const createOrder=async (req,res,next)=>
         });
 
         const savedOrder=await order.save();
-        await updateSellerAnalytics(order)
+        // await updateSellerAnalytics(order);
         // const options={
         //     amount: totalAmount,
         //     currency: "INR",

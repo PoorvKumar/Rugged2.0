@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 const AuthContext = createContext({
     isAuthenticated: localStorage.getItem("token")?true:false,
     user: localStorage.getItem("user") === null ? null : JSON.parse(localStorage.getItem("user")),
+    cart: JSON.parse(localStorage.getItem("cart")) || [],
+    wishlist: JSON.parse(localStorage.getItem("wishlist")) || [],
     login: () => { },
     googleLogin: () => { },
     logout: () => { },
@@ -17,6 +19,8 @@ const AuthContext = createContext({
 const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem("token")?true:false);
     const [user, setUser] = useState(localStorage.getItem("user") === null ? null : JSON.parse(localStorage.getItem("user")));
+    const [cart, setCart] = useState(JSON.parse(localStorage.getItem("cart")) || []);
+    const [wishlist, setWishlist] = useState(JSON.parse(localStorage.getItem("wishlist")) || []);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -86,6 +90,8 @@ const AuthProvider = ({ children }) => {
             setDetails(data);
             setLoading(false);
 
+            await fetchCartFromBackend();
+
             return true;
         }
         catch (error) {
@@ -133,16 +139,84 @@ const AuthProvider = ({ children }) => {
         return requiredRoles.some((role) => roles.includes(role));
     };
 
+    const fetchCartFromBackend = async () => {
+        try {
+            const response = await api.get('/cart',{
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+            const { data } = response;
+            setCart(data); // Assuming backend returns the entire cart data
+            localStorage.setItem("cart", JSON.stringify(data)); // Update local storage
+        } catch (error) {
+            console.log("Error fetching cart from backend:", error.message);
+        }
+    };
+
+    const fetchWishlistFromBackend = async () => {
+        try {
+            const response = await api.get('/wishlist',{
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+            const { data } = response;
+            setWishlist(data); // Assuming backend returns the entire wishlist data
+            localStorage.setItem("wishlist", JSON.stringify(data)); // Update local storage
+        } catch (error) {
+            console.log("Error fetching wishlist from backend:", error.message);
+        }
+    };
+
+    const addToCart = async (cartData) => {
+        try {
+            // Make API call to add product to cart
+            const response = await api.post('/cart', cartData, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+            const { data } = response;
+            setCart(data);
+            localStorage.setItem("cart", JSON.stringify(data));
+        } catch (error) {
+            console.log("Error adding product to cart:", error.message);
+        }
+    };
+
+    const addToWishlist = async (product) => {
+        try {
+            // Make API call to add product to wishlist
+            const response = await api.post('/wishlist/add', product, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            });
+            const { data } = response;
+            setWishlist(data);
+            localStorage.setItem("wishlist", JSON.stringify(data));
+        } catch (error) {
+            console.log("Error adding product to wishlist:", error.message);
+        }
+    };
+
     return <AuthContext.Provider
         value={{
             isAuthenticated,
             user,
+            cart,
+            wishlist,
             login,
             googleLogin,
             logout,
             hasAnyRole,
             loading,
-            setLoading
+            setLoading,
+            fetchCartFromBackend,
+            fetchWishlistFromBackend,
+            addToCart,
+            addToWishlist
         }}>
         {children}
     </AuthContext.Provider>
