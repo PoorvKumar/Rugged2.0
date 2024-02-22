@@ -65,8 +65,7 @@ const Navbar = () => {
     //   `http://localhost:5000/api/products/search?q=${searchInput}&customerRating=0&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=12&pageNo=1&categories=all&brands=all`
     // );
     let response = await api.get(`products/search?q=${searchInput}&customerRating=0&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=12&pageNo=1&categories=all&brands=all`)
-    let {productList}=await response.json();
-    console.log(productList);
+    let {productList}= response.data;
     dispatch(addProducts({ products: productList }));
     dispatch(changeSearchInput({ searchInput: searchInput }));
     navigate("/products");
