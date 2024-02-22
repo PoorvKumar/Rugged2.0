@@ -212,7 +212,7 @@ const HeaderHome = () => {
                             >
                                 <div
                                     className="flex items-center space-x-2 cursor-pointer"
-                                    onClick={() => navigate('/profile')}
+                                    onClick={() => navigate('/user/accountsettings')}
                                 >
                                     <span className="text-white">{user.name}</span>
                                     <FiChevronDown className="text-white" />
@@ -222,7 +222,7 @@ const HeaderHome = () => {
                                         } transition-opacity duration-300 ease-in-out z-10`}
                                 >
                                     <li>
-                                        <a href="/profile" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Profile</a>
+                                        <a href="/user/accountsettings" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Profile</a>
                                     </li>
                                     <li>
                                         <button
@@ -330,7 +330,7 @@ const HeaderHome = () => {
                             >
                                 <div
                                     className="flex items-center space-x-2 cursor-pointer"
-                                    onClick={() => navigate('/profile')}
+                                    onClick={() => navigate('/user/accountsettings')}
                                 >
                                     <span className="text-white">{user.name}</span>
                                     <FiChevronDown className="text-white" />
@@ -340,7 +340,7 @@ const HeaderHome = () => {
                                         } transition-opacity duration-300 ease-in-out z-10`}
                                 >
                                     <li>
-                                        <a href="/profile" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Profile</a>
+                                        <a href="/user/accountsettings" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Profile</a>
                                     </li>
                                     <li>
                                         <button
