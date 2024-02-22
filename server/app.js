@@ -20,6 +20,8 @@ const blogRouter=require("./routers/blogRouter");
 const sellerRouter=require("./routers/sellerRouter");
 const productRouter = require("./routers/productRoutes");
 const cartRouter=require("./routers/cartRouter");
+const reviewRouter = require('./routers/reviewRouter');
+
 const { authenticateToken } = require("./middlewares/authMiddleware");
 
 //Database Connection
@@ -58,6 +60,7 @@ app.use('/api/blogs',blogRouter);
 app.use('/api/seller',sellerRouter);
 app.use('/api/products',productRouter);
 app.use('/api/cart',cartRouter);
+app.use('/api/reviews',reviewRouter);
 
 app.post('/api/uploads',authenticateToken, upload.array('files', 5), (req, res) => {
 

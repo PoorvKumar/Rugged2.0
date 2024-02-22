@@ -13,7 +13,7 @@ const Review = ({ reviewData }) => {
       <div className="flex flex-row justify-between items-start">
         <div className="w-[15%] flex items-center justify-center flex-col">
           <div>{reviewData.name}</div>
-          <div>
+          {/* <div>
             <img
               src=""
               alt="Akash Image"
@@ -21,7 +21,7 @@ const Review = ({ reviewData }) => {
               width={`100px`}
               className="bg-slate-600"
             />
-          </div>
+          </div> */}
           <div className="">
             <Rating
               name={`${reviewData._id}-Rating`}
@@ -30,7 +30,7 @@ const Review = ({ reviewData }) => {
               readOnly
             />
           </div>
-          <div>{reviewData.date}</div>
+          <div>{String(new Date(reviewData.date)).slice(0,15)}</div>
         </div>
         <div className="w-[80%] flex flex-col justify-around">
           <div className="flex flex-col justify-start">

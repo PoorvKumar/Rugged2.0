@@ -6,7 +6,13 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import { FaCloudUploadAlt } from "react-icons/fa";
-const Ratings = ({ dataset }) => {
+import api from "@/api/api";
+const Ratings = ({ dataset,productData }) => {
+  let dataset2=[];
+  let index=0;
+  for(index=0;index<5;index++){
+    dataset2[index]={"noOfRatings":dataset[index+1],"noOfStars":index+1};
+  }
   const chartSetting = {
     xAxis: [
       {
@@ -46,6 +52,32 @@ const Ratings = ({ dataset }) => {
 
   const [reviewStars, setReviewStars] = useState(0);
   const [reviewWritten, setReviewWritten] = useState("");
+  const [reviewTitle, setReviewTitle] = useState("");
+  const postReview = async()=>{
+    let user = JSON.parse(localStorage.getItem('user'));
+    console.log(reviewTitle);
+    console.log(reviewWritten);
+    let newReview = {
+      userEmail:user.email,
+      name:user.name ,
+      rating: reviewStars,
+      reviewTitle: reviewTitle,
+      review: reviewWritten,
+      date: new Date(),
+      helpful: [],
+      unhelpful: []
+    }
+    const prd = await api.post('/reviews/addReview',{
+      productData,
+      newReview
+    },
+    {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    }
+    )
+  };
   return (
     <div className="flex flex-col justify-start items-center">
       <BarChart
@@ -57,7 +89,7 @@ const Ratings = ({ dataset }) => {
             valueFormatter,
           },
         ]}
-        dataset={dataset}
+        dataset={dataset2}
         yAxis={[
           { scaleType: "band", dataKey: "noOfStars", label: "no of stars" },
         ]}
@@ -96,18 +128,28 @@ const Ratings = ({ dataset }) => {
           </Box>
           <TextField
             id="outlined-textarea"
-            label="Write your Review here"
-            placeholder="Review"
-            multiline
-            value={reviewWritten}
-            onChange={(event, value) => {
-              setReviewWritten(value);
+            // label="Title"
+            placeholder="Write Review Title here"
+            value={reviewTitle}
+            onChange={(event) => {
+              setReviewTitle(event.target.value);
             }}
             className="w-full"
-            rows={6}
+          />
+          <TextField
+            id="outlined-textarea"
+            // label="review"
+            placeholder="Write your Review details here"
+            multiline
+            value={reviewWritten}
+            onChange={(event) => {
+              setReviewWritten(event.target.value);
+            }}
+            className="w-full"
+            rows={4}
           />
           <div className="mt-4 flex flex-row justify-start">
-            <div>
+            {/* <div>
               <Button
                 component="label"
                 variant="text"
@@ -116,9 +158,9 @@ const Ratings = ({ dataset }) => {
                 Upload Image
                 <VisuallyHiddenInput type="file" />
               </Button>
-            </div>
-            <div className="ml-8" >
-              <Button variant="contained">Post Review</Button>
+            </div> */}
+            <div className="" >
+              <Button variant="contained" onClick={postReview}>Post Review</Button>
             </div>
           </div>
         </Box>

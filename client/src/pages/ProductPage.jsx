@@ -145,15 +145,15 @@ const ProductPage = () => {
   //       },
   //     ],
   //     RecentRatings: [
-  //       {
-  //         name: "Akash Kulkarni",
-  //         stars: 5,
-  //         reviewTitle: "review title 1",
-  //         review: "Very Nice Product",
-  //         time: "4 days ago",
-  //         helpful: ["mongoDB ID of person 1", "mongoDB ID of person 2"],
-  //         unhelpful: ["mongoDB ID of person 3"],
-  //       },
+  // {
+  //   name: "Akash Kulkarni",
+  //   stars: 5,
+  //   reviewTitle: "review title 1",
+  //   review: "Very Nice Product",
+  //   time: "4 days ago",
+  //   helpful: ["mongoDB ID of person 1", "mongoDB ID of person 2"],
+  //   unhelpful: ["mongoDB ID of person 3"],
+  // },
   //       {
   //         name: "Divyank Khajuria",
   //         stars: 3,
@@ -177,17 +177,21 @@ const ProductPage = () => {
   const [productData, setProductData] = useState(null);
   const [bc, setBc] = useState([]);
   useEffect(() => {
-    console.log('inside');
+    console.log("inside");
     const getIndProduct = async () => {
       try {
-        let response = await api.get(`products/productByID?productId=${prodId}`);
-        console.log(response);
+        let response = await api.get(
+          `products/productByID?productId=${prodId}`
+        );
         const productDataInside = response.data;
         console.log(productDataInside);
         setProductData(productDataInside);
         setBc([
           { name: "Product", link: "/product" },
-          { name: `${productDataInside.name}`, link: `/product/${productDataInside._id}` },
+          {
+            name: `${productDataInside.name}`,
+            link: `/product/${productDataInside._id}`,
+          },
         ]);
       } catch (error) {
         console.log(error);
@@ -199,38 +203,33 @@ const ProductPage = () => {
   return (
     <div className="main px-2">
       <BreadCrumb breadcrumbs={bc} style={`pc`} />
-      {productData===null?
-      (
+      {productData === null ? (
+        <div>loading...</div>
+      ) : (
         <div>
-          loading...
-        </div>
-      )
-      :
-      (<div>
-              <div className="lg:grid grid-cols-2 gap-4 px-10 py-4">
-        <div className="col-span-1">
-          <VerticalImageCarousel
-            data={productData.images}
-            txtList={productData.tags}
-          />
-        </div>
-        <div className="col-span-1">
-          <InitialProductInfo productData={productData} />
-        </div>
-      </div>
-      
-      <div className="flex items-center justify-center">
-        {/* <TabsMenu tabNo={tabNo} setTabNo={setTabNo} /> */}
-        <Description productData={productData} />
-      </div>
+          <div className="lg:grid grid-cols-2 gap-4 px-10 py-4">
+            <div className="col-span-1">
+              <VerticalImageCarousel
+                data={productData.images}
+                txtList={productData.tags}
+              />
+            </div>
+            <div className="col-span-1">
+              <InitialProductInfo productData={productData} />
+            </div>
+          </div>
 
-      <div className="flex flex-row justify-between items-start">
-        <Ratings dataset={productData.ratingCounts} />
-        <Reviews productData={productData} />
-      </div>
-      </div>)
-      }
+          <div className="flex items-center justify-center">
+            {/* <TabsMenu tabNo={tabNo} setTabNo={setTabNo} /> */}
+            <Description productData={productData} />
+          </div>
 
+          <div className="flex flex-row justify-between items-start">
+            <Ratings  productData={productData} dataset={productData.ratingCounts} />
+            <Reviews productData={productData} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
