@@ -7,6 +7,7 @@ import { Button } from '@mui/material';
 import WishList from './WishList';
 import { useSelector } from 'react-redux/es/hooks/useSelector';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import { IoCart } from 'react-icons/io5';
 
 
 
@@ -58,7 +59,7 @@ function WishListCard(item) {
     </div>
 
 
-    <div className='flex justify-center items-center'>
+    <div className=''>
     {
       avilable 
     }
@@ -68,17 +69,18 @@ function WishListCard(item) {
         <div className='flex gap-4'>
         <div className='w-2/3'>
         <button
-        className='box border border-green-200 p-1 text-green-400'
+        className='box bg-cyan-500 hover:bg-cyan-600 flex items-center justify-center gap-4 p-4 rounded-xl text-white'
           onClick={() => dispatch(addToCart(item.item))}
           
         >
-          addToCart
+          <IoCart />
+          <span>Add to Cart</span>
         </button>
         </div>
 
         <div className='w-1/3'>
 
-        <button onClick={()=>dispatch(removeFromWishlist(item.item))}> <DeleteOutlineOutlinedIcon/></button>
+        <button onClick={()=>dispatch(removeFromWishlist(item.item))} className='flex justify-center items-center'> <DeleteOutlineOutlinedIcon/> <span>Delete</span></button>
         </div>
         </div>
 

@@ -11,7 +11,7 @@ function EmptyCart() {
   return (
 
 
-    <div className=' h-[60vh] flex items-center justify-center'>
+    <div className=' flex items-center justify-center p-8 h-[50vh]'>
 
     {
 
@@ -30,7 +30,7 @@ function EmptyCart() {
 
     {/* <p className='flex justify-center animate-bounce text-red-400 font-semibold'> Cart is Empty !</p> */}
 
-    <Link to='/' className='flex justify-center'><Button variant="outlined" >Go Shop</Button></Link>
+    <Link to='/' className='flex justify-center'><button className='bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded-xl'>Go Shop</button></Link>
 
 
 

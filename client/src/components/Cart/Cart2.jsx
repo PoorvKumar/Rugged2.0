@@ -8,7 +8,7 @@ import BreadCrumb from '../BreadCrumb'
 
 
 const Cart2=()=> {
-    const {cart}=useSelector(state=>state.cart)
+    const {cart}=useSelector(state=>state.cart);
     // console.log(cart);
 
     const bc = [
@@ -17,7 +17,7 @@ const Cart2=()=> {
     ];
 
   return (
-    <div className='min-h-screen'>
+    <div className=''>
       <HeaderTitle title={"Shopping Cart"} subtitle={"View your items"}/>
       <BreadCrumb breadcrumbs={bc} style={`pc`} />
     {

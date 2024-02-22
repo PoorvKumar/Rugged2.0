@@ -17,6 +17,7 @@ import {
 import AddSharpIcon from "@mui/icons-material/AddSharp";
 import RemoveSharpIcon from "@mui/icons-material/RemoveSharp";
 import HeaderTitle from "../HeaderTitle";
+import { FaTrashAlt } from "react-icons/fa";
 function Cart() {
   const { cart } = useSelector((state) => state.cart);
   const { cartQuantity } = useSelector((state) => state.cart);
@@ -55,10 +56,11 @@ function Cart() {
               ))}
               <div className="p-4">
                 <button
-                  className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+                  className="bg-cyan-500 hover:bg-cyan-600 text-white p-4 rounded-xl flex items-center justify-center gap-4"
                   onClick={() => dispatch(clearCart(cart))}
                 >
-                  clear
+                  <FaTrashAlt />
+                  <span>Empty Cart</span>
                 </button>
               </div>
             </div>

@@ -23,3 +23,4 @@
 ::1 - - [21/Feb/2024:06:21:31 +0000] "POST /api/seller/product HTTP/1.1" 500 117 "http://localhost:5173/" "Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1"
 ::1 - - [21/Feb/2024:06:22:20 +0000] "POST /api/seller/product HTTP/1.1" 201 38 "http://localhost:5173/" "Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1"
 ::1 - - [21/Feb/2024:06:25:12 +0000] "POST /api/seller/product HTTP/1.1" 201 38 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36"
+::1 - - [21/Feb/2024:18:51:26 +0000] "POST /api/auth/signin HTTP/1.1" 200 442 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36"

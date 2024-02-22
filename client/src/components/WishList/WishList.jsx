@@ -53,7 +53,7 @@ function WishList() {
                 WishList is Empty !
               </h1> */}
 
-              <Link to='/products' className='flex justify-center pt-5'><Button variant="outlined" >Go Shop</Button></Link>
+              <Link to='/products' className='flex justify-center pt-5'><button className='bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded-xl'>Go Shop</button></Link>
 
 
               

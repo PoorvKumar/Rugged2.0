@@ -102,7 +102,7 @@ function CartCheck() {
             <tr>
               <td>
               
-                <Link to="/" className="text-sky-500 pt-3">
+                <Link to="/" className="text-cyan-500 pt-3">
                   Change address
                 </Link>
               </td>
@@ -123,7 +123,7 @@ function CartCheck() {
         <div className="pt-5 pb-3">
         <div className="flex  justify-center borde">
           <button
-            className="bg-transparent hover:bg-blue-400 text-blue-400 font-semibold hover:text-white py-2 px-4 border border-blue-300 hover:border-transparent "
+            className="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2 px-4 rounded-xl"
             onClick={() => { navigate('/checkout');}}
           >
             PROCEED TO CHECKOUT
