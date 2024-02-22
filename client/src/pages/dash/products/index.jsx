@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useState,useEffect} from "react";
 import { Typography } from "@mui/material";
 import { Link } from "@mui/material";
 import { Box } from "@mui/material";
@@ -9,13 +9,54 @@ import { InputLabel } from "@mui/material";
 import { Input } from "@mui/material";
 import { Avatar } from "@mui/material";
 import AddProductForm from "../../../components/dashboard/AddProductForm";
+import api from '../../../api/api'
+import { useSelector,useDispatch } from "react-redux";
 import CustomProductModal from "../../../components/dashboard/CustomProductModal";
+import { addToCart } from "../../../features/cartReducer";
 
 export default function Products() {
+  const dispatch=useDispatch()
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const theme = useTheme();
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+      const fetchProducts = async () => {
+        try {
+          const response = await api.get("/seller/products",{
+           headers: {
+            Authorization:"Bearer "+localStorage.getItem("token")
+           },
+         });
+          console.log(response);
+          const data = response.data;
+          setProducts(data);
+        } catch (error) {
+          console.error(`Error fetching blogs: ${error}`);
+        } finally {
+          setLoading(false)
+        }
+      };
+      fetchProducts();
+    }, []);
+  const addtoCart = async (id) => {
+    try {
+      const res = await api.post(`cart/add`,{id}, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token")
+        },
+      })
+      console.log("ABC")
+      console.log(id)
+       dispatch(addToCart({id:id,quantity:1}))
+       }
+    catch (err) {
+      console.error(`Error fetching in cart: ${err}`);
+    }
+  }
   return (
     <Box
       sx={{
@@ -46,11 +87,6 @@ export default function Products() {
           }}
           spacing="0px"
         >
-          {/* <img
-            src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB4PSIwIiB5PSIwIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTIiIHhtbDpzcGFjZT0icHJlc2VydmUiIGNsYXNzPSIiPjxnPjxwYXRoIGQ9Ik0yMiAxMUg0LjQxNGw1LjI5My01LjI5M2ExIDEgMCAxIDAtMS40MTQtMS40MTRsLTcgN2ExIDEgMCAwIDAgMCAxLjQxNGw3IDdhMSAxIDAgMCAwIDEuNDE0LTEuNDE0TDQuNDE0IDEzSDIyYTEgMSAwIDAgMCAwLTJ6IiBmaWxsPSIjODU5Mjk3IiBvcGFjaXR5PSIxIiBkYXRhLW9yaWdpbmFsPSIjMDAwMDAwIiBjbGFzcz0iIj48L3BhdGg+PC9nPjwvc3ZnPg=="
-            width="28px"
-            height="28px"
-          /> */}
           <Box
             sx={{
               display: "flex",
@@ -105,131 +141,145 @@ export default function Products() {
               " @media(max-width:479px)": { gridGap: "0.8rem" },
             }}
           >
-            <div>
-              <Card
-                sx={{
-                  maxWidth: "320px",
-                  boxShadow: "0px 4px 6px -1px rgba(0, 0, 0, 0.1)",
-                  borderRadius: "1rem",
-                  backgroundColor: "inherit",
-                  border: "1px solid rgb(105, 121, 128)",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  gap: "16px",
-                  padding: "16px",
-                  width: "100%",
-                  " @media(max-width:479px)": {
-                    padding: "0.7rem",
-                    gap: "0.7rem",
-                  },
-                }}
-              >
-                <Box sx={{ maxHeight: "240px" }}>
-                  <img
-                    src="https://objectstorage.me-dubai-1.oraclecloud.com/n/axwzijd5v1vn/b/DSL_IMAGES/o/IMAGE/1f29c7e8-e849-4023-aaa0-21aa9bcdd084-27513630-ff00-11ed-9b95-a751e8cba36f-next.jpg"
-                    style={{ borderRadius: "0.75rem", objectFit: "cover" }}
-                    height="100%"
-                    width="100%"
-                  />
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    gap: "8px",
-                    " @media(max-width:991px)": {
+            {loading ? (
+              <p>Loading...</p>
+            ) : products.length > 0 ? (
+              products.map((product, index) => (
+                <div key={index}>
+                  <Card
+                    sx={{
+                      maxWidth: "320px",
+                      boxShadow: "0px 4px 6px -1px rgba(0, 0, 0, 0.1)",
+                      borderRadius: "1rem",
+                      backgroundColor: "inherit",
+                      border: "1px solid rgb(105, 121, 128)",
+                      display: "flex",
                       flexDirection: "column",
-                      alignItems: "flex-start",
-                    },
-                    " @media(max-width:479px)": {
-                      flexDirection: "column",
-                      alignItems: "flex-start",
-                    },
-                  }}
-                >
-                  <Typography
-                    variant="h3"
-                    sx={{
-                      color: theme.palette.secondary[900],
-                      fontSize: "20px",
-                      width: "55%",
-                      " @media(max-width:991px)": { width: "100%" },
-                      " @media(max-width:479px)": { width: "100%" },
+                      justifyContent: "space-between",
+                      gap: "16px",
+                      padding: "16px",
+                      width: "100%",
+                      "@media(max-width:479px)": {
+                        padding: "0.7rem",
+                        gap: "0.7rem",
+                      },
                     }}
                   >
-                    Product one
-                  </Typography>
-                  <Stack
-                    sx={{ alignItems: "center", flexWrap: "wrap" }}
-                    spacing="6px"
-                    direction="row"
-                    gap={1}
-                  >
-                    <img
-                      src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB4PSIwIiB5PSIwIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTIiIHhtbDpzcGFjZT0icHJlc2VydmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xhc3M9IiI+PGc+PHBhdGggZD0iTTExIDJINmE0IDQgMCAwIDAtNCA0djEyYTQgNCAwIDAgMCA0IDRoMTJhNCA0IDAgMCAwIDQtNHYtNWExIDEgMCAwIDAtMiAwdjVhMiAyIDAgMCAxLTIgMkg2YTIgMiAwIDAgMS0yLTJWNmEyIDIgMCAwIDEgMi0yaDVhMSAxIDAgMCAwIDAtMnptNy41ODYgMkgxNWExIDEgMCAwIDEgMC0yaDZhMSAxIDAgMCAxIDEgMXY2YTEgMSAwIDAgMS0yIDBWNS40MTRsLTcuMjkzIDcuMjkzYTEgMSAwIDAgMS0xLjQxNC0xLjQxNHoiIGZpbGw9IiM1YzZhNzAiIG9wYWNpdHk9IjEiIGRhdGEtb3JpZ2luYWw9IiMwMDAwMDAiIGNsYXNzPSIiPjwvcGF0aD48L2c+PC9zdmc+"
-                      style={{ minWidth: "18px" }}
-                      width="18px"
-                      height="18px"
-                    />
-                  </Stack>
-                </Box>
-                <Typography
-                  variant="p"
-                  sx={{ color: theme.palette.secondary[900], fontSize: "15px" }}
-                >
-                  Showcase your Next projects and write blog posts with this
-                  powered developer portfolio template.
-                </Typography>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    rowGap: "8px",
-                    " @media(max-width:479px)": { flexDirection: "column" },
-                  }}
-                >
-                  <Button
-                    variant="contained"
-                    sx={{
-                      backgroundColor: theme.palette.secondary[900],
-                      color: theme.palette.grey[50],
-                      border: "none",
-                      font: "600 14px sans-serif",
-                      padding: "8px 16px",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      whiteSpace: "nowrap",
-                      textTransform: "none",
-                    }}
-                    onClick={handleOpen}
-                  >
-                    Update
-                  </Button>
-                  <Button
-                    variant="contained"
-                    sx={{
-                      backgroundColor: "rgb(255, 50, 50)",
-                      color: theme.palette.grey[50],
-                      border: "1px solid rgb(41, 171, 226)",
-                      font: "600 14px sans-serif",
-                      padding: "8px",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      whiteSpace: "nowrap",
-                      textTransform: "none",
-                    }}
-                  >
-                    Delete
-                  </Button>
-                </Box>
-              </Card>
-              <CustomProductModal open={open} handleClose={handleClose} type={"Update"}>
-                {/* </div> */}
-              </CustomProductModal>
-            </div>
-            <Card
+                    <Box sx={{ maxHeight: "240px" }}>
+                      <img
+                        src={product.image}
+                        style={{ borderRadius: "0.75rem", objectFit: "cover" }}
+                        height="100%"
+                        width="100%"
+                      />
+                    </Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        gap: "8px",
+                        "@media(max-width:991px)": {
+                          flexDirection: "column",
+                          alignItems: "flex-start",
+                        },
+                        "@media(max-width:479px)": {
+                          flexDirection: "column",
+                          alignItems: "flex-start",
+                        },
+                      }}
+                    >
+                      <Typography
+                        variant="h3"
+                        sx={{
+                          color: theme.palette.secondary[900],
+                          fontSize: "20px",
+                          width: "55%",
+                          "@media(max-width:991px)": { width: "100%" },
+                          "@media(max-width:479px)": { width: "100%" },
+                        }}
+                      >
+                        {product.name}
+                      </Typography>
+                      <Stack
+                        sx={{ alignItems: "center", flexWrap: "wrap" }}
+                        spacing="6px"
+                        direction="row"
+                        gap={1}
+                      >
+                        <img
+                          src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB4PSIwIiB5PSIwIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTIiIHhtbDpzcGFjZT0icHJlc2VydmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xhc3M9IiI+PGc+PHBhdGggZD0iTTExIDJINmE0IDQgMCAwIDAtNCA0djEyYTQgNCAwIDAgMCA0IDRoMTJhNCA0IDAgMCAwIDQtNHYtNWExIDEgMCAwIDAtMiAwdjVhMiAyIDAgMCAxLTIgMkg2YTIgMiAwIDAgMS0yLTJWNmEyIDIgMCAwIDEgMi0yaDVhMSAxIDAgMCAwIDAtMnptNy41ODYgMkgxNWExIDEgMCAwIDEgMC0yaDZhMSAxIDAgMCAxIDEgMXY2YTEgMSAwIDAgMS0yIDBWNS40MTRsLTcuMjkzIDcuMjkzYTEgMSAwIDAgMS0xLjQxNC0xLjQxNHoiIGZpbGw9IiM1YzZhNzAiIG9wYWNpdHk9IjEiIGRhdGEtb3JpZ2luYWw9IiMwMDAwMDAiIGNsYXNzPSIiPjwvcGF0aD48L2c+PC9zdmc+"
+                          style={{ minWidth: "18px" }}
+                          width="18px"
+                          height="18px"
+                        />
+                      </Stack>
+                    </Box>
+                    <Typography
+                      variant="p"
+                      sx={{
+                        color: theme.palette.secondary[900],
+                        fontSize: "15px",
+                      }}
+                    >
+                      {product.shortDescription}
+                    </Typography>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        rowGap: "8px",
+                        "@media(max-width:479px)": { flexDirection: "column" },
+                      }}
+                    >
+                      <Button
+                        variant="contained"
+                        sx={{
+                          backgroundColor: theme.palette.secondary[900],
+                          color: theme.palette.grey[50],
+                          border: "none",
+                          font: "600 14px sans-serif",
+                          padding: "8px 16px",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          whiteSpace: "nowrap",
+                          textTransform: "none",
+                        }}
+                        onClick={handleOpen}
+                      >
+                        Update
+                      </Button>
+                      <Button
+                        variant="contained"
+                        sx={{
+                          backgroundColor: "rgb(255, 50, 50)",
+                          color: theme.palette.grey[50],
+                          border: "1px solid rgb(41, 171, 226)",
+                          font: "600 14px sans-serif",
+                          padding: "8px",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          whiteSpace: "nowrap",
+                          textTransform: "none",
+                        }}
+                        onClick={() => { addtoCart(product._id) }}
+                      >
+                        Delete
+                      </Button>
+                    </Box>
+                  </Card>
+                  <CustomProductModal
+                    open={open}
+                    handleClose={handleClose}
+                    type={"Update"}
+                    id={product}
+                  ></CustomProductModal>
+                </div>
+              ))
+            ) : (
+              <p>No products found</p>
+            )}
+            {/* <Card
               sx={{
                 maxWidth: "320px",
                 boxShadow: "0px 4px 6px -1px rgba(0, 0, 0, 0.1)",
@@ -703,7 +753,7 @@ export default function Products() {
                   Delete
                 </Button>
               </Box>
-            </Card>
+            </Card> */}
           </Box>
         </Stack>
       </Box>

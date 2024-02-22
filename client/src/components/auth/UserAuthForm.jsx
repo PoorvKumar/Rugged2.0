@@ -7,7 +7,9 @@ import { Button } from '../ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
 import { toast } from 'react-toastify';
-
+import { useDispatch} from 'react-redux';
+import { setCart } from '../../features/cartReducer';
+import api from '../../api/api'
 const UserAuthForm = () => {
 
     const { login, loading, googleLogin } = useAuthenticate();
@@ -16,7 +18,24 @@ const UserAuthForm = () => {
 
     const [email,setEmail]=useState("");
     const [password,setPassword]=useState("");
+    
+    const dispatch=useDispatch()
 
+    //
+    const fillCart = async () => {
+          try {
+            const res = await api.get("cart/", null, {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            });
+            console.log(res);
+            dispatch(setCart(res));
+          } catch (err) {
+            console.error(`Error fetching in cart: ${err}`);
+          }
+     };
+    // 
     const successNotif=()=>
     {
         toast.success("Signin Successful!", {
@@ -32,6 +51,7 @@ const UserAuthForm = () => {
 
             if(response)
             {
+                await fillCart()
                 successNotif();
                 navigate('/');
             }
@@ -68,6 +88,7 @@ const UserAuthForm = () => {
 
             if(result)
             {
+                await fillCart();
                 successNotif();
                 navigate('/');
             }

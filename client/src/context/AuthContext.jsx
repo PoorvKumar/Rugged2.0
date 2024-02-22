@@ -65,7 +65,7 @@ const AuthProvider = ({ children }) => {
         //Storing tokens in localStorage
         localStorage.setItem("token", data.token);
         localStorage.setItem("refreshToken", data.refreshToken);
-        localStorage.setItem("user",JSON.stringify(data.userData));
+        localStorage.setItem("user",JSON.stringify(data.userData))
 
         // const decodedToken = jwtDecode(authToken);
         // setUser(decodedToken.user);

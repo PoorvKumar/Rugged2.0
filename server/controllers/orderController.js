@@ -84,7 +84,7 @@ const createOrder=async (req,res,next)=>
         });
 
         const savedOrder=await order.save();
-
+        await updateSellerAnalytics(order)
         // const options={
         //     amount: totalAmount,
         //     currency: "INR",
@@ -111,7 +111,44 @@ const createOrder=async (req,res,next)=>
 
     return res.json({ msg: "Successfull!" });
 };
+const updateSellerAnalytics = async (order) => {
+  try {
+    for (const orderItem of order.items) {
+      const { productId, quantity } = orderItem;
+      const product = await Product.findById(productId);
 
+      if (!product) {
+        console.error(`Product not found for ID: ${productId}`);
+        continue;
+      }
+      const existingAnalytics = await Analytics.findOne({
+        seller_id: product.seller,
+        "items.productId": productId,
+      });
+
+      if (existingAnalytics) {
+        await Analytics.updateOne(
+          {
+            seller_id: product.seller,
+            "items.productId": productId,
+          },
+          {
+            $inc: { "items.$.quantity": quantity },
+          }
+        );
+      } else {
+        await Analytics.findOneAndUpdate(
+          { seller_id: product.seller },
+          { $push: { items: { productId, quantity } } },
+          { upsert: true, new: true }
+        );
+      }
+    }
+  } catch (error) {
+    console.error("Error updating seller analytics:", error);
+    throw error;
+  }
+};
 const cancelOrder=async(req,res,next)=>
 {
     try

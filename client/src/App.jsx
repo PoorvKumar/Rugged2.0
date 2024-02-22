@@ -38,50 +38,95 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Profile from './pages/dash/Profile'
 import MyOrders from './pages/orders/MyOrders';
+import BecomeSeller from './pages/BecomeSeller'
+import DashSettings from "./pages/dash/dashsettings"
+import UserProfile from "./pages/user/UserProfile";
 function App() {
+  const ProtectedRoute = ({ element,role, ...rest }) => {
+    const isCustomer = JSON.parse(localStorage.getItem("user")).isCustomer;
+    const isAdmin = JSON.parse(localStorage.getItem("user")).isAdmin;
+    const isSeller = JSON.parse(localStorage.getItem("user")).isSeller;
+    const isBlogger = JSON.parse(localStorage.getItem("user")).isBlogger;
+    let neededCheck;
+    if (role === "customer") {
+      neededCheck = JSON.parse(localStorage.getItem("user")).isCustomer;
+    }
+    else if (role === "seller") {
+      neededCheck = JSON.parse(localStorage.getItem("user")).isSeller;
+    }
+    return (
+      <Route
+        {...rest}
+        element={neededCheck ? element : <Navigate to="/dashboard" replace />}
+      />
+    );
+  };
   return (
     <>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} exact />
-        {/* <Route path="login" element={<LoginSignUp />} /> */}
-        <Route path='signin' element={<Signin />} />
-        <Route path='signup' element={<SignUp />} />
-        <Route path="/" element={<MainLayout />}>
-          <Route path="blogs/" element={<Blogs />} />
-          <Route path="blogs/:id" element={<SinglePostBlog />} />
-          <Route path="blogs/create-post" element={<CreateBlogPost />} />
-          <Route path="cart/" element={<Cart2 />} />
-          <Route path="wishlist/" element={<WishList />} />
-          <Route path="products/" element={<ProductSearchPage />} />
-          <Route path="products/:id" element={<ProductPage />} />
-          <Route path="checkout/" element={<Checkout />} />
-          <Route path="rent/" element={<RentForm />} />
-          <Route path="about/" element={<AboutUs />} />
-          <Route path="/contact" element={<ContactUs />} />
-          <Route path="/orders" element={<MyOrders />} />
-          <Route path="/order/:id" element={<SingleOrder />} />
-          <Route
-            path="/tracking/:orderid/:statusid"
-            element={<Trackingpage />}
-          />
-        </Route>
-        <Route element={<DashLayout />}>
-          <Route
-            path="/dashboard"
-            element={<Navigate to="/dashboard/analytics" replace />}
-          />
-          <Route path="/dashboard/analytics" element={<Dashboard />} />
-          <Route path="/dashboard/products" element={<Products />} />
-          <Route path="/dashboard/customers" element={<Customers />} />
-          <Route path="/dashboard/orders" element={<Transactions />} />
-          <Route path="/dashboard/updateuser" element={<Updateuser />} />
-          <Route path="/dashboard/addproduct" element={<AddProduct />} />
-          <Route path="/dashboard/profile" element={<Profile />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
-    <ToastContainer autoClose={5000} />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} exact />
+          {/* <Route path="login" element={<LoginSignUp />} /> */}
+          <Route path="signin" element={<Signin />} />
+          <Route path="signup" element={<SignUp />} />
+          <Route path="/" element={<MainLayout />}>
+            <Route path="blogs/" element={<Blogs />} />
+            <Route path="blogs/:id" element={<SinglePostBlog />} />
+            <Route path="blogs/create-post" element={<CreateBlogPost />} />
+            <Route path="cart/" element={<Cart2 />} />
+            <Route path="wishlist/" element={<WishList />} />
+            <Route path="products/" element={<ProductSearchPage />} />
+            <Route path="products/:id" element={<ProductPage />} />
+            <Route path="checkout/" element={<Checkout />} />
+            <Route path="rent/" element={<RentForm />} />
+            <Route path="about/" element={<AboutUs />} />
+            <Route path="/contact" element={<ContactUs />} />
+            <Route path="/orders" element={<MyOrders />} />
+            <Route path="/order/:id" element={<SingleOrder />} />
+            <Route path="/becomeseller" element={<BecomeSeller />}></Route>
+            <Route
+              path="/tracking/:orderid/:statusid"
+              element={<Trackingpage />}
+            />
+          </Route>
+          <Route element={<DashLayout />}>
+            <Route path="/dashboard" element={<DashSettings />} />
+            <Route
+              path="/dashboard/analytics"
+              role="seller"
+              element={<Dashboard />}
+            />
+            <Route
+              path="/dashboard/products"
+              role="seller"
+              element={<Products />}
+            />
+            <Route
+              path="/dashboard/customers"
+              role="customer"
+              element={<Customers />}
+            />
+            <Route
+              path="/dashboard/orders"
+              role="customer"
+              element={<Transactions />}
+            />
+            <Route
+              path="/dashboard/updateuser"
+              role="customer"
+              element={<Updateuser />}
+            />
+            <Route path="/dashboard/addproduct" element={<AddProduct />} />
+            <Route
+              path="/dashboard/profile"
+              role="seller"
+              element={<Profile />}
+            />
+          </Route>
+          <Route path="/user/:activepage" element={<UserProfile />} />
+        </Routes>
+      </BrowserRouter>
+      <ToastContainer autoClose={5000} />
     </>
   );
 }

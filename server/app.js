@@ -16,7 +16,8 @@ const userRouter=require("./routers/userRouter");
 const orderRouter=require("./routers/orderRouter");
 const blogRouter=require("./routers/blogRouter");
 const sellerRouter=require("./routers/sellerRouter");
-const productRouter=require("./routers/productRoutes");
+const productRouter = require("./routers/productRoutes");
+const cartRouter=require("./routers/cartRouter")
 
 //Database Connection
 connectDB();
@@ -41,7 +42,7 @@ app.use('/api/orders',orderRouter);
 app.use('/api/blogs',blogRouter);
 app.use('/api/seller',sellerRouter);
 app.use('/api/products',productRouter);
-
+app.use('/api/cart',cartRouter)
 app.get("/", (req, res) => {
   return res.json({ msg: "Server running!" });
 });

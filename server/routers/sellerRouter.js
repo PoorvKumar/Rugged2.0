@@ -5,17 +5,23 @@ const {
   authenticateToken,
   authorizeRoles,
 } = require("../middlewares/authMiddleware");
-// router.get(
-//   "/products",
-//   authenticateToken,
-//   authorizeRoles(["seller"]),
-//   sellerController.getAllProducts
-// );
+router.get(
+  "/products",
+  authenticateToken,
+  authorizeRoles(["seller"]),
+  sellerController.getAllProducts
+);
 router.post(
   "/product",
   authenticateToken,
   authorizeRoles(["seller"]),
   sellerController.addProduct
+);
+router.post(
+  "/become",
+  authenticateToken,
+  authorizeRoles(["customer"]),
+  sellerController.becomeSeller
 );
 // router.patch(
 //   "/products/:id",
@@ -30,12 +36,12 @@ router.post(
 //   authorizeRoles(["seller"]),
 //   sellerController.deleteProduct
 // );
-// router.get(
-//   "/:id",
-//   authenticateToken,
-//   authorizeRoles(["seller"]),
-//   sellerController.getDetails
-// );
+router.get(
+  "/details",
+  authenticateToken,
+  authorizeRoles(["seller"]),
+  sellerController.getSellerDetails
+);
 // router.patch(
 //   "/:id",
 //   authenticateToken,
@@ -43,10 +49,9 @@ router.post(
 //   sellerController.updateDetails
 // );
 // router.patch(
-//   "/:id/analytics",
+//   "/analytics",
 //   authenticateToken,
 //   authorizeRoles(["seller"]),
-//   sellerController.getAnalytics
+//   sellerController.getAllAnalytics
 // );
 module.exports = router;
-

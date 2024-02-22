@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import Header from '../../../components/dashboard/Header';
 import { Box } from '@mui/material';
 import { useTheme } from '@mui/material';
@@ -6,6 +6,7 @@ import { Typography, Button } from '@mui/material';
 import { PaperClipIcon } from "@heroicons/react/20/solid";
 import CustomUpdateProfileModal from '../../../components/dashboard/CustomUpdateProfileModal'
 import CustomProductModal from '../../../components/dashboard/CustomProductModal';
+import api from "../../../api/api"
 const Profile = () => {
     const theme = useTheme()
     const [open, setOpen] = useState(false);
@@ -13,7 +14,29 @@ const Profile = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const handleOpenAdd = () => setOpenAdd(true);
-    const handleCloseAdd = () => setOpenAdd(false);
+  const handleCloseAdd = () => setOpenAdd(false);
+  const isCustomer = JSON.parse(localStorage.getItem("user")).isCustomer;
+  const isAdmin = JSON.parse(localStorage.getItem("user")).isAdmin;
+  const isSeller = JSON.parse(localStorage.getItem("user")).isSeller;
+  const isBlogger = JSON.parse(localStorage.getItem("user")).isBlogger;
+  const [sellerDetails, setSellerDetails] = useState({});
+  useEffect(() => {
+     const getDetails = async () => {
+       try {
+         const response = await api.get("/seller/details", {
+           headers: {
+             Authorization: "Bearer " + localStorage.getItem("token"),
+           },
+         });
+         console.log(response)
+        setSellerDetails(response);
+       } catch (error) {
+         console.error(`Error fetching Details: ${error}`);
+       }
+     };
+     
+     getDetails();
+   }, []);
   return (
     <>
       <Box m="1.5rem 2.5rem">
@@ -37,18 +60,26 @@ const Profile = () => {
               <p className="text-sm text-gray-600">@daddasoft</p>
             </div>
             <div className="flex gap-3 flex-wrap">
-              <span className="rounded-sm bg-yellow-100 px-3 py-1 text-xs font-medium text-yellow-800">
-                Admin
-              </span>
-              <span className="rounded-sm bg-green-100 px-3 py-1 text-xs font-medium text-green-800">
-                Seller
-              </span>
-              <span className="rounded-sm bg-blue-100 px-3 py-1 text-xs font-medium text-blue-800">
-                Customer
-              </span>
-              <span className="rounded-sm bg-indigo-100 px-3 py-1 text-xs font-medium text-indigo-800">
-                Blogger
-              </span>
+              {isCustomer && (
+                <span className="rounded-sm bg-blue-100 px-3 py-1 text-xs font-medium text-blue-800">
+                  Customer
+                </span>
+              )}
+              {isSeller && (
+                <span className="rounded-sm bg-green-100 px-3 py-1 text-xs font-medium text-green-800">
+                  Seller
+                </span>
+              )}
+              {isBlogger && (
+                <span className="rounded-sm bg-indigo-100 px-3 py-1 text-xs font-medium text-indigo-800">
+                  Blogger
+                </span>
+              )}
+              {isAdmin && (
+                <span className="rounded-sm bg-yellow-100 px-3 py-1 text-xs font-medium text-yellow-800">
+                  Admin
+                </span>
+              )}
             </div>
             <div className="flex gap-2">
               <button
@@ -95,10 +126,10 @@ const Profile = () => {
                       <dl className="divide-y divide-gray-100">
                         <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                           <dt className="text-xl font-medium leading-6 text-gray-900">
-                            Bank Account Branch Code
+                            Phone Number
                           </dt>
                           <dd className="mt-1 text-base leading-6 text-cyan-950 font-bold sm:col-span-2 sm:mt-0">
-                            Margot Foster
+                            {sellerDetails.phone}
                           </dd>
                         </div>
                         <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -106,36 +137,31 @@ const Profile = () => {
                             Bank Account Number
                           </dt>
                           <dd className="mt-1 text-base leading-6 text-cyan-950 font-bold sm:col-span-2 sm:mt-0">
-                            Backend Developer
+                            {sellerDetails.phone}
                           </dd>
                         </div>
                         <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                           <dt className="text-xl font-medium leading-6 text-gray-900">
-                            Email address
+                            UPI ID
                           </dt>
                           <dd className="mt-1 text-base leading-6 text-cyan-950 font-bold sm:col-span-2 sm:mt-0">
-                            margotfoster@example.com
+                            {sellerDetails.upiID}
                           </dd>
                         </div>
-                        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        {/* <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                           <dt className="text-xl font-medium leading-6 text-gray-900">
                             Total Earnings
                           </dt>
                           <dd className="mt-1 text-base leading-6 text-cyan-950 font-bold sm:col-span-2 sm:mt-0">
                             $120,000
                           </dd>
-                        </div>
+                        </div> */}
                         <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                           <dt className="text-xl font-medium leading-6 text-gray-900">
                             About
                           </dt>
                           <dd className="mt-1 text-base leading-6 text-cyan-950 font-bold sm:col-span-2 sm:mt-0">
-                            Fugiat ipsum ipsum deserunt culpa aute sint do
-                            nostrud anim incididunt cillum culpa consequat.
-                            Excepteur qui ipsum aliquip consequat sint. Sit id
-                            mollit nulla mollit nostrud in ea officia proident.
-                            Irure nostrud pariatur mollit ad adipisicing
-                            reprehenderit deserunt qui eu.
+                            {sellerDetails.about}
                           </dd>
                         </div>
                       </dl>

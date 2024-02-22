@@ -3,7 +3,8 @@ const User=require("../models/user");
 
 function authenticateToken(req,res,next)
 {
-    const authHeader=req.headers.Authorization || req.headers.authorization;
+    const authHeader = req.headers.Authorization || req.headers.authorization;
+    console.log(authHeader)
     if(!authHeader || !authHeader.startsWith("Bearer "))
     {
         return res.sendStatus(401);

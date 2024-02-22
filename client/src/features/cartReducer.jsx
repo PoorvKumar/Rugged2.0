@@ -7,12 +7,16 @@ const cartFromStorage = JSON.parse(localStorage.getItem('cart')) || [];
 const cartSlice = createSlice({
   name: 'cart',
   initialState: {
-    cart: cartFromStorage,
+    cart: [],
     productsData: products,
     cartTotal: 0,
     cartQuantity: 0,
   },
   reducers: {
+    setCart: (state, action) => {
+      state.cart = action.payload
+      localStorage.setItem("cart", JSON.stringify(state.cart));
+    },
     addToCart: (state, action) => {
       let find = state.cart.findIndex((item) => item.id === action.payload.id);
       if (find >= 0) {
@@ -63,6 +67,7 @@ const cartSlice = createSlice({
 });
 
 export const {
+  setCart,
   addToCart,
   removeItem,
   getCartTotal,

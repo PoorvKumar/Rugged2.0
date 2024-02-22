@@ -35,31 +35,7 @@ import { customsetMode } from "../../features/dashboard/mode";
 
 const navItems = [
   {
-    text: "Seller",
-    icon: null,
-  },
-  {
-    text: "Analytics",
-    icon: <HomeOutlined />,
-  },
-  // {
-  //   text: "Client Facing",
-  //   icon: null,
-  // },
-  {
-    text: "Products",
-    icon: <ShoppingCartOutlined />,
-  },
-  {
-    text: "Profile",
-    icon: <Groups2Outlined />,
-  },
-  {
-    text: "Orders",
-    icon: <ReceiptLongOutlined />,
-  },
-  {
-    text: "Sales",
+    text: "User",
     icon: null,
   },
   {
@@ -67,8 +43,24 @@ const navItems = [
     icon: <PointOfSaleOutlined />,
   },
   {
-    text: "AddProduct",
-    icon: <PublicOutlined />,
+    text: "Orders",
+    icon: <ReceiptLongOutlined />,
+  },
+  {
+    text: "Seller",
+    icon: null,
+  },
+  {
+    text: "Analytics",
+    icon: <HomeOutlined />,
+  },
+  {
+    text: "Products",
+    icon: <ShoppingCartOutlined />,
+  },
+  {
+    text: "Profile",
+    icon: <Groups2Outlined />,
   },
 ];
 
@@ -84,7 +76,12 @@ const Sidebar = ({
   const navigate = useNavigate();
   const theme = useTheme();
   const dispatch = useDispatch()
-  
+  const isCustomer=JSON.parse(localStorage.getItem('user')).isCustomer;
+  const isAdmin = JSON.parse(localStorage.getItem("user")).isAdmin;
+  const isSeller=JSON.parse(localStorage.getItem('user')).isSeller;
+  const isBlogger = JSON.parse(localStorage.getItem('user')).isBlogger;
+  console.log(isSeller)
+  console.log(isAdmin)
   useEffect(() => {
     setActive(pathname.substring(11));
   }, [pathname]);
@@ -131,71 +128,138 @@ const Sidebar = ({
               </FlexBetween>
             </Box>
             <List>
-              {navItems.map(({ text, icon }) => {
-                if (!icon) {
-                  return (
-                    <Typography key={text} sx={{ m: "1rem 0 1rem 3rem" }}>
-                      {text}
-                    </Typography>
-                  );
-                }
-                const lcText = text.toLowerCase();
+              {navItems.map(({ text, icon }, index) => {
+                if (isCustomer && index < 3) {
+                  if (!icon) {
+                    return (
+                      <Typography key={text} sx={{ m: "1rem 0 1rem 3rem" }}>
+                        {text}
+                      </Typography>
+                    );
+                  }
+                  const lcText = text.toLowerCase();
 
-                return (
-                  <ListItem
-                    key={text}
-                    sx={{
-                      "&:hover": {
-                        backgroundColor: theme.palette.secondary[900],
-                        color: theme.palette.primary[100],
-                        "& .MuiButtonBase-root": {
-                          // Select the ListItemButton on hover
-                          backgroundColor: theme.palette.secondary[900],
-                          color: theme.palette.grey[100],
-                        },
-                        "& .MuiListItemIcon-root": {
-                          // Select the ListItemIcon on hover
-                          color: theme.palette.grey[100],
-                        },
-                      },
-                    }}
-                    disablePadding
-                  >
-                    <ListItemButton
-                      onClick={() => {
-                        navigate(`/dashboard/${lcText}`);
-                        setActive(lcText);
-                      }}
+                  return (
+                    <ListItem
+                      key={text}
                       sx={{
-                        backgroundColor:
-                          active === lcText
-                            ? theme.palette.secondary[900]
-                            : "transparent",
-                        color:
-                          active === lcText
-                            ? theme.palette.grey[100]
-                            : theme.palette.primary[800],
+                        "&:hover": {
+                          backgroundColor: theme.palette.secondary[900],
+                          color: theme.palette.primary[100],
+                          "& .MuiButtonBase-root": {
+                            // Select the ListItemButton on hover
+                            backgroundColor: theme.palette.secondary[900],
+                            color: theme.palette.grey[100],
+                          },
+                          "& .MuiListItemIcon-root": {
+                            // Select the ListItemIcon on hover
+                            color: theme.palette.grey[100],
+                          },
+                        },
                       }}
+                      disablePadding
                     >
-                      <ListItemIcon
+                      <ListItemButton
+                        onClick={() => {
+                          navigate(`/dashboard/${lcText}`);
+                          setActive(lcText);
+                        }}
                         sx={{
-                          ml: "2rem",
+                          backgroundColor:
+                            active === lcText
+                              ? theme.palette.secondary[900]
+                              : "transparent",
                           color:
                             active === lcText
                               ? theme.palette.grey[100]
-                              : theme.palette.primary[900],
+                              : theme.palette.primary[800],
                         }}
                       >
-                        {icon}
-                      </ListItemIcon>
-                      <ListItemText primary={text} />
-                      {active === lcText && (
-                        <ChevronRightOutlined sx={{ ml: "auto" }} />
-                      )}
-                    </ListItemButton>
-                  </ListItem>
-                );
-              })}
+                        <ListItemIcon
+                          sx={{
+                            ml: "2rem",
+                            color:
+                              active === lcText
+                                ? theme.palette.grey[100]
+                                : theme.palette.primary[900],
+                          }}
+                        >
+                          {icon}
+                        </ListItemIcon>
+                        <ListItemText primary={text} />
+                        {active === lcText && (
+                          <ChevronRightOutlined sx={{ ml: "auto" }} />
+                        )}
+                      </ListItemButton>
+                    </ListItem>
+                  );
+                } else if (isSeller && index >= 3 && index < 7) {
+                  if (!icon) {
+                    return (
+                      <Typography key={text} sx={{ m: "1rem 0 1rem 3rem" }}>
+                        {text}
+                      </Typography>
+                    );
+                  }
+                  const lcText = text.toLowerCase();
+
+                  return (
+                    <ListItem
+                      key={text}
+                      sx={{
+                        "&:hover": {
+                          backgroundColor: theme.palette.secondary[900],
+                          color: theme.palette.primary[100],
+                          "& .MuiButtonBase-root": {
+                            // Select the ListItemButton on hover
+                            backgroundColor: theme.palette.secondary[900],
+                            color: theme.palette.grey[100],
+                          },
+                          "& .MuiListItemIcon-root": {
+                            // Select the ListItemIcon on hover
+                            color: theme.palette.grey[100],
+                          },
+                        },
+                      }}
+                      disablePadding
+                    >
+                      <ListItemButton
+                        onClick={() => {
+                          navigate(`/dashboard/${lcText}`);
+                          setActive(lcText);
+                        }}
+                        sx={{
+                          backgroundColor:
+                            active === lcText
+                              ? theme.palette.secondary[900]
+                              : "transparent",
+                          color:
+                            active === lcText
+                              ? theme.palette.grey[100]
+                              : theme.palette.primary[800],
+                        }}
+                      >
+                        <ListItemIcon
+                          sx={{
+                            ml: "2rem",
+                            color:
+                              active === lcText
+                                ? theme.palette.grey[100]
+                                : theme.palette.primary[900],
+                          }}
+                        >
+                          {icon}
+                        </ListItemIcon>
+                        <ListItemText primary={text} />
+                        {active === lcText && (
+                          <ChevronRightOutlined sx={{ ml: "auto" }} />
+                        )}
+                      </ListItemButton>
+                    </ListItem>
+                  );
+                }
+              }
+                )}
             </List>
           </Box>
 

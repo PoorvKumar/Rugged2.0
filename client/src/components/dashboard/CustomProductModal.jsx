@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState,useEffect } from "react";
 import {
   Button,
   Modal,
@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from '../../api/api'
 import ReactQuill from "react-quill";
-const CustomProductModal = ({ open, handleClose, children, type }) => {
+const CustomProductModal = ({ open, handleClose, children, type,productDetails }) => {
   const navigate=useNavigate()
   const theme = useTheme()
   const [images, setImages] = useState([{name:""}]);
@@ -74,6 +74,22 @@ const CustomProductModal = ({ open, handleClose, children, type }) => {
   const [width, setWidth] = useState("");
   const [height, setHeight] = useState("");
   const [description, setDescription] = useState("");
+  useEffect(() => {
+    if (productDetails) {
+       setProductName(productDetails.productName);
+       setShortDescription(productDetails.shortDescription);
+       setPrice(productDetails.price);
+       setBrand(productDetails.brand);
+       setStockQuantity(productDetails.stockQuantity)
+       setDiscount(productDetails.discount)
+       setLength(productDetails.length)
+       setWidth(productDetails.width)
+       setHeight(productDetails.height)
+       setImages(productDetails.images || [{ name: "" }]);
+       setCategories(productDetails.categories || [{ name: "" }]);
+       setColors(productDetails.colors || [{ name: "" }]);
+     }
+  }, [productDetails]);
   //
   // 
   const handleProductNameChange = (e) => {
@@ -113,10 +129,23 @@ const CustomProductModal = ({ open, handleClose, children, type }) => {
   const handleDescriptionChange = (e) => {
     setDescription(e)
   }
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const handleFileChange = (e) => {
+    setSelectedFiles([...selectedFiles, ...e.target.files]);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log("HELP")
-     try {
+    const formData = new FormData();
+    selectedFiles.forEach((file, index) => {
+      formData.append(`files[${index}]`, file);
+    });
+    try {
+       const response = await api.post("/upload", formData, {
+         headers: {
+           "Content-Type": "multipart/form-data",
+         },
+       });
+      console.log(response.data)
        const res = await api.post(
          "/seller/product",
          {
@@ -161,6 +190,21 @@ const CustomProductModal = ({ open, handleClose, children, type }) => {
        });
      }
   };
+  // const handleSubmitUpdate = async(e,id) => {
+  //   e.preventDefault();
+  //   console.log("HELP")
+  //   try {
+  //     const changes=[]
+  //     const res = await api.patch(`/seller/products/${id}`, changes, {
+  //       headers: {
+  //         Authorization: "Bearer " + localStorage.getItem("token"),
+  //       },
+  //     });
+  //   }
+  //   catch (err) {
+      
+  //   }
+  // }
   // 
   return (
     <Modal
@@ -230,7 +274,11 @@ const CustomProductModal = ({ open, handleClose, children, type }) => {
           }}
           spacing="15px"
         >
-          <form className="w-full p-2 overflow-y-scroll overflow-x-scroll" onSubmit={handleSubmit}>
+          <form
+            className="w-full p-2 overflow-y-scroll overflow-x-scroll"
+            onSubmit={handleSubmit}
+            encType="multipart/form-data"
+          >
             <div style={{ display: "flex", gap: "20px", width: "100%" }}>
               <Stack
                 sx={{ alignItems: "center", width: "100%" }}
@@ -338,7 +386,7 @@ const CustomProductModal = ({ open, handleClose, children, type }) => {
                 width: "100%",
               }}
             >
-              <div style={{ display: "flex", gap: "20px", width: "100%" }}>
+              {/* <div style={{ display: "flex", gap: "20px", width: "100%" }}>
                 {images.map((image, idx) => (
                   <div
                     key={idx}
@@ -369,7 +417,14 @@ const CustomProductModal = ({ open, handleClose, children, type }) => {
                 >
                   +
                 </button>
-              </div>
+              </div> */}
+              <input
+                type="file"
+                multiple="multiple"
+                accept="image/*"
+                name="uploadedImages"
+                id="file"
+              />
             </Stack>
             <Stack
               sx={{

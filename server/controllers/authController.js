@@ -70,8 +70,25 @@ const signin=async (req,res,next)=>
 
         user.refreshToken=refreshToken;
         await user.save();
-
-        const userData=Object.assign({},{ name: user.name, email: user.email });
+        isCustomer=false
+        isSeller=false
+        isBlogger=false
+        isAdmin = false
+        user.roles.forEach((role) => {
+            if (role === "customer") {
+                isCustomer = true
+            }
+            if (role === "seller") {
+                isSeller = true;
+            }
+            if (role === "admin") {
+                   isAdmin = true
+            }
+            if (role === "blogger") {
+         isBlogger = true
+            }
+        });
+        const userData=Object.assign({},{ name: user.name, email: user.email ,isCustomer,isSeller,isBlogger,isAdmin});
 
         return res.status(200).json({ token, refreshToken, userData });
     }

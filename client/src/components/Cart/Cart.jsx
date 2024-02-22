@@ -7,8 +7,6 @@ import CartItemCard from "./CartItemCard";
 import CartCheck from "./CartCheck";
 import EmptyCart from "./EmptyCart";
 import { clearCart } from "../../features/cartReducer";
-
-import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import {
   decreaseQuan,
   increaseQuan,
@@ -17,21 +15,15 @@ import {
 import AddSharpIcon from "@mui/icons-material/AddSharp";
 import RemoveSharpIcon from "@mui/icons-material/RemoveSharp";
 import HeaderTitle from "../HeaderTitle";
-import { FaTrashAlt } from "react-icons/fa";
 function Cart() {
   const { cart } = useSelector((state) => state.cart);
   const { cartQuantity } = useSelector((state) => state.cart);
-  // const {cartTotal}=useSelector(state=>state.cartTotal)
-
-  // const{cartTotal}=useSelector(state=>state.cartTotal);
   console.log(cart);
 
   const dispatch = useDispatch();
 
   return (
     <div className=" min-h-screen">
-      
-
       <div className="mx-16 gap-5 max-[1000px]:flex-col flex  justify-center items-center ">
         <div className="w-9/12 max-[1000px]:w-full">
           {cart.length ? (
@@ -50,17 +42,15 @@ function Cart() {
 
           {cart.length ? (
             <div>
-              {cart.map((item) => (
-                <CartItemCard item={item}/>
-                
+              {cart.map((item, idx) => (
+                <CartItemCard key={idx} item={item} />
               ))}
               <div className="p-4">
                 <button
-                  className="bg-cyan-500 hover:bg-cyan-600 text-white p-4 rounded-xl flex items-center justify-center gap-4"
+                  className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
                   onClick={() => dispatch(clearCart(cart))}
                 >
-                  <FaTrashAlt />
-                  <span>Empty Cart</span>
+                  clear
                 </button>
               </div>
             </div>

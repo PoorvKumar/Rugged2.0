@@ -1,13 +1,10 @@
 const Product = require("../models/product");
-const User = require("../models/user");
+const Analytics = require("../models/analytics");
+const User=require("../models/user")
 const getAllProducts = async (req, res, next) => {
   try {
-    const { page = 1, limit = 10 } = req.query;
-    const products = await Product.find()
-      .limit(limit * 1)
-      .skip((page - 1) * limit)
-      .sort({ createdAt: -1 });
-
+    const products = await Product.find({ seller: req.user._id });
+    // console.log(req.user)
     return res.json(products);
   } catch (err) {
     next(err);
@@ -59,6 +56,84 @@ const addProduct = async (req, res, next) => {
      next(error)
   }
 }
+const becomeSeller = async (req,res,next) => {
+  try {
+    const { phone, accountNumber, upiId, about } = req.body
+    if (!phone || !accountNumber || !upiId || !about) {
+      return res.status(400).json({ msg: "Missing Information" });
+    }
+    const userId = req.user._id;
+    const user = await User.findById(userId);
+     if (!user) {
+       return res.status(404).json({ msg: "User not found" });
+    }
+    if (!user.roles.includes("seller")) {
+      user.roles.push("seller");
+      await user.save();
+    }
+    const analytic = new Analytics({
+      items: [],
+      seller_id: userId,
+      phone,
+      accountNumber,
+      upiId,
+      about
+    })
+    await analytic.save()
+    return res.status(201).json({ msg: "Became Seller Success" });
+  }
+  catch (err) {
+      next(err)
+  }
+}
+const getSellerDetails = async (req, res, next) => {
+  try {
+    const analytics = await Analytics.findOne({ seller_id: req.user.id });
+    if (!analytics) {
+      return res
+        .status(404)
+        .json({ message: "Analytics data not found for this user" });
+    }
+
+    const { phone, accountNumber, upiId, about } = analytics;
+    console.log(phone)
+    console.log(accountNumber)
+    console.log(upiId)
+    console.log(about)
+    res.json({ phone, accountNumber, upiId, about });
+  } catch (error) {
+    next(error);
+  }
+};
+const getAllAnalytics = async (req, res, next) => {
+  try {
+    // Find all analytics data
+    const analyticsData = await Analytics.find().populate("items.productId");
+
+    // Process analytics data to extract product information
+    const productsData = analyticsData
+      .map((analytics) => {
+        return analytics.items.map((item) => {
+          const productName = item.productId.name;
+          const shortDescription = item.productId.shortDescription;
+          const quantity = item.quantity;
+          const earnedMoney = item.quantity * item.productId.price;
+          return { productName, shortDescription, quantity, earnedMoney };
+        });
+      })
+      .flat();
+
+    res.json(productsData);
+  } catch (error) {
+    next(error);
+  }
+
+};
+
 module.exports = {
-  addProduct
+  getAllProducts,
+  addProduct,
+  getSellerDetails,
+  getAllAnalytics,
+  becomeSeller
 };
