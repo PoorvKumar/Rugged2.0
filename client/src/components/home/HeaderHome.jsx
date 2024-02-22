@@ -4,11 +4,13 @@ import { LuMountainSnow } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import LoginSignupModal from "../auth/LoginSignUpModal";
 import Modal from "@mui/material/Modal";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import api from "@/api/api";
+import { changeSearchInput,addProducts } from "@/features/productReducer";
 
 const HeaderHome = () => {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [searchInput, setSearchInput] = useState("");
@@ -70,7 +72,8 @@ const HeaderHome = () => {
     let response = await api.get(
       `products/search?q=${searchInput}&customerRating=0&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=12&pageNo=1&categories=all&brands=all`
     );
-    let { productList } = await response.json();
+    let {productList}  = response.data;
+    console.log(productList);
     dispatch(addProducts({ products: productList }));
     dispatch(changeSearchInput({ searchInput: searchInput }));
     navigate("/products");

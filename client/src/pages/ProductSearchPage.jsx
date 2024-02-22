@@ -205,7 +205,7 @@ const ProductSearchPage = () => {
   const [brands, setBrands] = useState("all");
 
   const handleCategoryClick = (category)=>{
-    cat = categories.split(',');
+    let cat = categories.split(',');
     let i=0;
     for(i=0;i<cat.length;i++){
       if(cat[i]===category){
@@ -215,6 +215,7 @@ const ProductSearchPage = () => {
         cat.push(category);
       }
     }
+    console.log(cat.join(","));
     setCategories(cat.join(","));
   };
 
@@ -223,7 +224,7 @@ const ProductSearchPage = () => {
       // products = await axios.get(
       //   `http:localhost:5000/api/products/search/?q=${searchInput}&customerRating=${customerRating}&priceLL=0&priceUL=${priceSliderValue}&RuggedVerrified=${isRuggedVerrified}&colours=${color}&availability=${availability}`
       // );
-
+      console.log(categories);
       let response = await fetch(
         `http://localhost:5000/api/products/search?q=${searchInput}&customerRating=${customerRating}&priceLL=0&priceUL=${priceSliderValue}&RuggedVerrified=${isRuggedVerrified}&colours=${color}&availability=${availability}&noOfResultsPerPage=12&pageNo=1&categories=${categories}&brands=${brands}`
       );
@@ -443,7 +444,7 @@ const ProductSearchPage = () => {
             {" "}
             results
           </div>
-          <div className="flex flex-row flex-wrap justify-around gap-2">
+          <div className={`flex flex-row flex-wrap justify-around gap-2 ${products.length===1?'mt-[10%]':''}`}>
             {
               products.map((productData,index)=>(
                 <CustomCard productData={productData} key={productData._id} />
