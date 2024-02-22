@@ -49,39 +49,7 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
           </div>
     
           <div style={{width:'600px', margin:'0 auto',backgroundColor:'white'}}>
-          <Carousel>
-              <div style={{display:'flex',flexDirection:'column',height:'500px',justifyContent:'center',alignItems:'center',backgroundColor:'#333'}}>
-                <div style={{width:'100px', height:'100px',borderRadius:'50px',overflow:'hidden'}}>
-                <img src="https://picsum.photos/100/100" />
-                </div>
-                <p>Rugged is a  marketplace that offers an incredible array of products and services. It's known for its convenience, extensive selection, and speedy delivery options. The company has revolutionized online shopping, making it incredibly easy for customers to find virtually anything they need from the comfort of their homes</p>
-            <h2>jon</h2>
-            <p>customer</p>
-                <p className="legend">1</p>
-              </div>
-    
-    
-              <div style={{display:'flex',flexDirection:'column',height:'500px',justifyContent:'center',alignItems:'center',backgroundColor:'burlywood'}}>
-                <div style={{width:'100px', height:'100px',borderRadius:'50px',overflow:'hidden'}}>
-                <img src="https://picsum.photos/100/100" />
-                </div>
-                <p> Overall, opinions about Rugged vary widely, reflecting both admiration for its convenience and criticism of its influence on various aspects of society and commerce.</p>
-            <h2>Roman</h2>
-            <p>customer</p>
-                <p className="legend">3</p>
-              </div>
-    
-              <div style={{display:'flex',flexDirection:'column',height:'500px',justifyContent:'center',alignItems:'center',backgroundColor:'lightpink'}}>
-                <div style={{width:'100px', height:'100px',borderRadius:'50px',overflow:'hidden'}}>
-                <img src="https://picsum.photos/100/100" />
-                </div>
-                <p>Rugged's commitment to technological advancement has had a profound impact on the digital landscape, shaping how we store, access, and utilize data and services.</p>
-            <h2>Jack</h2>
-            <p>customer</p>
-                <p className="legend">3</p>
-              </div>
-              
-          </Carousel>
+          
           </div>
           </div>
           </div>
