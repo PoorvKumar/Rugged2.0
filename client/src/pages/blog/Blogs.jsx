@@ -46,7 +46,8 @@ const Blogs = () => {
         ) : posts.length > 0 ? (
           posts.map((post) => (
             <BlogPostCard
-              key={post._id} // Using unique post id as the key
+            id={post._id}
+              key={post._id} 
               imgSrc={blogCard1}
               date={new Date(post.createdAt).toLocaleDateString()}
               commentNo={post.comments.length}

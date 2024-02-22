@@ -79,24 +79,29 @@ const deleteUser=async (req,res,next)=>
 
 const addAddress=async (req,res,next)=>
 {
-    try
-    {
-        const { id }=req.params;
-        const user=await User.findByIdAndUpdate(id,{
-          $push: { address: req.body }  
-        },{ new: true });
+    const { name, phoneNumber, street, city, landmark, state, pincode } = req.body;
+    
+    try {
+        const newAddress = {
+            name,
+            phoneNumber,
+            street,
+            city,
+            landmark,
+            state,
+            pincode
+        };
 
-        if(!user)
-        {
-            return res.status(404).json({ msg: "User not found" });
-        }
+        const user=req.user;
+        user.addresses.push(newAddress);
+        
+        await user.save();
 
-        return res.json(user);
-    }
-    catch(err)
-    {
+        res.status(201).json({ message: 'Address added successfully', user });
+    } catch (err) {
         next(err);
     }
+
 };
 
 module.exports={

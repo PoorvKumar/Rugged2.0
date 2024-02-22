@@ -88,7 +88,7 @@ const signin=async (req,res,next)=>
          isBlogger = true
             }
         });
-        const userData=Object.assign({},{ name: user.name, email: user.email ,isCustomer,isSeller,isBlogger,isAdmin});
+        const userData=Object.assign({},{ name: user.name, email: user.email, addresses: user.addresses ,isCustomer,isSeller,isBlogger,isAdmin});
 
         return res.status(200).json({ token, refreshToken, userData });
     }

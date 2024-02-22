@@ -22,7 +22,6 @@ import Updateuser from './pages/dash/Updateuser'
 import Orders from './pages/Orders'
 import ProductPage from './pages/ProductPage';
 import ProductSearchPage from './pages/ProductSearchPage';
-import Checkout from './components/Checkout';
 import AboutUs from './components/AboutUs/AboutUs';
 import RentForm from './components/Rent/RentForm';
 import ContactUs from './pages/ContactUs';
@@ -41,26 +40,42 @@ import MyOrders from './pages/orders/MyOrders';
 import BecomeSeller from './pages/BecomeSeller'
 import DashSettings from "./pages/dash/dashsettings"
 import UserProfile from "./pages/user/UserProfile";
+import Checkout from './pages/orders/Checkout';
+import ProtectedRoute from './components/ProtectedRoute';
+import { useAuthenticate } from './context/AuthContext';
+import Loader from './components/Loader';
+
+
 function App() {
-  const ProtectedRoute = ({ element,role, ...rest }) => {
-    const isCustomer = JSON.parse(localStorage.getItem("user")).isCustomer;
-    const isAdmin = JSON.parse(localStorage.getItem("user")).isAdmin;
-    const isSeller = JSON.parse(localStorage.getItem("user")).isSeller;
-    const isBlogger = JSON.parse(localStorage.getItem("user")).isBlogger;
-    let neededCheck;
-    if (role === "customer") {
-      neededCheck = JSON.parse(localStorage.getItem("user")).isCustomer;
-    }
-    else if (role === "seller") {
-      neededCheck = JSON.parse(localStorage.getItem("user")).isSeller;
-    }
-    return (
-      <Route
-        {...rest}
-        element={neededCheck ? element : <Navigate to="/dashboard" replace />}
-      />
-    );
-  };
+  // const ProtectedRoute = ({ element,role, ...rest }) => {
+  //   const isCustomer = JSON.parse(localStorage.getItem("user")).isCustomer;
+  //   const isAdmin = JSON.parse(localStorage.getItem("user")).isAdmin;
+  //   const isSeller = JSON.parse(localStorage.getItem("user")).isSeller;
+  //   const isBlogger = JSON.parse(localStorage.getItem("user")).isBlogger;
+  //   let neededCheck;
+  //   if (role === "customer") {
+  //     neededCheck = JSON.parse(localStorage.getItem("user")).isCustomer;
+  //   }
+  //   else if (role === "seller") {
+  //     neededCheck = JSON.parse(localStorage.getItem("user")).isSeller;
+  //   }
+  //   return (
+  //     <Route
+  //       {...rest}
+  //       element={neededCheck ? element : <Navigate to="/dashboard" replace />}
+  //     />
+  //   );
+  // };
+
+  const { isAuthenticated, loading } = useAuthenticate();
+
+  // if (loading) {
+  //   return <>
+  //     <Loader />
+  //     <ToastContainer autoClose={5000} />
+  //   </>;
+  // }
+
   return (
     <>
       <BrowserRouter>
@@ -71,19 +86,25 @@ function App() {
           <Route path="signup" element={<SignUp />} />
           <Route path="/" element={<MainLayout />}>
             <Route path="blogs/" element={<Blogs />} />
-            <Route path="blogs/:id" element={<SinglePostBlog />} />
+            <Route path="blogs/:blogId" element={<SinglePostBlog />} />
             <Route path="blogs/create-post" element={<CreateBlogPost />} />
             <Route path="cart/" element={<Cart2 />} />
             <Route path="wishlist/" element={<WishList />} />
             <Route path="products/" element={<ProductSearchPage />} />
             <Route path="products/:id" element={<ProductPage />} />
+
+            {/* Add all the routes which are protected as children of this  */}
+            <Route element={<ProtectedRoute />} >
             <Route path="checkout/" element={<Checkout />} />
+            </Route>
+
+
             <Route path="rent/" element={<RentForm />} />
             <Route path="about/" element={<AboutUs />} />
             <Route path="/contact" element={<ContactUs />} />
             <Route path="/orders" element={<MyOrders />} />
             <Route path="/order/:id" element={<SingleOrder />} />
-            <Route path="/becomeseller" element={<BecomeSeller />}></Route>
+            <Route path="/becomeseller" element={<BecomeSeller />} />
             <Route
               path="/tracking/:orderid/:statusid"
               element={<Trackingpage />}

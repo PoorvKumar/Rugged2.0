@@ -3,44 +3,42 @@ import { RiFacebookFill } from 'react-icons/ri';
 import { FaPinterest, FaTwitter } from 'react-icons/fa';
 import { BiLogoInstagramAlt } from 'react-icons/bi';
 import { AiFillYoutube } from 'react-icons/ai';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import api from '@/api/api';
 import { toast } from 'react-toastify';
 
 const SinglePostBlog = () => {
 
-  const { id }=useParams();
-  // console.log(id);
+  const { blogId } = useParams();
+  // console.log(blogId);
 
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const navigate=useNavigate();
+
   const [comment, setComment] = useState('');
 
-  useEffect(()=>
-  {
+  // const [post,setPost]=useState(null);
 
-    const fetchBlog=async ()=>
-    {
-      try
-      {
-        const response=await api.get(`/blogs/${id}`);
-        const data=response.data;
+  useEffect(() => {
+    const fetchBlog = async () => {
+      try {
+        const response = await api.get(`/blogs/${blogId}`);
+        console.log(response.data);
 
-        console.log(data);
+        // setPost(response.data);
       }
-      catch(err)
-      {
+      catch (err) {
         console.error("Error fetching blog details:", err);
-        toast.error("Error while fetching blog details",{
+        toast.error("Error while fetching blog details", {
           position: "top-center"
         });
+        navigate('/blogs');
       }
-
-      fetchBlog();
     }
-  },[id]);
 
-  const data = {
+    fetchBlog();
+  }, [blogId]);
+
+  const post = {
     id: 1,
     title: 'Exploring the World of AI',
     imgSrc: 'https://picsum.photos/800/600', // Random image from Lorem Picsum
@@ -64,7 +62,10 @@ const SinglePostBlog = () => {
 
   return (
     <div className='flex flex-col'>
-      <div className='bg-cover bg-center h-[60vh]' style={{ backgroundImage: `url(${data.imgSrc})` }} />
+      {
+        post ? (
+          <>
+          <div className='bg-cover bg-center h-[35vh]' style={{ backgroundImage: `url(https://picsum.photos/800/600)` }} />
       <div className='flex mx-8 md:mx-16 lg:mx-[12vw] gap-4 p-4'>
         <div className='hidden lg:flex flex-col gap-2'>
           <p className='uppercase text-slate-500 mb-1'>share:</p>
@@ -74,13 +75,13 @@ const SinglePostBlog = () => {
           <AiFillYoutube className='rounded-full hover:text-red-500 hover:border border-red-500 bg-red-500 hover:bg-white text-white text-4xl p-2' />
         </div>
         <div className='flex flex-col gap-4'>
-          <h2 className='text-3xl font-semibold'>{data.title}</h2>
+          <h2 className='text-3xl font-semibold'>{post.title}</h2>
           {/* Render other blog details like date, commentNo, category */}
-          <p className='text-sm text-gray-500'>Date: {data.date}</p>
-          <p className='text-sm text-gray-500'>Comments: {data.commentNo}</p>
+          <p className='text-sm text-gray-500'>Date: {post.date}</p>
+          <p className='text-sm text-gray-500'>Comments: {post.commentNo}</p>
           <div className='prose lg:prose-lg'>
-            <p>{data.content}</p>
-            <p>{data.content}</p>
+            <p>{post.content}</p>
+            <p>{post.content}</p>
             {/* Add more paragraphs of blog content as needed */}
           </div>
           <form onSubmit={handleCommentSubmit} className='flex flex-col gap-4'>
@@ -100,6 +101,12 @@ const SinglePostBlog = () => {
           </form>
         </div>
       </div>
+          </>
+        ) : (
+          <p className='flex justify-center items-center'>Loading...</p>
+        )
+      }
+      
     </div>
   );
 };
