@@ -40,7 +40,7 @@ const AccountSettings = () => {
         });
       }
     } catch (error) {
-      toast.error("Profile CHanges unsuccessfull", {
+      toast.error("Profile Changes unsuccessfull", {
         position: "top-center",
       });
     }

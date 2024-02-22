@@ -104,6 +104,33 @@ const addAddress=async (req,res,next)=>
     }
 
 };
+
+const deleteAddress=async (req,res,next)=>
+{
+    const {_id, name, phoneNumber, street, city, landmark, state, pincode } = req.body;
+    
+    try {
+        const newAddress = {
+            _id,
+            name,
+            phoneNumber,
+            street,
+            city,
+            landmark,
+            state,
+            pincode
+        };
+
+        const user=req.user;
+        const adr = user.addresses.find((addr) => addr._id !== newAddress._id); 
+        user.addresses=adr;
+        await user.save();
+        res.status(201).json({ message: 'Address deleted successfully', user });
+    } catch (err) {
+        next(err);
+    }
+
+};
 const changePassword = async(req,res,next)=>{
     try {
         const { oldPassword, newPassword } = req.body;
@@ -129,5 +156,6 @@ module.exports={
     updateProfile,
     deleteUser,
     addAddress,
-    changePassword
+    changePassword,
+    deleteAddress
 };

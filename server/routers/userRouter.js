@@ -11,5 +11,6 @@ router.patch('/updateProfile',authenticateToken,userController.updateProfile);
 router.post('/changePassword',authenticateToken,userController.changePassword)
 router.delete('/deleteUser',authenticateToken,userController.deleteUser);
 router.post('/addAddress',authenticateToken,userController.addAddress);
+router.post('/deleteAddress',authenticateToken,userController.deleteAddress);
 
 module.exports=router;
