@@ -196,6 +196,7 @@ const ProductSearchPage = () => {
   const [page, setPage] = useState(1);
   const handleChange = (event, value) => {
     setPage(value);
+    console.log(value);
   };
   const [priceSliderValue, setPriceSliderValue] = useState(10000);
   const [customerRating, setcustomerRating] = useState(0);
@@ -229,7 +230,7 @@ const ProductSearchPage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       let response = await fetch(
-        `http://localhost:5000/api/products/search?q=${searchInput}&customerRating=${customerRating}&priceLL=0&priceUL=${priceSliderValue}&RuggedVerrified=${isRuggedVerrified}&colours=${color}&availability=${availability}&noOfResultsPerPage=12&pageNo=1&categories=${categories}&brands=${brands}`
+        `http://localhost:5000/api/products/search?q=${searchInput}&customerRating=${customerRating}&priceLL=0&priceUL=${priceSliderValue}&RuggedVerrified=${isRuggedVerrified}&colours=${color}&availability=${availability}&noOfResultsPerPage=12&pageNo=${page}&categories=${categories}&brands=${brands}`
       );
       let { productList } = await response.json();
       dispatch(addProducts({ products: productList }));
@@ -243,7 +244,8 @@ const ProductSearchPage = () => {
     isRuggedVerrified,
     categories,
     brands,
-    priceSliderValue
+    priceSliderValue,
+    page
   ]);
 
   return (
