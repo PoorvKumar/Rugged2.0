@@ -15,8 +15,9 @@ import {
 import { useDispatch } from "react-redux";
 import { addToWishlist } from "../../features/wishListReducer";
 import { addToCart } from "../../features/cartReducer";
+import { useAuthenticate } from "@/context/AuthContext";
 
-const InitialProductInfo = ({ productData }) => {
+const InitialProductInfo = ({ productData, id }) => {
   const dispatch=useDispatch();
   const [buyInfo, setBuyInfo] = useState({
     quantity: 1,
@@ -94,6 +95,19 @@ const InitialProductInfo = ({ productData }) => {
   average/=totalNumberOfRatingCounts;
   console.log(average);
   console.log(totalNumberOfRatingCounts);
+
+  const { addToCart }=useAuthenticate();
+
+  const handleAddToCart=()=>
+  {
+    const cartData={
+      productId: id,
+      quantity: 1
+    };
+
+    addToCart(cartData);
+  }
+
   return (
     <div className="block mb-8 text-[#666] z-[100]">
       {/* Product Name */}
@@ -220,9 +234,7 @@ const InitialProductInfo = ({ productData }) => {
           href="#"
           className="hover:text-cyan-300 hover:underline text-gray-700 border-[2px] border-transparent px-4 py-2 w-fit m-2 ml-0"
         >
-          <span className="text-[1rem] uppercase transition-all flex flex-row align-middle items-center font-bold" onClick={()=>{
-            dispatch(addToCart(productData));
-          }}>
+          <span className="text-[1rem] uppercase transition-all flex flex-row align-middle items-center font-bold" onClick={handleAddToCart}>
             <div className="mr-3 pt-[0.5px] text-2xl">
               <BsCartPlus />
             </div>

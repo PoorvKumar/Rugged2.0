@@ -36,7 +36,7 @@ const addProduct = async (req, res, next) => {
       price:parseInt(price),
       brand,
       categories: categories.map((category) => { return category.name }),
-      images: images.map((image) => (image.name)),
+      images: images.map((image) => ({type: "image", source: image.name })),
       stockQuantity: parseInt(stockQuantity),
       seller: req.user._id,
       reviews: [],

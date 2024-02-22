@@ -15,12 +15,13 @@ import {
 import AddSharpIcon from "@mui/icons-material/AddSharp";
 import RemoveSharpIcon from "@mui/icons-material/RemoveSharp";
 import HeaderTitle from "../HeaderTitle";
-function Cart() {
-  const { cart } = useSelector((state) => state.cart);
-  const { cartQuantity } = useSelector((state) => state.cart);
-  console.log(cart);
+import api from "@/api/api";
+function Cart({ cart }) {
+  // const { cart } = useSelector((state) => state.cart);
+  // const { cartQuantity } = useSelector((state) => state.cart);
+  // console.log(cart);
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   return (
     <div className=" min-h-screen">
@@ -42,8 +43,8 @@ function Cart() {
 
           {cart.length ? (
             <div>
-              {cart.map((item, idx) => (
-                <CartItemCard key={idx} item={item} />
+              {cart.map((item, _id) => (
+                <CartItemCard key={_id} item={item} />
               ))}
               <div className="p-4">
                 <button

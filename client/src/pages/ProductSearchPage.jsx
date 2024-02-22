@@ -485,7 +485,7 @@ const ProductSearchPage = () => {
             }`}
           >
             {products.map((productData, index) => (
-              <CustomCard productData={productData} key={productData._id} />
+              <CustomCard productData={productData} id={productData._id} key={productData._id} />
             ))}
           </div>
         </div>

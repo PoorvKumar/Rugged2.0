@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import AddAddressForm from './AddAddressForm';
+import { useAuthenticate } from '@/context/AuthContext';
+import api from '@/api/api';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const Checkout = () => {
   const [addresses, setAddresses] = useState([]);
@@ -14,12 +18,13 @@ const Checkout = () => {
     }
   }, []);
 
-  // Assuming you have the cart items stored in Redux or local state
-  const cartItems = [
-    // ... your cart items
-  ];
+  const navigate=useNavigate();
 
-  const subtotal = cartItems.reduce((acc, product) => acc + product.price * product.quantity, 0);
+  const { cart }=useAuthenticate();
+
+  const subtotal = cart.items.reduce((total, item) => {
+    return total + (item.product.price * item.quantity);
+}, 0);
 
   const handleAddressChange = (address) => {
     setSelectedAddress(address);
@@ -29,14 +34,47 @@ const Checkout = () => {
     setSelectedPaymentMethod(method);
   };
 
-  const handleProceedToCheckout = () => {
-    // Now you can use selectedAddress, selectedPaymentMethod, and cartItems to make a POST request
-    // to your backend for further processing.
-    console.log('Selected Address:', selectedAddress);
-    console.log('Selected Payment Method:', selectedPaymentMethod);
-    console.log('Cart Items:', cartItems);
+  const handleProceedToCheckout = async () => {
+    if (!selectedAddress || !selectedPaymentMethod) {
+      // Check if address and payment method are selected
+      alert('Please select both address and payment method');
+      return;
+    }
 
-    // Add your HTTP POST request logic here
+    const orderItems = cart.items.map(item => ({
+      productId: item.product._id, // Assuming product ID is stored in _id field
+      quantity: item.quantity,
+      price: item.product.price
+    }));
+
+    const orderData = {
+      items: orderItems,
+      totalAmount: subtotal,
+      shippingAddress: selectedAddress,
+      paymentMode: selectedPaymentMethod
+    };
+
+    try
+    {
+      const response=await api.post('/orders',orderData,{
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      });
+
+      console.log("Order successfully created",response.data);
+      navigate('/orders');
+      toast.success("Order placed successfully",{
+        position: "top-center"
+      });
+    }
+    catch(err)
+    {
+      console.error("Order placing failed",err);
+      toast.error("Unable to place order",{
+        position: "top-center"
+      });
+    }
   };
 
   const handleAddAddress = () => {
@@ -176,28 +214,40 @@ const Checkout = () => {
 
         {/* Order Summary */}
         <div>
-          <div className="border-t border-gray-200 px-0 py-6 sm:px-0">
-            <h1 className="text-2xl my-5 font-bold tracking-tight text-gray-900">Order Summary</h1>
-            {/* ... your existing order summary UI */}
-          </div>
-          <div className="border-t border-gray-200 px-2 py-6 sm:px-2">
-            <div className="flex justify-between text-base font-medium text-gray-900">
-              <p>Subtotal</p>
-              <p>{`$${subtotal.toFixed(2)}`}</p>
-            </div>
-            <div className="mt-6">
-              {/* Proceed to Checkout Button */}
-              <button
-                className="ml-28 flex items-center justify-center rounded-md border border-transparent bg-cyan-500 hover:bg-cyan-600 px-6 py-3 text-base font-medium text-white shadow-sm"
-                onClick={handleProceedToCheckout}
-                disabled={!selectedAddress || !selectedPaymentMethod}
-                type="button"
-              >
-                Proceed to Checkout
-              </button>
-            </div>
-          </div>
+  <div className="border-t border-gray-200 px-0 py-6 sm:px-0">
+    <h1 className="text-2xl my-5 font-bold tracking-tight text-gray-900">Order Summary</h1>
+    {/* Render cart items */}
+    {cart.items.map((item, index) => (
+      <div key={index} className="flex items-center justify-between mb-4">
+        {/* Product image */}
+        <img src={item.product.images[0].source} alt={item.product.name} className="w-20 h-20 object-cover rounded-md" />
+        {/* Product details */}
+        <div className="flex-1 ml-4">
+          <p className="text-lg font-semibold text-gray-900">{item.product.name}</p>
+          <p className="text-gray-500">Price: ₹{item.product.price}</p>
+          <p className="text-gray-500">Quantity: {item.quantity}</p>
         </div>
+      </div>
+    ))}
+  </div>
+  <div className="border-t border-gray-200 px-2 py-6 sm:px-2">
+    <div className="flex justify-between text-base font-medium text-gray-900">
+      <p>Subtotal</p>
+      <p>{`₹${subtotal.toFixed(2)}`}</p>
+    </div>
+    <div className="mt-6">
+      {/* Proceed to Checkout Button */}
+      <button
+        className="ml-28 flex items-center justify-center rounded-md border border-transparent bg-cyan-500 hover:bg-cyan-600 px-6 py-3 text-base font-medium text-white shadow-sm"
+        onClick={handleProceedToCheckout}
+        // disabled={!selectedAddress || !selectedPaymentMethod}
+        type="button"
+      >
+        Proceed to Checkout
+      </button>
+    </div>
+  </div>
+</div>
       </div>
     </div>
   );

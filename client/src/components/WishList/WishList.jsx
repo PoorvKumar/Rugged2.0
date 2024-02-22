@@ -45,7 +45,7 @@ function WishList() {
         </>
       ) : (
         <div>
-          <div className="min h-screen flex justify-center items-center">
+          <div className="flex justify-center items-center h-[60vh] overflow-scroll">
             <div>
               <img src="https://cdn-icons-png.flaticon.com/128/1077/1077035.png"></img>
 
