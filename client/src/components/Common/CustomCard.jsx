@@ -25,6 +25,14 @@ const CustomCard = ({ productData }) => {
   const [isAddedToCompareList, setIsAddedToCompareList] = useState(false);
   const categoriesList = productData.categories.join(", ");
 
+  let totalNumberOfRatingCounts=0;
+  let average=0;
+  let index=0;
+  for(index=0;index<5;index++){
+    totalNumberOfRatingCounts+=productData.ratingCounts[`${index+1}`];
+    average+=((index+1)*productData.ratingCounts[`${index+1}`]);
+  }
+  average/=totalNumberOfRatingCounts;
   return (
     <div className="w-60 mt-[10%] mx-4 rounded-3xl relative hover:shadow-lg ">
       <div className="flex flex-col justify-start items-center">
@@ -211,12 +219,12 @@ const CustomCard = ({ productData }) => {
           </a>
           <div>
             <span className="text-gray-600 text-sm line-through">₹{productData.price}</span>
-            <span className="text-cyan-600 text-2xl font-medium">₹ {productData.price*(1-(productData.discount/100))}</span>
+            <span className="text-cyan-600 text-2xl font-medium">₹ {(productData.price*(1-(productData.discount/100))).toFixed(2)}</span>
           </div>
           <div>
             <Rating
               name={`${productData._id}-Rating`}
-              value={productData.ratingCounts["1"]}
+              value={average}
               precision={0.1}
               readOnly
             />
