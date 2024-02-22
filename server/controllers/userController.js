@@ -1,4 +1,5 @@
 const User=require("../models/user");
+const bcrypt = require("bcryptjs");
 
 const getAllUsers=async (req,res,next)=>
 {
@@ -109,9 +110,16 @@ const changePassword = async(req,res,next)=>{
         if(!oldPassword || !newPassword ){
             return res.status(404).json({ msg: "Current Password or New Password not provided." });
         }
-        
+        const match = await bcrypt.compare(oldPassword, req.user.password);
+        let updatedUser;
+        if(match){
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(newPassword, salt);
+            updatedUser = await User.findByIdAndUpdate(req.user._id,{password:hashedPassword},{ new: true })    
+        }
+        res.status(200).json(updatedUser);
     } catch (error) {
-        next(err);
+        next(error);
     }
 }
 

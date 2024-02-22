@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./AccountSettings.css";
 import api from "@/api/api";
+import { toast } from "react-toastify";
+
 
 const AccountSettings = () => {
   const [userName, setUserName] = useState(
@@ -13,25 +15,36 @@ const AccountSettings = () => {
     JSON.parse(localStorage.getItem("user")).phoneNumber
   );
   const saveChanges = async () => {
-    localStorage.setItem(
-      "user",
-      JSON.stringify({
-        ...JSON.parse(localStorage.getItem("user")),
-        name: userName,
-        email: email,
-        phoneNumber: phone,
-      })
-    );
-    const finalUser = await api.patch(
-      "/users/updateProfile",
-      { name: userName, email: email, phoneNumber: phone },
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
+    try {
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          ...JSON.parse(localStorage.getItem("user")),
+          name: userName,
+          email: email,
+          phoneNumber: phone,
+        })
+      );
+      const finalUser = await api.patch(
+        "/users/updateProfile",
+        { name: userName, email: email, phoneNumber: phone },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      );
+      if(finalUser.data._id){
+        toast.success("Profile Changed Successfully!", {
+          position: "top-center",
+        });
       }
-    );
-    console.log(finalUser);
+    } catch (error) {
+      toast.error("Profile CHanges unsuccessfull", {
+        position: "top-center",
+      });
+    }
+    
   };
   return (
     <div className="accountsettings">
