@@ -171,7 +171,7 @@ const CustomCard = ({ productData }) => {
           )}
           {majorHoverState && (
             <img
-              src={productData.images[1].source}
+              src={productData.images.length>1?productData.images[1].source:productData.images[0].source}
               alt="image1"
               className={`w-full h-full mt-[-44%] rounded-3xl object-cover`}
             />
