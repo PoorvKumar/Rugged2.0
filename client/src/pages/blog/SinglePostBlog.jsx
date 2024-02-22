@@ -17,6 +17,7 @@ const SinglePostBlog = () => {
   const [comment, setComment] = useState('');
 
   // const [post,setPost]=useState(null);
+  const [content,setContent]=useState('');
 
   useEffect(() => {
     const fetchBlog = async () => {
@@ -25,6 +26,7 @@ const SinglePostBlog = () => {
         console.log(response.data);
 
         // setPost(response.data);
+        setContent(response.data.content);
       }
       catch (err) {
         console.error("Error fetching blog details:", err);
@@ -80,7 +82,8 @@ const SinglePostBlog = () => {
           <p className='text-sm text-gray-500'>Date: {post.date}</p>
           <p className='text-sm text-gray-500'>Comments: {post.commentNo}</p>
           <div className='prose lg:prose-lg'>
-            <p>{post.content}</p>
+            {/* <p>{post.content}</p> */}
+            <p dangerouslySetInnerHTML={{ __html: content }}></p>
             <p>{post.content}</p>
             {/* Add more paragraphs of blog content as needed */}
           </div>

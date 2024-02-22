@@ -41,7 +41,7 @@ const BlogPage = () => {
     try {
       // First, upload the image
       const imageData = new FormData();
-      imageData.append("image", image);
+      imageData.append("files", image);
       const uploadResponse = await api.post("/uploads", imageData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -117,6 +117,7 @@ const BlogPage = () => {
             <input
               type="file"
               id="image"
+              name="image"
               onChange={handleImageChange}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               accept="image/*"

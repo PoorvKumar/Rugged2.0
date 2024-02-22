@@ -10,6 +10,9 @@ const rfs=require("rotating-file-stream");
 const path = require("path");
 const app=express();
 
+// Multer file uploadi./utils/multer
+const upload=require("./utils/multer");
+
 const errorMiddleware=require("./middlewares/errorMiddleware");
 const notFoundMiddleware=require("./middlewares/notFoundMIddleware");
 
@@ -41,18 +44,6 @@ const accessStream=rfs.createStream('access.log',{
 
 app.use(morgan("combined",{ stream: accessStream }));
 
-// Multer storage configuration
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'public/images/uploads') // specify the folder where files will be stored
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname) // specify the file naming convention
-  }
-});
-
-const upload = multer({ storage: storage });
-
 app.use('/api/auth',authRouter);
 app.use('/api/users',userRouter);
 app.use('/api/orders',orderRouter);
@@ -62,9 +53,10 @@ app.use('/api/products',productRouter);
 app.use('/api/cart',cartRouter);
 app.use('/api/reviews',reviewRouter);
 
+// File uploading route
 app.post('/api/uploads',authenticateToken, upload.array('files', 5), (req, res) => {
 
-  console.log(req.files);
+  // console.log(req.files);
 
   if (!req.files || req.files.length === 0) {
     return res.status(400).json({ message: 'No files uploaded' });
