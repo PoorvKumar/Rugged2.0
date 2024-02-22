@@ -6,18 +6,59 @@ import { CiClock2 } from "react-icons/ci";
 import { IoCalendarOutline } from "react-icons/io5";
 import PageTitle from "../components/PageTitle";
 import { contactUs } from "../assets";
+import HeaderTitle from "../components/HeaderTitle";
+import { useState } from "react";
 
-
+import api from "../api/api";
 
 const ContactUs = () => {
+
+    
+   
+      const [name,setName]=useState('')
+      const [email,setEmail]=useState('')
+      const [phone,setPhone]=useState('')
+      const [subject,setSubject]=useState('')
+      const [message,setMessage]=useState('')
+      
+
+   
+
+    const handleSubmit = async (e) => {
+        const complaint={
+            name:name,
+            email:email,
+            phone:phone,
+            subject:subject,
+            message:message,
+        }
+        e.preventDefault();
+        try{
+            const response=await api.post('contact/addcomplaint',complaint);
+
+        }
+        catch(e){
+            console.log("error");
+        }
+        
+
+
+        
+    }  
+       
+
+
 
 
 
     return (
+        <div>
+        <HeaderTitle title={"Contact Us"} subtitle={"24x7"}/>
 
+        <div className="px-16 py-3">
 
-        <div className="px-16">
-            <PageTitle imgUrl={contactUs} title={"Contact Us"} subtitle={"keep in touch with us"} />
+           
+            <PageTitle imgUrl={contactUs} title={ ' '} subtitle={' '} />
 
 
 
@@ -92,7 +133,8 @@ const ContactUs = () => {
                     <p class="mb-2 py-2 text-lg text-slate-500">
                         Use the form below to get in touch with the sales team
                     </p>
-                    <form action="#" class=" mb-3">
+                  
+                    <form onSubmit={handleSubmit} class=" mb-3">
                         <div class="grid grid-cols-2 gap-3">
                             <div class="">
                                 <label for="cname" class="sr-only">
@@ -103,6 +145,8 @@ const ContactUs = () => {
                                     class="border p-2 w-full"
                                     id="cname"
                                     placeholder="Name *"
+                                    value={name}
+                                    onChange={(e)=>setName(e.target.value)}
                                     required
                                 />
                             </div>
@@ -115,6 +159,8 @@ const ContactUs = () => {
                                     class="border p-2 w-full"
                                     id="cemail"
                                     placeholder="Email *"
+                                    value={email}
+                                    onChange={(e)=>setEmail(e.target.value)}
                                     required
                                 />
                             </div>
@@ -128,6 +174,9 @@ const ContactUs = () => {
                                     class="border p-2 w-full"
                                     id="cphone"
                                     placeholder="Phone"
+                                    value={phone}
+                                    onChange={(e)=>setPhone(e.target.value)}
+
                                 />
                             </div>
 
@@ -140,6 +189,8 @@ const ContactUs = () => {
                                     class="border p-2 w-full"
                                     id="csubject"
                                     placeholder="Subject"
+                                    value={subject}
+                                    onChange={(e)=>setSubject(e.target.value)}
                                 />
                             </div>
                         </div>
@@ -155,12 +206,14 @@ const ContactUs = () => {
                                 id="cmessage"
                                 required
                                 placeholder="Message *"
+                                value={message}
+                                    onChange={(e)=>setMessage(e.target.value)}
                             ></textarea>
                         </div>
 
                         <button
                             type="submit"
-                            class="bg-transparent border border-blue-400 rounded text-blue-500 px-4 py-2 mt-3  hover:bg-blue-500 hover:text-white "
+                            class =" bg-sky-600  px-4 py-2 mt-3 rounded-sm  hover:bg-sky-500 hover:text-white "
                         >
                             <span>SUBMIT</span>
                             <i class="icon-long-arrow-right"></i>
@@ -219,6 +272,7 @@ const ContactUs = () => {
             </div>
 
             <div>Map</div>
+        </div>
         </div>
     );
 };

@@ -4,19 +4,24 @@ import photo from '../../Resources/Aboutus.jpg'
 import aboutphoto from '../../Resources/Aboutus.jpg';
 import mountain from '../../Resources/mountain.jpg'
 import { Carousel } from 'react-responsive-carousel';
+import HeaderTitle from "../HeaderTitle";
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 
 
     function AboutUs() {
       return (
+        <div>
+        <HeaderTitle title={"About Us"} subtitle={"who we are"}/>
         <div className="outerbox" style={{width:'80vw',backgroundColor:'slate',margin:'0 10vw'}}>
-    
+
+{/* 
           <div className='box1' style={{marginTop:'80px',width:'100%',height:'500px',backgroundColor:''}} >
             <div style={{width:'100%',height:'400px'}}>
               <img src={aboutphoto} style={{width:'100%',height:'100%'}} alt=""   />
             </div>
-          </div>
+          </div> */}
+    
     
           <div className='box2' style={{display:'flex', marginTop:'30px',paddingRight:'10px',gap:'20px'}}>
             <div style={{flex:1}}>
@@ -77,6 +82,7 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
               </div>
               
           </Carousel>
+          </div>
           </div>
           </div>
         
