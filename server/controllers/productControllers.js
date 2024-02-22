@@ -19,8 +19,8 @@ const getAllProducts = async (req, res, next) => {
 };
 const getAverageRating = (product) => {
   let sum = 0;
-  sum += product.ratingCounts[1] + product.ratingCounts[2] + product.ratingCounts[3] + product.ratingCounts[4] + product.ratingCounts[5];
-  let avg = ((product.ratingCounts[1] * 1) * (product.ratingCounts[2] * 2) + (product.ratingCounts[3] * 3) + (product.ratingCounts[4] * 4) + (product.ratingCounts[5] * 5)) / sum;
+  sum = product.ratingCounts[1] + product.ratingCounts[2] + product.ratingCounts[3] + product.ratingCounts[4] + product.ratingCounts[5];
+  let avg = ((product.ratingCounts[1] * 1) + (product.ratingCounts[2] * 2) + (product.ratingCounts[3] * 3) + (product.ratingCounts[4] * 4) + (product.ratingCounts[5] * 5)) / sum;
   return avg;
 }
 const getSearchedProducts = async (req, res, next) => {
@@ -53,6 +53,7 @@ const getSearchedProducts = async (req, res, next) => {
       return priceAfterDiscount > priceLL && priceAfterDiscount < priceUL;
     };
     const customerRatingFilter = (product) => {
+      // console.log(getAverageRating(product));
       return getAverageRating(product) >= customerRating;
     };
     const brandFilter = (product) => {
@@ -101,19 +102,15 @@ const getSearchedProducts = async (req, res, next) => {
     if (ruggedVerified==="true") {
       products = products.filter(ruggedVerrifiedFilter);
     }
-
     if (coloursSelected[0]!=="all") {
       products = products.filter(colorFilter);
     }
-
     if(categoriesSelected[0]!=="all"){
       products=products.filter(categoriesFilter);
     }
-
     if (availability) {
       products = products.filter(availabilityFilter);
     }
-
     if (true) {
       products = products.filter(priceFilter);
     }

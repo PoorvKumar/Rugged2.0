@@ -21,6 +21,7 @@ import {
 } from "../components/ui/accordion";
 import { useDispatch, useSelector } from "react-redux";
 import { addProducts, changeSearchInput } from "../features/productReducer";
+import { string } from "yup";
 
 // const productData = {
 //   _id: "asdfghjkl123456789",
@@ -187,7 +188,7 @@ import { addProducts, changeSearchInput } from "../features/productReducer";
 const ProductSearchPage = () => {
   const dispatch = useDispatch();
 
-  let { products,searchInput } = useSelector((state)=>state.products);
+  let { products, searchInput } = useSelector((state) => state.products);
   const bc = [
     { name: "Search", link: "/products" },
     // { name: "Default", link: "/product/Default" },
@@ -204,34 +205,36 @@ const ProductSearchPage = () => {
   const [categories, setCategories] = useState("all");
   const [brands, setBrands] = useState("all");
 
-  const handleCategoryClick = (category)=>{
-    let cat = categories.split(',');
-    let i=0;
-    for(i=0;i<cat.length;i++){
-      if(cat[i]===category){
-        cat.splice(i,1);
+  const handleCategoryClick = (category) => {
+    let cat = categories.split(",");
+    let i = 0;
+    for (i = 0; i < cat.length; i++) {
+      if (cat[i] === category) {
+        cat.splice(i, 1);
         break;
-      }else if(i===cat.length-1){
+      } else if (i === cat.length - 1) {
+        if (cat[0] === "all") {
+          cat.splice(0, 1);
+        }
         cat.push(category);
+        break;
       }
     }
-    console.log(cat.join(","));
+    if(cat.length===0){
+      cat.push("all");
+    }
     setCategories(cat.join(","));
   };
 
   useEffect(() => {
-    const fetchProducts = async()=>{
-      // products = await axios.get(
-      //   `http:localhost:5000/api/products/search/?q=${searchInput}&customerRating=${customerRating}&priceLL=0&priceUL=${priceSliderValue}&RuggedVerrified=${isRuggedVerrified}&colours=${color}&availability=${availability}`
-      // );
-      console.log(categories);
+    const fetchProducts = async () => {
       let response = await fetch(
         `http://localhost:5000/api/products/search?q=${searchInput}&customerRating=${customerRating}&priceLL=0&priceUL=${priceSliderValue}&RuggedVerrified=${isRuggedVerrified}&colours=${color}&availability=${availability}&noOfResultsPerPage=12&pageNo=1&categories=${categories}&brands=${brands}`
       );
-      let {productList}=await response.json();
+      let { productList } = await response.json();
       dispatch(addProducts({ products: productList }));
       dispatch(changeSearchInput({ searchInput: searchInput }));
-    }
+    };
     fetchProducts();
   }, [
     customerRating,
@@ -240,6 +243,7 @@ const ProductSearchPage = () => {
     isRuggedVerrified,
     categories,
     brands,
+    priceSliderValue
   ]);
 
   return (
@@ -298,8 +302,8 @@ const ProductSearchPage = () => {
                 Stick to a budget ?
                 <div className="flex flex-col">
                   <div className="flex flex-row w-full justify-between">
-                    <div>0</div>
-                    <div>10000+</div>
+                    <input type="number" disabled value={0} className="w-[20%]"/>
+                    <input type="number" value={priceSliderValue} className="w-[35%]"onChange={(e)=>{setPriceSliderValue(e.target.value)}}/>
                   </div>
                   <input
                     type="range"
@@ -370,19 +374,47 @@ const ProductSearchPage = () => {
                 <div className="flex flex-col w-full">
                   <div className="flex flex-row-reverse justify-end w-full">
                     <label htmlFor="Camping">Camping</label>
-                    <input type="checkbox" name="Camping" id="Camping"  onClick={()=>{handleCategoryClick('Camping')}} />
+                    <input
+                      type="checkbox"
+                      name="Camping"
+                      id="Camping"
+                      onClick={() => {
+                        handleCategoryClick("Camping");
+                      }}
+                    />
                   </div>
                   <div className="flex flex-row-reverse justify-end w-full">
                     <label htmlFor="Hiking">Hiking</label>
-                    <input type="checkbox" name="Hiking" id="Hiking" onClick={()=>{handleCategoryClick('Hiking')}}/>
+                    <input
+                      type="checkbox"
+                      name="Hiking"
+                      id="Hiking"
+                      onClick={() => {
+                        handleCategoryClick("Hiking");
+                      }}
+                    />
                   </div>
                   <div className="flex flex-row-reverse justify-end w-full">
                     <label htmlFor="Trekking">Trekking</label>
-                    <input type="checkbox" name="Trekking" id="Trekking" onClick={()=>{handleCategoryClick('Trekking')}}/>
+                    <input
+                      type="checkbox"
+                      name="Trekking"
+                      id="Trekking"
+                      onClick={() => {
+                        handleCategoryClick("Trekking");
+                      }}
+                    />
                   </div>
                   <div className="flex flex-row-reverse justify-end w-full">
                     <label htmlFor="Sports">Sports</label>
-                    <input type="checkbox" name="Sports" id="Sports" onClick={()=>{handleCategoryClick('Sports')}}/>
+                    <input
+                      type="checkbox"
+                      name="Sports"
+                      id="Sports"
+                      onClick={() => {
+                        handleCategoryClick("Sports");
+                      }}
+                    />
                   </div>
                   <div className="flex flex-row-reverse justify-end w-full">
                     <label htmlFor="Miscellaneous">Miscellaneous</label>
@@ -390,7 +422,9 @@ const ProductSearchPage = () => {
                       type="checkbox"
                       name="Miscellaneous"
                       id="Miscellaneous"
-                      onClick={()=>{handleCategoryClick('Miscellaneous')}}
+                      onClick={() => {
+                        handleCategoryClick("Miscellaneous");
+                      }}
                     />
                   </div>
                 </div>
@@ -409,7 +443,7 @@ const ProductSearchPage = () => {
             </AccordionItem> */}
 
             {/* Colours */}
-            <AccordionItem value="item-7">
+            {/* <AccordionItem value="item-7">
               <AccordionTrigger className="text-cyan-600">
                 Colour
               </AccordionTrigger>
@@ -432,7 +466,7 @@ const ProductSearchPage = () => {
                   className="m-1"
                 />
               </AccordionContent>
-            </AccordionItem>
+            </AccordionItem> */}
           </Accordion>
         </div>
         <div className="flex flex-col">
@@ -440,16 +474,17 @@ const ProductSearchPage = () => {
             Showing{" "}
             <em>
               <b>{products.length}</b>
-            </em>
-            {" "}
+            </em>{" "}
             results
           </div>
-          <div className={`flex flex-row flex-wrap justify-around gap-2 ${products.length===1?'mt-[10%]':''}`}>
-            {
-              products.map((productData,index)=>(
-                <CustomCard productData={productData} key={productData._id} />
-              ))
-            }
+          <div
+            className={`flex flex-row flex-wrap justify-around gap-2 ${
+              products.length === 1 ? "mt-[10%]" : ""
+            }`}
+          >
+            {products.map((productData, index) => (
+              <CustomCard productData={productData} key={productData._id} />
+            ))}
           </div>
         </div>
       </div>
