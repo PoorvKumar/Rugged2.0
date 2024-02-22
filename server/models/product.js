@@ -20,6 +20,11 @@ const productSchema = new mongoose.Schema({
     brand: {
         type: String
     },
+    tags: [
+        { 
+            type: String 
+        }
+    ],
     categories: [
         {
             type: String
@@ -27,7 +32,8 @@ const productSchema = new mongoose.Schema({
     ],
     images: [
         {
-            type: String
+            "type":{type:String,required:true},
+            "source":{type:String,required:true},
         }
     ],
     stockQuantity: {
@@ -48,63 +54,63 @@ const productSchema = new mongoose.Schema({
         }
     ], // Array of review objects
     ratingCounts: {
-        "1": { 
-            type: Number, 
-            default: 0 
+        "1": {
+            type: Number,
+            default: 0
         },
-        "2": { 
-            type: Number, 
-            default: 0 
+        "2": {
+            type: Number,
+            default: 0
         },
-        "3": { 
-            type: Number, 
-            default: 0 
+        "3": {
+            type: Number,
+            default: 0
         },
-        "4": { 
-            type: Number, 
-            default: 0 
+        "4": {
+            type: Number,
+            default: 0
         },
-        "5": { 
-            type: Number, 
-            default: 0 
+        "5": {
+            type: Number,
+            default: 0
         }
     },
-    discount: { 
-        type:Number, 
-        default: 0 
+    discount: {
+        type: Number,
+        default: 0
     },
     colours: [
-        { 
-            type: String, 
-            required:true,
+        {
+            type: String,
+            required: true,
         }
     ],
     dimensions: {
-        length: { 
-           type: Number ,
-           required:true,
+        length: {
+            type: Number,
+            required: true,
         },
-        width: { 
-            type: Number ,
-            required:true,
+        width: {
+            type: Number,
+            required: true,
         },
         height: {
             type: Number,
-            required:true,
+            required: true,
         }
     },
-    ruggedVerrified:{
-        type:Boolean,
-        required:true,
-        default:false,
+    ruggedVerrified: {
+        type: Boolean,
+        required: true,
+        default: false,
     },
-    createdAt: { 
-        type: Date, 
+    createdAt: {
+        type: Date,
         default: Date.now
     },
-    updatedAt: { 
-        type: Date, 
-        default:Date.now 
+    updatedAt: {
+        type: Date,
+        default: Date.now
     },
 });
 

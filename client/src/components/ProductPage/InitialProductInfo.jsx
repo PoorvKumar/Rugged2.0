@@ -83,6 +83,17 @@ const InitialProductInfo = ({ productData }) => {
       c3: "dark:text-[#880e4f]",
     },
   ];
+  let totalNumberOfRatingCounts=0;
+  let average=0;
+  let index=0;
+  console.log(productData.ratingCounts);
+  for(index=0;index<5;index++){
+    totalNumberOfRatingCounts+=productData.ratingCounts[`${index+1}`];
+    average+=((index+1)*productData.ratingCounts[`${index+1}`]);
+  }
+  average/=totalNumberOfRatingCounts;
+  console.log(average);
+  console.log(totalNumberOfRatingCounts);
   return (
     <div className="block mb-8 text-[#666] z-[100]">
       {/* Product Name */}
@@ -127,16 +138,16 @@ const InitialProductInfo = ({ productData }) => {
         <div className="inline-flex flex-row text-[1.4rem] tracking-widest relative text-[#ccc]">
           <Rating
             name={`${productData._id}-Rating`}
-            value={productData.rating.avgValue}
+            value={average}
             precision={0.1}
             readOnly
           />
           <div className="mt-1 ml-5 text-sm">
-            {productData.rating.avgValue} Stars
+            {average} Stars
           </div>
           <div className="bg-gray-700 py-3 px-[1px] ml-2"></div>
           <div className="mt-1 ml-5 text-sm">
-            {productData.rating.noOfRatings} Reviews
+            {totalNumberOfRatingCounts} Reviews
           </div>
         </div>
       </div>
@@ -150,7 +161,7 @@ const InitialProductInfo = ({ productData }) => {
         </div>
       </div>
       {/* Description */}
-      <div className="mb-[1.6rem]">{productData.description}</div>
+      <div className="mb-[1.6rem]">{productData.shortDescription}</div>
       {/* Quantity */}
       <div className="flex items-center">
         <div className="text-[1rem]">Qty:</div>

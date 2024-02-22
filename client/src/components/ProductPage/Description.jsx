@@ -6,7 +6,7 @@ import CustomTable from "./CustomTable";
 const Description = ({ productData }) => {
   return (
     <div className="w-full">
-      {/* Upper Description with points */}
+      {/* Upper Description with points
       <div className="flex flex-col border-[2px] border-gray-200 rounded-3xl px-8 py-6 w-[90%] ml-[5%] mb-8">
         <h1 className="py-2 font-bold uppercase text-cyan-800">
           {productData.detailedDescription.heading}
@@ -22,7 +22,7 @@ const Description = ({ productData }) => {
           ))}
         </ul>
       </div>
-      {/* Carousels */}
+      Carousels
       {productData.caro.map((indCaro, index) => (
         <CustomCarouselProductPage
           key={index}
@@ -30,8 +30,9 @@ const Description = ({ productData }) => {
           classNm="w-[90%] ml-[5%] my-[0%]"
         />
       ))}
-      {/* Table */}
-      <CustomTable data={productData.table} classNm='w-[90%]' classNm2='rounded-full border border-gray-300'/>
+      Table
+      <CustomTable data={productData.table} classNm='w-[90%]' classNm2='rounded-full border border-gray-300'/> */}
+      {productData.description}
     </div>
   );
 };

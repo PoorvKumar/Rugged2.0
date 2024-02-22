@@ -1,4 +1,4 @@
-import {Rating} from "@mui/material";
+import { Rating } from "@mui/material";
 import React, { useState } from "react";
 // import { FcBinoculars } from "react-icons/fc";
 import { BsCartPlus, BsHeart, BsHeartFill } from "react-icons/bs";
@@ -26,7 +26,7 @@ const CustomCard = ({ productData }) => {
   const categoriesList = productData.categories.join(", ");
 
   return (
-    <div className="w-60 mt-10 mx-4 rounded-3xl relative hover:shadow-lg ">
+    <div className="w-60 mt-[10%] mx-4 rounded-3xl relative hover:shadow-lg ">
       <div className="flex flex-col justify-start items-center">
         {/* Upper Div */}
         <div
@@ -39,13 +39,19 @@ const CustomCard = ({ productData }) => {
           }}
         >
           <div className="flex flex-row justify-between items-start">
-            <div className="flex flex-col justify-start">
+            <div
+              className={`flex flex-col justify-start ${
+                productData.tags.length === 0
+                  ? "mt-5"
+                  : `${productData.tags.length === 1 ? "mt-3" : ""}`
+              }`}
+            >
               {productData.tags.map(
                 (tag, index) =>
                   index < 2 && (
                     <div
                       key={index}
-                      className="rounded-full w-fit bg-cyan-500 p-1 px-2 text-xs font-semibold text-white ml-2 mt-2 z-20"
+                      className="rounded-full w-fit bg-cyan-500 p-1 px-2 text-xs font-semibold text-white ml-2 mt-1 transparent z-20"
                     >
                       {tag}
                     </div>
@@ -158,16 +164,16 @@ const CustomCard = ({ productData }) => {
           </div>
           {!majorHoverState && (
             <img
-              src="https://d-themes.com/react_asset_api/molla/uploads/product_5_1_300x300_3dbc9b1611.jpg"
+              src={productData.images[0].source}
               alt="image1"
               className={`w-full h-full mt-[-44%] rounded-3xl object-cover`}
             />
           )}
           {majorHoverState && (
             <img
-              src="https://d-themes.com/react_asset_api/molla/uploads/product_5_2_300x300_100e169228.jpg"
+              src={productData.images[1].source}
               alt="image1"
-              className="w-full h-full mt-[-44%] rounded-3xl object-cover "
+              className={`w-full h-full mt-[-44%] rounded-3xl object-cover`}
             />
           )}
           {/* Lower navbar */}
@@ -198,7 +204,7 @@ const CustomCard = ({ productData }) => {
           <div className="text-sm text-gray-400">
             {categoriesList.slice(0, 25)}...
           </div>
-          <a href={`/products/${productData.id}`}>
+          <a href={`/products/${productData._id}`}>
             <div className="text-base font-medium text-[rgba(0,0,0,0.9)]">
               {productData.name}
             </div>
@@ -210,7 +216,7 @@ const CustomCard = ({ productData }) => {
           <div>
             <Rating
               name={`${productData._id}-Rating`}
-              value={productData.rating.avgValue}
+              value={productData.ratingCounts["1"]}
               precision={0.1}
               readOnly
             />
@@ -221,7 +227,7 @@ const CustomCard = ({ productData }) => {
         <div className="lg:grid grid-cols-2 gap-4 px-10 py-4">
           <div className="col-span-1">
             <VerticalImageCarousel
-              data={productData.diaplayUrl}
+              data={productData.images}
               txtList={productData.tags}
               isModal={true}
             />
