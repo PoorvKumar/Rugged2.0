@@ -39,7 +39,7 @@ const updateProfile=async (req,res,next)=>
 {
     try
     {
-        const { id }=req.params;
+        const id =req.user._id;
         const update=req.body;
         const user=await User.findByIdAndUpdate(id,update,{ new: true });
 
@@ -103,11 +103,23 @@ const addAddress=async (req,res,next)=>
     }
 
 };
+const changePassword = async(req,res,next)=>{
+    try {
+        const { oldPassword, newPassword } = req.body;
+        if(!oldPassword || !newPassword ){
+            return res.status(404).json({ msg: "Current Password or New Password not provided." });
+        }
+        
+    } catch (error) {
+        next(err);
+    }
+}
 
 module.exports={
     getAllUsers,
     getUserById,
     updateProfile,
     deleteUser,
-    addAddress
+    addAddress,
+    changePassword
 };
