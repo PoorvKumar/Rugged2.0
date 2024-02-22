@@ -210,8 +210,8 @@ const CustomCard = ({ productData }) => {
             </div>
           </a>
           <div>
-            <span className="text-gray-600 text-sm line-through">₹800.00</span>
-            <span className="text-cyan-600 text-2xl font-medium">₹ 500.00</span>
+            <span className="text-gray-600 text-sm line-through">₹{productData.price}</span>
+            <span className="text-cyan-600 text-2xl font-medium">₹ {productData.price*(1-(productData.discount/100))}</span>
           </div>
           <div>
             <Rating
