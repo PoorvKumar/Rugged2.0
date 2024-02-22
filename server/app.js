@@ -42,7 +42,7 @@ app.use(morgan("combined",{ stream: accessStream }));
 // Multer storage configuration
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/') // specify the folder where files will be stored
+    cb(null, 'public/images/uploads') // specify the folder where files will be stored
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + '-' + file.originalname) // specify the file naming convention
@@ -60,11 +60,14 @@ app.use('/api/products',productRouter);
 app.use('/api/cart',cartRouter);
 
 app.post('/api/uploads',authenticateToken, upload.array('files', 5), (req, res) => {
+
+  console.log(req.files);
+
   if (!req.files || req.files.length === 0) {
     return res.status(400).json({ message: 'No files uploaded' });
   }
 
-  const imageUrls = req.files.map(file => `${req.protocol}://${req.get('host')}/uploads/${file.filename}`);
+  const imageUrls = req.files.map(file => `${req.protocol}://${req.get('host')}/images/uploads/${file.filename}`);
   res.status(200).json({ imageUrls: imageUrls });
 });
 
