@@ -25,12 +25,12 @@ const Review = ({ reviewData }) => {
           <div className="">
             <Rating
               name={`${reviewData._id}-Rating`}
-              value={reviewData.stars}
+              value={reviewData.rating}
               precision={0.1}
               readOnly
             />
           </div>
-          <div>{reviewData.time}</div>
+          <div>{reviewData.date}</div>
         </div>
         <div className="w-[80%] flex flex-col justify-around">
           <div className="flex flex-col justify-start">

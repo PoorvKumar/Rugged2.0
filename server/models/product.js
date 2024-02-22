@@ -48,8 +48,12 @@ const productSchema = new mongoose.Schema({
     reviews: [
         {
             user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+            name:{type:String,required:true},
             rating: { type: Number, required: true },
-            comment: { type: String },
+            review: { type: String ,required:true},
+            reviewTitle: { type: String ,required:true},
+            helpful:[{type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+            unhelpful:[{type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
             date: { type: Date, default: Date.now }
         }
     ], // Array of review objects

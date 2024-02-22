@@ -174,7 +174,6 @@ const ProductPage = () => {
   // };
   const params = useParams();
   const prodId = params.id;
-  console.log(prodId);
   const [productData, setProductData] = useState(null);
   const [bc, setBc] = useState([]);
   useEffect(() => {
@@ -226,8 +225,8 @@ const ProductPage = () => {
       </div>
 
       <div className="flex flex-row justify-between items-start">
-        {/* <Ratings dataset={productData.ratingCounts} /> */}
-        {/* <Reviews productData={productData} /> */}
+        <Ratings dataset={productData.ratingCounts} />
+        <Reviews productData={productData} />
       </div>
       </div>)
       }
