@@ -17,6 +17,10 @@ const Blog = () => {
           setIsAdmin(isAdmin)
       }
     }, []);
+  console.log(isAdmin);
+  console.log(isSeller);
+  console.log(isBlogger);
+  console.log(isAdmin);
   return (
     <>
       <section className="bg-white pb-10 pt-20 dark:bg-dark lg:pb-20 lg:pt-[120px]">
@@ -43,7 +47,7 @@ const Blog = () => {
             {(isCustomer || isAdmin) && (
               <BlogCard
                 date={true}
-                val={"Customer"}
+                val="Customer"
                 CardTitle="ThankYou for Value Customer"
                 CardDescription="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
                 image="https://i.ibb.co/Cnwd4q6/image-01.jpg"
@@ -113,21 +117,22 @@ const BlogCard = ({ image, date, CardTitle, CardDescription, val }) => {
             <img src={image} alt="" className="w-full" />
           </div>
           <div>
-            {!date && val === "Customer" && (
+            {(!date && val === "Customer") && (
               <button
+                className="bg-cyan-950"
                 onClick={() => {
                   navigate("/signin");
                 }}
               ></button>
             )}
-            {!date && val === "Seller" && (
+            {(!date && val === "Seller") && (
               <button
                 onClick={() => {
                   navigate("/becomeseller");
                 }}
               ></button>
             )}
-            {!date && val === "Blogger" && (
+            {(!date && val === "Blogger") && (
               <button
                 onClick={() => {
                   navigate("/blogs");

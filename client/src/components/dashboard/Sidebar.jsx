@@ -88,12 +88,18 @@ const Sidebar = ({
   const navigate = useNavigate();
   const theme = useTheme();
   const dispatch = useDispatch()
-  const isCustomer=JSON.parse(localStorage.getItem('user')).isCustomer;
-  const isAdmin = JSON.parse(localStorage.getItem("user")).isAdmin;
-  const isSeller=JSON.parse(localStorage.getItem('user')).isSeller;
-  const isBlogger = JSON.parse(localStorage.getItem('user')).isBlogger;
-  console.log(isSeller)
-  console.log(isAdmin)
+  const isCustomer = JSON.parse(localStorage.getItem('user'))
+  let isAdmin=false
+  let isSeller=false
+  let isBlogger = false
+  console.log(JSON.parse(localStorage.getItem("user")));
+  if (isCustomer) {
+    isAdmin = JSON.parse(localStorage.getItem("user")).isAdmin;
+    isSeller = JSON.parse(localStorage.getItem('user')).isSeller;
+    isBlogger = JSON.parse(localStorage.getItem('user')).isBlogger;
+  }
+  // console.log(isSeller)
+  // console.log(isAdmin)
   useEffect(() => {
     setActive(pathname.substring(11));
   }, [pathname]);

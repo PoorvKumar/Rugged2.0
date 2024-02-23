@@ -46,8 +46,8 @@ import { useAuthenticate } from './context/AuthContext';
 import Loader from './components/Loader';
 import ReverseProtectedRoute from './components/ReverseProtectedRoute';
 import AddProductPage from './pages/AddProductPage';
-
-
+import Blog from './pages/dash/dashsettings';
+import CreateBlog from './pages/dash/CreateBlog';
 function App() {
   // const ProtectedRoute = ({ element,role, ...rest }) => {
   //   const isCustomer = JSON.parse(localStorage.getItem("user")).isCustomer;
@@ -85,25 +85,23 @@ function App() {
           <Route path="/" element={<Home />} exact />
           {/* <Route path="login" element={<LoginSignUp />} /> */}
           <Route element={<ReverseProtectedRoute />}>
-          <Route path="signin" element={<Signin />} />
-          <Route path="signup" element={<SignUp />} />
+            <Route path="signin" element={<Signin />} />
+            <Route path="signup" element={<SignUp />} />
           </Route>
           <Route path="/" element={<MainLayout />}>
             <Route path="blogs/" element={<Blogs />} />
             <Route path="blogs/:blogId" element={<SinglePostBlog />} />
-            
-            
+
             <Route path="products/" element={<ProductSearchPage />} />
             <Route path="products/:id" element={<ProductPage />} />
 
             {/* Add all the routes which are protected as children of this  */}
-            <Route element={<ProtectedRoute />} >
-            <Route path="checkout/" element={<Checkout />} />
-            <Route path="blogs/create-post" element={<CreateBlogPost />} />
-            <Route path="cart/" element={<Cart2 />} />
-            <Route path="wishlist/" element={<WishList />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="checkout/" element={<Checkout />} />
+              <Route path="blogs/create-post" element={<CreateBlogPost />} />
+              <Route path="cart/" element={<Cart2 />} />
+              <Route path="wishlist/" element={<WishList />} />
             </Route>
-
 
             <Route path="rent/" element={<RentForm />} />
             <Route path="about/" element={<AboutUs />} />
@@ -145,9 +143,19 @@ function App() {
             />
             <Route path="/dashboard/addproduct" element={<AddProductPage />} />
             <Route
+              path="/dashboard/blogs"
+              role="customer"
+              element={<Updateuser />}
+            />
+            <Route
+              path="/dashboard/createblog"
+              role="blogger"
+              element={<CreateBlog />}
+            />
+            <Route
               path="/dashboard/profile"
-              role="seller"
-              element={<Profile />}
+              role="blogger"
+              element={<Blog />}
             />
           </Route>
           <Route path="/user/:activepage" element={<UserProfile />} />
