@@ -29,14 +29,15 @@ const Profile = () => {
            },
          });
          console.log(response)
-        setSellerDetails(response);
+        setSellerDetails(response.data);
        } catch (error) {
          console.error(`Error fetching Details: ${error}`);
        }
      };
      
      getDetails();
-   }, []);
+  }, []);
+  // console.log(sellerDetails)
   return (
     <>
       <Box m="1.5rem 2.5rem">

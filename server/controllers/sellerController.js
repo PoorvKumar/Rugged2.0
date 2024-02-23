@@ -12,7 +12,7 @@ const getAllProducts = async (req, res, next) => {
 };
 const addProduct = async (req, res, next) => {
   try {
-    const { productName, shortDescription, price, brand, stockQuantity, discount, length, width, height, description, images, categories, colors } = req.body
+    const { productName, shortDescription, price, brand, stockQuantity, discount, length, width, height, description, images, tags,categories, colors } = req.body
     if (!productName ||
       !shortDescription ||
       !price ||
@@ -35,6 +35,7 @@ const addProduct = async (req, res, next) => {
       description,
       price:parseInt(price),
       brand,
+      tags,
       categories: categories.map((category) => { return category.name }),
       images: images.map((image) => ({type: "image", source: image.name })),
       stockQuantity: parseInt(stockQuantity),
@@ -127,13 +128,50 @@ const getAllAnalytics = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+}
+    const updateDetails = async (req, res, next) => {
+      try {
+        const { phone, accountNumber, upiId, about } = req.body; // Assuming sellerId and other fields are provided in the request body
 
-};
+        // Construct the update object with the provided fields
+        const updateObj = {
+          phone,
+          accountNumber,
+          upiId,
+          about,
+        };
+
+        // Find and update the Analytics document by seller_id
+        const updatedAnalytics = await Analytics.findOneAndUpdate(
+          { seller_id: req.user._id },
+          updateObj,
+          {
+            new: true, // To return the updated document
+          }
+        );
+
+        if (!updatedAnalytics) {
+          return res
+            .status(404)
+            .json({ message: "Analytics data not found for the seller" });
+        }
+
+        res.json({
+          message: "Analytics details updated successfully",
+          analytics: updatedAnalytics,
+        });
+      } catch (error) {
+        // Handle errors
+        console.error("Error updating Analytics details:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+      }
+    };
 
 module.exports = {
   getAllProducts,
   addProduct,
   getSellerDetails,
   getAllAnalytics,
-  becomeSeller
+  becomeSeller,
+  updateDetails
 };

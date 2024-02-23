@@ -62,6 +62,18 @@ const navItems = [
     text: "Profile",
     icon: <Groups2Outlined />,
   },
+  {
+    text: "Blogger",
+    icon: null,
+  },
+  {
+    text: "Blogs",
+    icon: <Groups2Outlined />,
+  },
+  {
+    text: "CreateBlog",
+    icon: <ShoppingCartOutlined />,
+  },
 ];
 
 const Sidebar = ({
@@ -194,6 +206,70 @@ const Sidebar = ({
                     </ListItem>
                   );
                 } else if (isSeller && index >= 3 && index < 7) {
+                  if (!icon) {
+                    return (
+                      <Typography key={text} sx={{ m: "1rem 0 1rem 3rem" }}>
+                        {text}
+                      </Typography>
+                    );
+                  }
+                  const lcText = text.toLowerCase();
+
+                  return (
+                    <ListItem
+                      key={text}
+                      sx={{
+                        "&:hover": {
+                          backgroundColor: theme.palette.secondary[900],
+                          color: theme.palette.primary[100],
+                          "& .MuiButtonBase-root": {
+                            // Select the ListItemButton on hover
+                            backgroundColor: theme.palette.secondary[900],
+                            color: theme.palette.grey[100],
+                          },
+                          "& .MuiListItemIcon-root": {
+                            // Select the ListItemIcon on hover
+                            color: theme.palette.grey[100],
+                          },
+                        },
+                      }}
+                      disablePadding
+                    >
+                      <ListItemButton
+                        onClick={() => {
+                          navigate(`/dashboard/${lcText}`);
+                          setActive(lcText);
+                        }}
+                        sx={{
+                          backgroundColor:
+                            active === lcText
+                              ? theme.palette.secondary[900]
+                              : "transparent",
+                          color:
+                            active === lcText
+                              ? theme.palette.grey[100]
+                              : theme.palette.primary[800],
+                        }}
+                      >
+                        <ListItemIcon
+                          sx={{
+                            ml: "2rem",
+                            color:
+                              active === lcText
+                                ? theme.palette.grey[100]
+                                : theme.palette.primary[900],
+                          }}
+                        >
+                          {icon}
+                        </ListItemIcon>
+                        <ListItemText primary={text} />
+                        {active === lcText && (
+                          <ChevronRightOutlined sx={{ ml: "auto" }} />
+                        )}
+                      </ListItemButton>
+                    </ListItem>
+                  );
+                } else if (isBlogger && index >= 7 && index < 10) {
                   if (!icon) {
                     return (
                       <Typography key={text} sx={{ m: "1rem 0 1rem 3rem" }}>

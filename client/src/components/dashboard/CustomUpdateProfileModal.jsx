@@ -1,44 +1,77 @@
-import React from "react";
-import { Typography } from "@mui/material";
-import { Button } from "@mui/material";
-import { Stack } from "@mui/material";
-import { Input } from "@mui/material";
-import { TextField } from "@mui/material";
-import { Chip } from "@mui/material";
-import { Link } from "@mui/material";
-import { Box,Modal } from "@mui/material";
-import {useTheme} from "@mui/material";
+import React, { useState } from "react";
+import api from "../../api/api";
+import {
+  Typography,
+  Button,
+  Stack,
+  Input,
+  TextField,
+  Chip,
+  Box,
+  Modal,
+  useTheme,
+} from "@mui/material";
 
 export default function CreateListModal({ open, handleClose, children }) {
-    const theme=useTheme()
-    return (
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-review"
-        aria-describedby="modal-write-a-review"
+  const theme = useTheme();
+  const [formData, setFormData] = useState({
+    phone: "",
+    accountNumber: "",
+    upiId: "",
+    about: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log("Form Data:", formData);
+    try {
+      const response = await api.put("/seller/update", formData, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+      console.log("Response:", response.data);
+      handleClose();
+    } catch (error) {
+      console.error("Error updating Analytics:", error);
+    }
+  };
+
+  return (
+    <Modal
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="modal-review"
+      aria-describedby="modal-write-a-review"
+    >
+      <Box
+        sx={{
+          borderRadius: "6px",
+          fontFamily: "Segoe UI,sans-serif,system-ui",
+          display: "flex",
+          flexDirection: "column",
+          backgroundColor: "rgb(255,255,255)",
+          border: "1px solid rgb(208, 215, 222)",
+          width: "100%",
+          maxWidth: "450px",
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          height: "70%",
+          bgcolor: "background.paper",
+          boxShadow: 24,
+          p: 4,
+        }}
       >
-        <Box
-          sx={{
-            borderRadius: "6px",
-            fontFamily: "Segoe UI,sans-serif,system-ui",
-            display: "flex",
-            flexDirection: "column",
-            backgroundColor: "rgb(255,255,255)",
-            border: "1px solid rgb(208, 215, 222)",
-            width: "100%",
-            maxWidth: "450px",
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            height: "70%",
-            bgcolor: "background.paper",
-            boxShadow: 24,
-            p: 4,
-          }}
-        >
-          {children}
+        {children}
+        <Stack spacing="15px">
+          {/* Modal Header */}
           <Stack
             sx={{
               alignItems: "center",
@@ -71,70 +104,42 @@ export default function CreateListModal({ open, handleClose, children }) {
               />
             </Button>
           </Stack>
-          <Stack
-            sx={{
-              alignItems: "flex-start",
-              padding: "15px 20px",
-              width: "100%",
-            }}
-            spacing="15px"
-          >
-            <Stack sx={{ alignItems: "center", width: "100%" }} spacing="10px">
-              <input
-                className="rounded-lg border border-gray-300 bg-gray-100 px-4 py-2 text-gray-700 text-sm w-full outline-none focus:border-blue-500"
-                type="text"
-                placeholder="Branch Code"
+          {/* Form */}
+          <form onSubmit={handleSubmit}>
+            <Stack spacing="15px">
+              <Input
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                placeholder="Phone"
               />
-              <input
-                className="rounded-lg border border-gray-300 bg-gray-100 px-4 py-2 text-gray-700 text-sm w-full outline-none focus:border-blue-500"
-                type="text"
-                placeholder="Bank Account Number"
+              <Input
+                name="accountNumber"
+                value={formData.accountNumber}
+                onChange={handleChange}
+                placeholder="Account Number"
               />
-              <input
-                className="rounded-lg border border-gray-300 bg-gray-100 px-4 py-2 text-gray-700 text-sm w-full outline-none focus:border-blue-500"
-                type="text"
-                placeholder="Email Address"
+              <Input
+                name="upiId"
+                value={formData.upiId}
+                onChange={handleChange}
+                placeholder="UPI ID"
               />
-              <textarea
-                className="rounded-lg border border-gray-300 bg-gray-100 px-4 py-2 text-gray-700 text-sm w-full outline-none focus:border-blue-500 resize-none"
-                rows="3"
+              <TextField
+                name="about"
+                value={formData.about}
+                onChange={handleChange}
                 placeholder="About"
-              ></textarea>
+                multiline
+                rows={3}
+              />
             </Stack>
-            <Stack sx={{ alignItems: "center", width: "100%" }} spacing="15px">
-              <Button
-                variant="contained"
-                sx={{
-                  borderRadius: "6px",
-                  fontFamily: "Segoe UI,sans-serif,system-ui",
-                  backgroundColor: theme.palette.secondary[900],
-                  border: `1px solid ${theme.palette.secondary[800]}`,
-                  color: "rgb(255,255,255)",
-                  fontSize: "12px",
-                  fontWeight: "500",
-                  padding: "10px",
-                  whiteSpace: "nowrap",
-                  maxWidth: "320px",
-                  width: "100%",
-                  justifyContent: "center",
-                  " @media(max-width:479px)": { padding: "8px" },
-                  textTransform: "none",
-                }}
-              >
-                <Typography
-                  variant="subtitle1"
-                  sx={{
-                    fontSize: "15px",
-                    fontWeight: "500",
-                    letterSpacing: "0.5px",
-                    " @media(max-width:479px)": { fontSize: "13px" },
-                  }}
-                >
-                  Update Profile
-                </Typography>
-              </Button>
-            </Stack>
-          </Stack>
+            {/* Submit Button */}
+            <Button variant="contained" type="submit">
+              Update Profile
+            </Button>
+          </form>
+          {/* Footer */}
           <Stack
             sx={{
               fontWeight: "500",
@@ -143,7 +148,7 @@ export default function CreateListModal({ open, handleClose, children }) {
               alignItems: "center",
               borderRadius: "0px 0px 6px 6px",
               borderTop: "1px solid rgb(208, 215, 222)",
-              " @media(max-width:479px)": { flexDirection: "column" },
+              "@media(max-width:479px)": { flexDirection: "column" },
             }}
             spacing="6px"
             direction="row"
@@ -169,7 +174,8 @@ export default function CreateListModal({ open, handleClose, children }) {
               </Typography>
             </Stack>
           </Stack>
-        </Box>
-      </Modal>
-    );
+        </Stack>
+      </Box>
+    </Modal>
+  );
 }

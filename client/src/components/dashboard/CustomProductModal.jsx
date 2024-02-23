@@ -33,21 +33,40 @@ const CustomProductModal = ({ open, handleClose, children, type,productDetails }
   const handleRemoveImage = (idx) => {
     setImages(images.filter((s, sidx) => idx !== sidx));
   }
-  const [categories, setCategories] = useState([{ name: "" }]);
-  const handleAddCategory = () => {
-    setCategories([...categories, { name: "" }]);
+  const [tags, setTags] = useState([{ name: "" }]);
+  const handleAddTag = () => {
+    setTags([...tags, { name: "" }]);
   };
-  const handleCategoryChange = (idx) => (e) => {
+  const handleTagChange = (idx) => (e) => {
     const newCategory = [
-      ...categories.slice(0, idx),
-      { ...categories[idx], name: e.target.value },
-      ...categories.slice(idx + 1),
+      ...tags.slice(0, idx),
+      { ...tags[idx], name: e.target.value },
+      ...tags.slice(idx + 1),
     ];
-    setCategories(newCategory);
+    setTags(newCategory);
   };
-  const handleRemoveCategory= (idx) => {
-    setCategories(categories.filter((s, sidx) => idx !== sidx));
+  const handleRemoveTag= (idx) => {
+    setTags(tags.filter((s, sidx) => idx !== sidx));
   };
+  //
+const [categories, setCategories] = useState([{ name: "" }]);
+const handleAddCategory = () => {
+  setCategories([...categories, { name: "" }]);
+};
+const handleCategoryChange = (idx) => (e) => {
+  const newCategory = [
+    ...categories.slice(0, idx),
+    { ...categories[idx], name: e.target.value },
+    ...categories.slice(idx + 1),
+  ];
+  setCategories(newCategory);
+};
+const handleRemoveCategory = (idx) => {
+  setCategories(categories.filter((s, sidx) => idx !== sidx));
+};
+  
+
+  // 
   const [colors, setColors] = useState([{ name: "" }]);
   const handleAddColor = () => {
     setColors([...colors, { name: "" }]);
@@ -86,7 +105,8 @@ const CustomProductModal = ({ open, handleClose, children, type,productDetails }
        setWidth(productDetails.width)
        setHeight(productDetails.height)
        setImages(productDetails.images || [{ name: "" }]);
-       setCategories(productDetails.categories || [{ name: "" }]);
+       setCategories(productDetails.Categories || [{ name: "" }]);
+       setTags(productDetails.tags || [{ name: "" }]);
        setColors(productDetails.colors || [{ name: "" }]);
      }
   }, [productDetails]);
@@ -130,21 +150,44 @@ const CustomProductModal = ({ open, handleClose, children, type,productDetails }
     setDescription(e)
   }
   const [selectedFiles, setSelectedFiles] = useState([]);
+
+  const [imageUrls, setImageUrls] = useState([]);
+    const handleUploadFiles = (files) => {
+      const uploaded = [...selectedFiles];
+      // let limitExceeded = false;
+      files.some((file) => {
+        if (uploaded.findIndex((f) => f.name === file.name) === -1) {
+          uploaded.push(file);
+          // if (uploaded.length === MAX_COUNT) setFileLimit(true);
+          // if (uploaded.length > MAX_COUNT) {
+          //   alert(`You can only add a maximum of ${MAX_COUNT} files`);
+          //   setFileLimit(false);
+          //   limitExceeded = true;
+          //   return true;
+          // }
+        }
+      });
+      setSelectedFiles(uploaded);
+    };
   const handleFileChange = (e) => {
-    setSelectedFiles([...selectedFiles, ...e.target.files]);
+    const chosenFiles = Array.prototype.slice.call(e.target.files);
+    handleUploadFiles(chosenFiles);
   };
   const handleSubmit = async (e) => {
     e.preventDefault()
     const formData = new FormData();
-    selectedFiles.forEach((file, index) => {
-      formData.append(`files[${index}]`, file);
-    });
+    formData.append("files", selectedFiles);
+    console.log(formData)
+    console.log(selectedFiles)
     try {
-       const response = await api.post("/upload", formData, {
-         headers: {
-           "Content-Type": "multipart/form-data",
-         },
-       });
+           const response = await api.post("/uploads", formData, {
+             headers: {
+               "Content-Type": "multipart/form-data",
+               Authorization: `Bearer ${localStorage.getItem("token")}`, // Add authorization header if required
+             },
+           });
+           setImageUrls(response.data.imageUrls);
+           console.log("Image URLs:", response.data.imageUrls);
       console.log(response.data)
        const res = await api.post(
          "/seller/product",
@@ -160,6 +203,7 @@ const CustomProductModal = ({ open, handleClose, children, type,productDetails }
            height,
            description,
            images,
+           tags,
            categories,
            colors,
          },
@@ -177,35 +221,12 @@ const CustomProductModal = ({ open, handleClose, children, type,productDetails }
        }
      }
      catch (err){
-       if (err.response.status === 400) {
-         toast.error("Duplicate Product", {
-           position: "top-center",
-         });
-         console.error("Error adding product", err);
-         return;
-       }
        console.error("Error adding product", err);
        toast.error("Error Adding Product", {
          position: "top-center",
        });
      }
   };
-  // const handleSubmitUpdate = async(e,id) => {
-  //   e.preventDefault();
-  //   console.log("HELP")
-  //   try {
-  //     const changes=[]
-  //     const res = await api.patch(`/seller/products/${id}`, changes, {
-  //       headers: {
-  //         Authorization: "Bearer " + localStorage.getItem("token"),
-  //       },
-  //     });
-  //   }
-  //   catch (err) {
-      
-  //   }
-  // }
-  // 
   return (
     <Modal
       open={open}
@@ -339,7 +360,7 @@ const CustomProductModal = ({ open, handleClose, children, type,productDetails }
                 width: "100%",
               }}
             >
-              <ReactQuill
+              {/* <ReactQuill
                 id="text"
                 name="text"
                 theme="snow"
@@ -348,10 +369,32 @@ const CustomProductModal = ({ open, handleClose, children, type,productDetails }
                 // className="mb-4"
                 // style={{ width: "100%" }}
                 className="rounded-lg border border-gray-300 bg-gray-100 text-gray-700 text-sm w-full outline-none focus:border-blue-500 h-1/2"
+              /> */}
+              <ReactQuill
+                theme="snow"
+                value={description}
+                onChange={handleDescriptionChange}
+                className="bg-white mb-2"
+                modules={{
+                  toolbar: [
+                    [{ header: "1" }, { header: "2" }, { font: [] }],
+                    [{ size: [] }],
+                    ["bold", "italic", "underline", "strike", "blockquote"],
+                    [
+                      { list: "ordered" },
+                      { list: "bullet" },
+                      { indent: "-1" },
+                      { indent: "+1" },
+                    ],
+                    ["link", "image", "video"],
+                    ["clean"],
+                  ],
+                }}
               />
             </Stack>
             <Stack
               sx={{
+                margin: "70px 0 0 0",
                 padding: "15px 15px",
                 width: "100%",
               }}
@@ -386,44 +429,15 @@ const CustomProductModal = ({ open, handleClose, children, type,productDetails }
                 width: "100%",
               }}
             >
-              {/* <div style={{ display: "flex", gap: "20px", width: "100%" }}>
-                {images.map((image, idx) => (
-                  <div
-                    key={idx}
-                    className="flex flex-row justify-between items-center"
-                  >
-                    <div className="flex-1 mr-2 relative min-w-[200px]">
-                      <input
-                        className="rounded-lg border border-gray-300 bg-gray-100 px-4 py-2 text-gray-700 text-sm w-full outline-none focus:border-blue-500"
-                        type="text"
-                        placeholder="Images"
-                        onChange={handleImageChange(idx)}
-                        value={image.name}
-                      />
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveImage(idx)}
-                        className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-red-500 text-white px-3 py-0.5 text-2xl rounded-sm"
-                      >
-                        -
-                      </button>
-                    </div>
-                  </div>
-                ))}
-                <button
-                  className="bg-green-500 text-white px-2.5 text-2xl rounded-sm"
-                  type="button"
-                  onClick={handleAddImage}
-                >
-                  +
-                </button>
-              </div> */}
               <input
                 type="file"
-                multiple="multiple"
+                multiple
+                id="image"
+                name="image"
+                onChange={handleFileChange}
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 accept="image/*"
-                name="uploadedImages"
-                id="file"
+                required
               />
             </Stack>
             <Stack
@@ -433,7 +447,7 @@ const CustomProductModal = ({ open, handleClose, children, type,productDetails }
               }}
             >
               <div style={{ display: "flex", gap: "20px" }}>
-                {categories.map((category, idx) => (
+                {tags.map((tag, idx) => (
                   <div
                     key={idx}
                     className="flex flex-row justify-between items-center"
@@ -442,13 +456,13 @@ const CustomProductModal = ({ open, handleClose, children, type,productDetails }
                       <input
                         className="rounded-lg border border-gray-300 bg-gray-100 px-4 py-2 text-gray-700 text-sm w-full outline-none focus:border-blue-500"
                         type="text"
-                        placeholder="Category"
-                        onChange={handleCategoryChange(idx)}
-                        value={category.name}
+                        placeholder="Tags"
+                        onChange={handleTagChange(idx)}
+                        value={tag.name}
                       />
                       <button
                         type="button"
-                        onClick={() => handleRemoveCategory(idx)}
+                        onClick={() => handleRemoveTag(idx)}
                         className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-red-500 text-white px-3 py-0.5 text-2xl rounded-sm"
                       >
                         -
@@ -459,7 +473,7 @@ const CustomProductModal = ({ open, handleClose, children, type,productDetails }
                 <button
                   className="bg-green-500 text-white px-2.5 text-2xl rounded-sm"
                   type="button"
-                  onClick={handleAddCategory}
+                  onClick={handleAddTag}
                 >
                   +
                 </button>
@@ -503,6 +517,45 @@ const CustomProductModal = ({ open, handleClose, children, type,productDetails }
                   +
                 </button>
               </div>
+              <Stack
+                sx={{
+                  padding: "15px 15px",
+                  width: "100%",
+                }}
+              >
+                <div style={{ display: "flex", gap: "20px" }}>
+                  {categories.map((category, idx) => (
+                    <div
+                      key={idx}
+                      className="flex flex-row justify-between items-center"
+                    >
+                      <div className="flex-1 mr-2 relative min-w-[200px]">
+                        <input
+                          className="rounded-lg border border-gray-300 bg-gray-100 px-4 py-2 text-gray-700 text-sm w-full outline-none focus:border-blue-500"
+                          type="text"
+                          placeholder="Category"
+                          onChange={handleCategoryChange(idx)}
+                          value={category.name}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveCategory(idx)}
+                          className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-red-500 text-white px-3 py-0.5 text-2xl rounded-sm"
+                        >
+                          -
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                  <button
+                    className="bg-green-500 text-white px-2.5 text-2xl rounded-sm"
+                    type="button"
+                    onClick={handleAddCategory}
+                  >
+                    +
+                  </button>
+                </div>
+              </Stack>
             </Stack>
             <Stack sx={{ alignItems: "center", width: "100%" }} spacing="15px">
               <Button

@@ -42,12 +42,12 @@ router.get(
   authorizeRoles(["seller"]),
   sellerController.getSellerDetails
 );
-// router.patch(
-//   "/:id",
-//   authenticateToken,
-//   authorizeRoles(["seller"]),
-//   sellerController.updateDetails
-// );
+router.put(
+  "/update",
+  authenticateToken,
+  authorizeRoles(["seller"]),
+  sellerController.updateDetails
+);
 // router.patch(
 //   "/analytics",
 //   authenticateToken,

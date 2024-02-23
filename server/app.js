@@ -56,7 +56,7 @@ app.use('/api/reviews',reviewRouter);
 // File uploading route
 app.post('/api/uploads',authenticateToken, upload.array('files', 5), (req, res) => {
 
-  // console.log(req.files);
+  console.log(req.files);
 
   if (!req.files || req.files.length === 0) {
     return res.status(400).json({ message: 'No files uploaded' });

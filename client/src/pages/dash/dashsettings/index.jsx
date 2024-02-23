@@ -1,61 +1,11 @@
 import React, { useEffect, useState } from "react";
-
-// export default function DashSettings() {
-//   const [isCustomer, setIsCustomer] = useState(false);
-//   const [isSeller, setIsSeller] = useState(false);
-//   const [isBlogger, setIsBlogger] = useState(false);
-
-//   useEffect(() => {
-//     // Retrieve user roles from local storage
-//     const storedUser = localStorage.getItem("user");
-//     if (storedUser) {
-//       const { isCustomer, isSeller, isBlogger } = JSON.parse(storedUser);
-//       setIsCustomer(isCustomer);
-//       setIsSeller(isSeller);
-//       setIsBlogger(isBlogger);
-//     }
-//   }, []);
-
-//   return (
-//     <div className="relative isolate overflow-hidden bg-white px-6 py-24 sm:py-32 lg:overflow-visible lg:px-0">
-//       {isCustomer && <p>Welcome, valuable customer!</p>}
-//       {!isCustomer && (
-//         <div>
-//           <p>If you are a customer, join us now!</p>
-//           <button onClick={() => (window.location.href = "/become-customer")}>
-//             Become a Customer
-//           </button>
-//         </div>
-//       )}
-//       {isSeller && <p>Welcome, esteemed seller!</p>}
-//       {!isSeller && (
-//         <div>
-//           <p>If you are a seller, join us now!</p>
-//           <button onClick={() => (window.location.href = "/become-seller")}>
-//             Become a Seller
-//           </button>
-//         </div>
-//       )}
-//       {isBlogger && <p>Welcome, distinguished blogger!</p>}
-//       {!isBlogger && (
-//         <div>
-//           <p>If you are a blogger, join us now!</p>
-//           <button onClick={() => (window.location.href = "/become-blogger")}>
-//             Become a Blogger
-//           </button>
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
-// import React from "react";
-
+import { useNavigate } from "react-router-dom";
 const Blog = () => {
     const [isCustomer, setIsCustomer] = useState(false);
     const [isSeller, setIsSeller] = useState(false);
     const [isBlogger, setIsBlogger] = useState(false);
-    const [isAdmin, setIsAdmin] = useState(false);
-
+    const [isAdmin, setIsAdmin] = useState(false); 
+    const navigate=useNavigate()
     useEffect(() => {
       // Retrieve user roles from local storage
       const storedUser = localStorage.getItem("user");
@@ -92,7 +42,8 @@ const Blog = () => {
           <div className="-mx-4 flex flex-wrap">
             {(isCustomer || isAdmin) && (
               <BlogCard
-                date={<p>Disabled</p>}
+                date={true}
+                val={"Customer"}
                 CardTitle="ThankYou for Value Customer"
                 CardDescription="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
                 image="https://i.ibb.co/Cnwd4q6/image-01.jpg"
@@ -100,7 +51,8 @@ const Blog = () => {
             )}
             {!isCustomer && (
               <BlogCard
-                date={<p>Disabled</p>}
+                date={false}
+                val={"Customer"}
                 CardTitle="Please Login to Become our Customer"
                 CardDescription="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
                 image="https://i.ibb.co/Cnwd4q6/image-01.jpg"
@@ -108,7 +60,8 @@ const Blog = () => {
             )}
             {(isSeller || isAdmin) && (
               <BlogCard
-                date={<p>Disabled</p>}
+                date={true}
+                val={"Seller"}
                 CardTitle="ThankYou for Value Seller"
                 CardDescription="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
                 image="https://i.ibb.co/Cnwd4q6/image-01.jpg"
@@ -116,7 +69,8 @@ const Blog = () => {
             )}
             {!isSeller && (
               <BlogCard
-                date={<p>Disabled</p>}
+                date={false}
+                val={"Seller"}
                 CardTitle="You can become seller"
                 CardDescription="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
                 image="https://i.ibb.co/Cnwd4q6/image-01.jpg"
@@ -124,7 +78,8 @@ const Blog = () => {
             )}
             {(isBlogger || isAdmin) && (
               <BlogCard
-                date="Dec 22, 2023"
+                date={true}
+                val={"Blogger"}
                 CardTitle="ThankYou for Value Blogger"
                 CardDescription="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
                 image="https://i.ibb.co/Cnwd4q6/image-01.jpg"
@@ -132,7 +87,8 @@ const Blog = () => {
             )}
             {!isBlogger && (
               <BlogCard
-                date={<p>Disabled</p>}
+                date={false}
+                val={"Blogger"}
                 CardTitle="You can Become Blogger"
                 CardDescription="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
                 image="https://i.ibb.co/Cnwd4q6/image-01.jpg"
@@ -147,7 +103,8 @@ const Blog = () => {
 
 export default Blog;
 
-const BlogCard = ({ image, date, CardTitle, CardDescription }) => {
+const BlogCard = ({ image, date, CardTitle, CardDescription, val }) => {
+   const navigate = useNavigate();
   return (
     <>
       <div className="w-full px-4 md:w-1/2 lg:w-1/3">
@@ -156,10 +113,26 @@ const BlogCard = ({ image, date, CardTitle, CardDescription }) => {
             <img src={image} alt="" className="w-full" />
           </div>
           <div>
-            {date && (
-              <span className="mb-5 inline-block rounded bg-primary px-4 py-1 text-center text-xs font-semibold leading-loose text-white">
-                {date}
-              </span>
+            {!date && val === "Customer" && (
+              <button
+                onClick={() => {
+                  navigate("/signin");
+                }}
+              ></button>
+            )}
+            {!date && val === "Seller" && (
+              <button
+                onClick={() => {
+                  navigate("/becomeseller");
+                }}
+              ></button>
+            )}
+            {!date && val === "Blogger" && (
+              <button
+                onClick={() => {
+                  navigate("/blogs");
+                }}
+              ></button>
             )}
             <h3>
               <a

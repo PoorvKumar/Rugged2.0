@@ -3,17 +3,14 @@ import HeaderTitle from '../../components/HeaderTitle';
 import { blogCard1 } from '../../assets';
 import BlogPostCard from '../../components/blogs/BlogPostCard';
 import BreadCrumb from '../../components/BreadCrumb';
-import api from '../../api/api';
-
+import api from "../../api/api";
 const Blogs = () => {
   const bc = [
     { name: 'Blogs', link: '/blogs' },
     // { name: 'Default', link: '/product/Default' },
   ];
-
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     const fetchBlogPosts = async () => {
       try {
@@ -27,7 +24,6 @@ const Blogs = () => {
         setLoading(false);
       }
     };
-
     fetchBlogPosts();
   }, []);
 
