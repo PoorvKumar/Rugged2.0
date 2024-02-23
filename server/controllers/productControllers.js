@@ -66,7 +66,7 @@ const getSearchedProducts = async (req, res, next) => {
       return false;
     };
     const ruggedVerrifiedFilter = (product) => {
-      return product.ruggedVerrified === 'true';
+      return product.ruggedVerrified === true;
     };
     const colorFilter = (product) => {
       let index = 0;
