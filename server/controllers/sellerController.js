@@ -167,9 +167,53 @@ const getAllAnalytics = async (req, res, next) => {
       }
     };
 
+    const addBulkProducts = async (req, res, next) => {
+      try {
+        const productsData = req.body.products;
+    
+        if (!Array.isArray(productsData) || productsData.length === 0) {
+          return res.status(400).json({ msg: "Products data should be provided as a non-empty array" });
+        }
+    
+        const products = productsData.map(productData => {
+          const { productName, shortDescription, price, brand, stockQuantity, discount, length, width, height, description, images, tags, categories, colors } = productData;
+          
+          // Validate product data here
+    
+          return new Product({
+            name: productName,
+            shortDescription,
+            description,
+            price: parseInt(price),
+            brand,
+            tags,
+            categories: categories.map(category => category.name),
+            images: images.map(image => ({ type: "image", source: image.name })),
+            stockQuantity: parseInt(stockQuantity),
+            seller: req.user._id,
+            reviews: [],
+            ratingCounts: {},
+            discount,
+            colors: colors.map(color => color.name),
+            dimensions: {
+              length: parseFloat(length),
+              width: parseFloat(width),
+              height: parseFloat(height),
+            }
+          });
+        });
+    
+        await Product.insertMany(products);
+        return res.status(201).json({ msg: "Products Created Successfully" });
+      } catch (error) {
+        next(error);
+      }
+    };    
+
 module.exports = {
   getAllProducts,
   addProduct,
+  addBulkProducts,
   getSellerDetails,
   getAllAnalytics,
   becomeSeller,

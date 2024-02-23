@@ -17,6 +17,9 @@ router.post(
   authorizeRoles(["seller"]),
   sellerController.addProduct
 );
+
+router.post("/add-product/bulk", authenticateToken, authorizeRoles(["seller","admin"]),sellerController.addBulkProducts);
+
 router.post(
   "/become",
   authenticateToken,

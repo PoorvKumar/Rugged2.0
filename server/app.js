@@ -54,16 +54,21 @@ app.use('/api/cart',cartRouter);
 app.use('/api/reviews',reviewRouter);
 
 // File uploading route
-app.post('/api/uploads',authenticateToken, upload.array('files', 5), (req, res) => {
+app.post('/api/uploads',authenticateToken, upload.array('files', 6), (req, res) => {
 
-  // console.log(req.files);
+  console.log(req.files);
 
   if (!req.files || req.files.length === 0) {
     return res.status(400).json({ message: 'No files uploaded' });
   }
 
-  const imageUrls = req.files.map(file => `${req.protocol}://${req.get('host')}/images/uploads/${file.filename}`);
-  res.status(200).json({ imageUrls: imageUrls });
+  // const imageUrls = req.files.map(file => `${req.protocol}://${req.get('host')}/images/uploads/${file.filename}`);
+
+  const imageUrls = req.files.map(file => ({
+    name: `${req.protocol}://${req.get('host')}/images/uploads/${file.filename}` // Assuming you are using S3 or another service that provides a location for uploaded files
+}));
+
+  res.status(200).json({ images: imageUrls });
 });
 
 app.get("/", (req, res) => {
