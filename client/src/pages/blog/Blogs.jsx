@@ -44,7 +44,7 @@ const Blogs = () => {
             <BlogPostCard
             id={post._id}
               key={post._id} 
-              imgSrc={blogCard1}
+              imgSrc={post.imgSrc}
               date={new Date(post.createdAt).toLocaleDateString()}
               commentNo={post.comments.length}
               title={post.title}

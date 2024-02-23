@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Modal,
@@ -15,10 +15,13 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from '../../api/api'
 import ReactQuill from "react-quill";
-const CustomProductModal = ({ open, handleClose, children, type,productDetails }) => {
-  const navigate=useNavigate()
+const CustomProductModal = ({ open, handleClose, children, type, productDetails }) => {
+  const navigate = useNavigate()
   const theme = useTheme()
-  const [images, setImages] = useState([{name:""}]);
+
+  const [selectedFiles,setSelectedFiles]=useState([]);
+
+  const [images, setImages] = useState([{ name: "" }]);
   const handleAddImage = () => {
     setImages([...images, { name: "" }]);
   }
@@ -45,26 +48,26 @@ const CustomProductModal = ({ open, handleClose, children, type,productDetails }
     ];
     setTags(newCategory);
   };
-  const handleRemoveTag= (idx) => {
+  const handleRemoveTag = (idx) => {
     setTags(tags.filter((s, sidx) => idx !== sidx));
   };
   //
-const [categories, setCategories] = useState([{ name: "" }]);
-const handleAddCategory = () => {
-  setCategories([...categories, { name: "" }]);
-};
-const handleCategoryChange = (idx) => (e) => {
-  const newCategory = [
-    ...categories.slice(0, idx),
-    { ...categories[idx], name: e.target.value },
-    ...categories.slice(idx + 1),
-  ];
-  setCategories(newCategory);
-};
-const handleRemoveCategory = (idx) => {
-  setCategories(categories.filter((s, sidx) => idx !== sidx));
-};
-  
+  const [categories, setCategories] = useState([{ name: "" }]);
+  const handleAddCategory = () => {
+    setCategories([...categories, { name: "" }]);
+  };
+  const handleCategoryChange = (idx) => (e) => {
+    const newCategory = [
+      ...categories.slice(0, idx),
+      { ...categories[idx], name: e.target.value },
+      ...categories.slice(idx + 1),
+    ];
+    setCategories(newCategory);
+  };
+  const handleRemoveCategory = (idx) => {
+    setCategories(categories.filter((s, sidx) => idx !== sidx));
+  };
+
 
   // 
   const [colors, setColors] = useState([{ name: "" }]);
@@ -95,20 +98,20 @@ const handleRemoveCategory = (idx) => {
   const [description, setDescription] = useState("");
   useEffect(() => {
     if (productDetails) {
-       setProductName(productDetails.productName);
-       setShortDescription(productDetails.shortDescription);
-       setPrice(productDetails.price);
-       setBrand(productDetails.brand);
-       setStockQuantity(productDetails.stockQuantity)
-       setDiscount(productDetails.discount)
-       setLength(productDetails.length)
-       setWidth(productDetails.width)
-       setHeight(productDetails.height)
-       setImages(productDetails.images || [{ name: "" }]);
-       setCategories(productDetails.Categories || [{ name: "" }]);
-       setTags(productDetails.tags || [{ name: "" }]);
-       setColors(productDetails.colors || [{ name: "" }]);
-     }
+      setProductName(productDetails.productName);
+      setShortDescription(productDetails.shortDescription);
+      setPrice(productDetails.price);
+      setBrand(productDetails.brand);
+      setStockQuantity(productDetails.stockQuantity)
+      setDiscount(productDetails.discount)
+      setLength(productDetails.length)
+      setWidth(productDetails.width)
+      setHeight(productDetails.height)
+      setImages(productDetails.images || [{ name: "" }]);
+      setCategories(productDetails.Categories || [{ name: "" }]);
+      setTags(productDetails.tags || [{ name: "" }]);
+      setColors(productDetails.colors || [{ name: "" }]);
+    }
   }, [productDetails]);
   //
   // 
@@ -135,97 +138,110 @@ const handleRemoveCategory = (idx) => {
   const handleDiscountChange = (e) => {
     setDiscount(e.target.value);
   };
-   const handleLengthChange = (e) => {
-     setLength(e.target.value);
-   };
+  const handleLengthChange = (e) => {
+    setLength(e.target.value);
+  };
 
-   const handleWidthChange = (e) => {
-     setWidth(e.target.value);
-   };
+  const handleWidthChange = (e) => {
+    setWidth(e.target.value);
+  };
 
-   const handleHeightChange = (e) => {
-     setHeight(e.target.value);
+  const handleHeightChange = (e) => {
+    setHeight(e.target.value);
   };
   const handleDescriptionChange = (e) => {
     setDescription(e)
   }
-  const [selectedFiles, setSelectedFiles] = useState([]);
 
   const [imageUrls, setImageUrls] = useState([]);
-    const handleUploadFiles = (files) => {
-      const uploaded = [...selectedFiles];
-      // let limitExceeded = false;
-      files.some((file) => {
-        if (uploaded.findIndex((f) => f.name === file.name) === -1) {
-          uploaded.push(file);
-          // if (uploaded.length === MAX_COUNT) setFileLimit(true);
-          // if (uploaded.length > MAX_COUNT) {
-          //   alert(`You can only add a maximum of ${MAX_COUNT} files`);
-          //   setFileLimit(false);
-          //   limitExceeded = true;
-          //   return true;
-          // }
-        }
-      });
-      setSelectedFiles(uploaded);
-    };
-  const handleFileChange = (e) => {
-    const chosenFiles = Array.prototype.slice.call(e.target.files);
-    handleUploadFiles(chosenFiles);
+  const handleUploadFiles = (files) => {
+    const uploaded = [...selectedFiles];
+    // let limitExceeded = false;
+    files.some((file) => {
+      if (uploaded.findIndex((f) => f.name === file.name) === -1) {
+        uploaded.push(file);
+        // if (uploaded.length === MAX_COUNT) setFileLimit(true);
+        // if (uploaded.length > MAX_COUNT) {
+        //   alert(`You can only add a maximum of ${MAX_COUNT} files`);
+        //   setFileLimit(false);
+        //   limitExceeded = true;
+        //   return true;
+        // }
+      }
+    });
+    setSelectedFiles(uploaded);
   };
+
+  const handleFileChange = (e) => {
+    // const chosenFiles = Array.prototype.slice.call(e.target.files);
+    // handleUploadFiles(chosenFiles);
+
+    const files=e.target.files;
+    setSelectedFiles([ ...files ]);
+    // console.log("selected files",files);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     const formData = new FormData();
-    formData.append("files", selectedFiles);
-    console.log(formData)
+    // formData.append("files", selectedFiles);
+
     console.log(selectedFiles)
+    selectedFiles.forEach((image)=>
+    {
+      formData.append("files",image);
+    })
+    // console.log(formData)
     try {
-           const response = await api.post("/uploads", formData, {
-             headers: {
-               "Content-Type": "multipart/form-data",
-               Authorization: `Bearer ${localStorage.getItem("token")}`, // Add authorization header if required
-             },
-           });
-           setImageUrls(response.data.imageUrls);
-           console.log("Image URLs:", response.data.imageUrls);
-      console.log(response.data)
-       const res = await api.post(
-         "/seller/product",
-         {
-           productName,
-           shortDescription,
-           price,
-           brand,
-           stockQuantity,
-           discount,
-           length,
-           width,
-           height,
-           description,
-           images,
-           tags,
-           categories,
-           colors,
-         },
-         {
-           headers: {
-            Authorization:"Bearer "+localStorage.getItem("token")
-           },
-         }
-       );
-       if (res.status === 201) {
-         toast.success("Added Product Successfully", {
-           position: "top-center",
-         });
-         navigate("/dashboard/products");
-       }
-     }
-     catch (err){
-       console.error("Error adding product", err);
-       toast.error("Error Adding Product", {
-         position: "top-center",
-       });
-     }
+
+      const response = await api.post("/uploads", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // Add authorization header if required
+        },
+      });
+
+      console.log(response);
+      // setImageUrls(response);
+      // console.log("Image URLs:", response.data.imageUrls);
+      // console.log(response.data)
+      const res = await api.post(
+        "/seller/product",
+        {
+          productName,
+          shortDescription,
+          price,
+          brand,
+          stockQuantity,
+          discount,
+          length,
+          width,
+          height,
+          description,
+          images,
+          tags,
+          categories,
+          colors,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token")
+          },
+        }
+      );
+      if (res.status === 201) {
+        toast.success("Added Product Successfully", {
+          position: "top-center",
+        });
+        navigate("/dashboard/products");
+      }
+    }
+    catch (err) {
+      console.error("Error adding product", err);
+      toast.error("Error Adding Product", {
+        position: "top-center",
+      });
+    }
   };
   return (
     <Modal

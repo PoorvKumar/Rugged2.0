@@ -4,7 +4,7 @@ const path = require("node:path");
 const storageConfig = multer.diskStorage({
       // destinations is uploads folder 
       // under the project directory
-    destination: path.join(__dirname, "uploads"),
+    destination: path.join(__dirname, "../public/images/uploads"),
     filename: (req, file, res) => {
           // file name is prepended with current time
           // in milliseconds to handle duplicate file names

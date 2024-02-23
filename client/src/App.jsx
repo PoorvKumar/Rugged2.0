@@ -45,6 +45,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import { useAuthenticate } from './context/AuthContext';
 import Loader from './components/Loader';
 import ReverseProtectedRoute from './components/ReverseProtectedRoute';
+import AddProductPage from './pages/AddProductPage';
 
 
 function App() {
@@ -142,7 +143,7 @@ function App() {
               role="customer"
               element={<Updateuser />}
             />
-            <Route path="/dashboard/addproduct" element={<AddProduct />} />
+            <Route path="/dashboard/addproduct" element={<AddProductPage />} />
             <Route
               path="/dashboard/profile"
               role="seller"
