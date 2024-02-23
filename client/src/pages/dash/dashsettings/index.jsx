@@ -123,21 +123,21 @@ const BlogCard = ({ image, date, CardTitle, CardDescription, val }) => {
                 onClick={() => {
                   navigate("/signin");
                 }}
-              ></button>
+              >Login</button>
             )}
             {(!date && val === "Seller") && (
               <button
                 onClick={() => {
                   navigate("/becomeseller");
                 }}
-              ></button>
+              >Become Seller</button>
             )}
             {(!date && val === "Blogger") && (
               <button
                 onClick={() => {
                   navigate("/blogs");
                 }}
-              ></button>
+              >Become Blogger</button>
             )}
             <h3>
               <a

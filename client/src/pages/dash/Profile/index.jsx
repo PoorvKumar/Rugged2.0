@@ -49,16 +49,16 @@ const Profile = () => {
           ></div>
           <div className="px-5 py-2 flex flex-col gap-3 pb-6">
             <div className="h-[90px] shadow-md w-[90px] rounded-full border-4 overflow-hidden -mt-14 border-white">
-              <img
+              {/* <img
                 src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8YXZhdGFyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
                 className="w-full h-full rounded-full object-center object-cover"
-              />
+              /> */}
             </div>
             <div className="">
               <h3 className="text-xl text-slate-900 relative font-bold leading-6">
-                Dadda Hicham
+                {/* Dadda Hicham */}
               </h3>
-              <p className="text-sm text-gray-600">@daddasoft</p>
+              {/* <p className="text-sm text-gray-600">@daddasoft</p> */}
             </div>
             <div className="flex gap-3 flex-wrap">
               {isCustomer && (
