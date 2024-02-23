@@ -8,6 +8,7 @@ import PageTitle from "../components/PageTitle";
 import { contactUs } from "../assets";
 import HeaderTitle from "../components/HeaderTitle";
 import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
 
 import api from "../api/api";
 
@@ -35,10 +36,12 @@ const ContactUs = () => {
         e.preventDefault();
         try{
             const response=await api.post('contact/addcomplaint',complaint);
+            toast.success("Form submitted successfully! We will contact you soon.");
 
         }
         catch(e){
             console.log("error");
+            toast.success("Some thing error occured.");
         }
         
 
