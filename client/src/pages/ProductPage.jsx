@@ -26,10 +26,10 @@ const ProductPage = () => {
         console.log(productDataInside);
         setProductData(productDataInside);
         setBc([
-          { name: "Product", link: "/product" },
+          { name: "Product", link: "/products" },
           {
             name: `${productDataInside.name}`,
-            link: `/product/${productDataInside._id}`,
+            link: `/products/${productDataInside._id}`,
           },
         ]);
       } catch (error) {
