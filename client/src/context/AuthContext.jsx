@@ -180,6 +180,8 @@ const AuthProvider = ({ children }) => {
             const { data } = response;
             setCart(data);
             localStorage.setItem("cart", JSON.stringify(data));
+
+            await fetchCartFromBackend();
         } catch (error) {
             console.log("Error adding product to cart:", error.message);
         }
