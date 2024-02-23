@@ -156,19 +156,6 @@ const Checkout = () => {
                 <div className="mt-6 space-y-2">
                   <div className="flex items-center gap-x-3">
                     <input
-                      id="cash"
-                      name="paymentMethod"
-                      type="radio"
-                      value="cash"
-                      onChange={() => handlePaymentMethodChange("cash")}
-                      className="h-4 w-4 border-gray-300 text-cyan-500 focus:ring-cyan-600"
-                    />
-                    <label htmlFor="cash" className="block text-sm font-medium leading-6 text-gray-900">
-                      Cash
-                    </label>
-                  </div>
-                  <div className="flex items-center gap-x-3">
-                    <input
                       id="card"
                       name="paymentMethod"
                       type="radio"

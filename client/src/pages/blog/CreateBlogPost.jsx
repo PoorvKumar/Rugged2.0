@@ -49,8 +49,6 @@ const BlogPage = () => {
         }
       });
 
-      console.log(uploadResponse);
-
       // Extract the image URL from the response
       // const imageUrl = uploadResponse.data.url;
 
@@ -58,7 +56,7 @@ const BlogPage = () => {
       const blogData = {
         title,
         content,
-        imageUrl: "" // Use the extracted image URL
+        imageUrl: uploadResponse.data.images[0].name // Use the extracted image URL
       };
       const blogResponse = await api.post("/blogs", blogData, {
         headers: {

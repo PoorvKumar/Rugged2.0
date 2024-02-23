@@ -42,7 +42,7 @@ const SinglePostBlog = () => {
 
   const post = {
     id: 1,
-    title: 'Exploring the World of AI',
+    title: 'Embracing the Thrill: A Dive into the World of Adventure Sports',
     imgSrc: 'https://picsum.photos/800/600', // Random image from Lorem Picsum
     date: '2023-12-05',
     commentNo: 24,

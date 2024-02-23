@@ -1,5 +1,6 @@
 const Order=require("../models/order");
 // const RazorPay=require("razorpay");
+const Cart = require('../models/cart');
 const crypto=require("crypto");
 
 const getAllOrders=async(req,res,next)=>
@@ -84,6 +85,15 @@ const createOrder=async (req,res,next)=>
         });
 
         const savedOrder=await order.save();
+
+        const deletionResult = await Cart.deleteOne({ user: req.user });
+
+        if (deletionResult.deletedCount > 0) {
+            console.log('Cart deleted successfully');
+        } else {
+            console.log('Cart not found');
+        }
+        
         // await updateSellerAnalytics(order);
         // const options={
         //     amount: totalAmount,
