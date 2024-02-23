@@ -21,6 +21,7 @@ const sellerRouter=require("./routers/sellerRouter");
 const productRouter = require("./routers/productRoutes");
 const cartRouter=require("./routers/cartRouter");
 const reviewRouter = require('./routers/reviewRouter');
+const contactRouter=require('./routers/contactRouter');
 
 const { authenticateToken } = require("./middlewares/authMiddleware");
 
@@ -52,6 +53,7 @@ app.use('/api/seller',sellerRouter);
 app.use('/api/products',productRouter);
 app.use('/api/cart',cartRouter);
 app.use('/api/reviews',reviewRouter);
+app.use('/api/contact',contactRouter);
 
 // File uploading route
 app.post('/api/uploads',authenticateToken, upload.array('files', 6), (req, res) => {
