@@ -5,7 +5,7 @@ import CustomTable from "./CustomTable";
 
 const Description = ({ productData }) => {
   return (
-    <div className="w-full">
+    <div className="w-full" dangerouslySetInnerHTML={{ __html: productData.description }}>
       {/* Upper Description with points
       <div className="flex flex-col border-[2px] border-gray-200 rounded-3xl px-8 py-6 w-[90%] ml-[5%] mb-8">
         <h1 className="py-2 font-bold uppercase text-cyan-800">
@@ -32,7 +32,7 @@ const Description = ({ productData }) => {
       ))}
       Table
       <CustomTable data={productData.table} classNm='w-[90%]' classNm2='rounded-full border border-gray-300'/> */}
-      {productData.description}
+      {/* {productData.description} */}
     </div>
   );
 };
