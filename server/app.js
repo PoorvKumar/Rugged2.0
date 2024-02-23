@@ -40,7 +40,19 @@ const accessStream=rfs.createStream('access.log',{
   path: path.join(__dirname,"log")
 });
 
-app.use(morgan("combined",{ stream: accessStream }));
+// morgan.token('id', function getId (req) {
+//   return req.id
+// })
+
+// app.use(assignId)
+// app.use(morgan(':id :method :url :response-time'))
+
+// function assignId (req, res, next) {
+//   req.id = uuid.v4()
+//   next()
+// }
+
+app.use(morgan(":method :url :status - :response-time ms",{ stream: accessStream }));
 
 // Multer file upload
 const upload=require("./utils/multer");
