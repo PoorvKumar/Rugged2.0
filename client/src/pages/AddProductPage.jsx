@@ -26,7 +26,6 @@ const AddProduct = () => {
     for (let i = 0; i < e.target.files.length; i++) {
       formData.append("files", e.target.files[i]);
     }
-
     try {
       const response = await api.post("/uploads", formData, {
         headers: {
@@ -36,6 +35,7 @@ const AddProduct = () => {
       });
 
       const { imageUrls } = response.data;
+      console.log(imageUrls)
       setImages(imageUrls); // Assuming you have a state to store image URLs
       setUploading(false);
     } catch (error) {
@@ -43,15 +43,14 @@ const AddProduct = () => {
       setUploading(false);
     }
   };
+  // console.log(imageUrls)
 
   const handleContentChange = (content) => {
     setDescription(content);
   };
 
   const handleSubmit = () => {
-    // Logic to send data to backend API
-    // Use productName, shortDescription, price, etc. to create the product object
-    // Send product object to backend API endpoint
+   
   };
 
   return (

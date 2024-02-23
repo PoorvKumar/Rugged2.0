@@ -21,21 +21,21 @@ const CustomProductModal = ({ open, handleClose, children, type, productDetails 
 
   const [selectedFiles,setSelectedFiles]=useState([]);
 
-  const [images, setImages] = useState([{ name: "" }]);
-  const handleAddImage = () => {
-    setImages([...images, { name: "" }]);
-  }
-  const handleImageChange = (idx) => (e) => {
-    const newImage = [
-      ...images.slice(0, idx),
-      { ...images[idx], name: e.target.value },
-      ...images.slice(idx + 1)
-    ];
-    setImages(newImage);
-  };
-  const handleRemoveImage = (idx) => {
-    setImages(images.filter((s, sidx) => idx !== sidx));
-  }
+  // const [images, setImages] = useState([{ name: "" }]);
+  // const handleAddImage = () => {
+  //   setImages([...images, { name: "" }]);
+  // }
+  // const handleImageChange = (idx) => (e) => {
+  //   const newImage = [
+  //     ...images.slice(0, idx),
+  //     { ...images[idx], name: e.target.value },
+  //     ...images.slice(idx + 1)
+  //   ];
+  //   setImages(newImage);
+  // };
+  // const handleRemoveImage = (idx) => {
+  //   setImages(images.filter((s, sidx) => idx !== sidx));
+  // }
   const [tags, setTags] = useState([{ name: "" }]);
   const handleAddTag = () => {
     setTags([...tags, { name: "" }]);
@@ -96,23 +96,25 @@ const CustomProductModal = ({ open, handleClose, children, type, productDetails 
   const [width, setWidth] = useState("");
   const [height, setHeight] = useState("");
   const [description, setDescription] = useState("");
-  useEffect(() => {
-    if (productDetails) {
-      setProductName(productDetails.productName);
-      setShortDescription(productDetails.shortDescription);
-      setPrice(productDetails.price);
-      setBrand(productDetails.brand);
-      setStockQuantity(productDetails.stockQuantity)
-      setDiscount(productDetails.discount)
-      setLength(productDetails.length)
-      setWidth(productDetails.width)
-      setHeight(productDetails.height)
-      setImages(productDetails.images || [{ name: "" }]);
-      setCategories(productDetails.Categories || [{ name: "" }]);
-      setTags(productDetails.tags || [{ name: "" }]);
-      setColors(productDetails.colors || [{ name: "" }]);
-    }
-  }, [productDetails]);
+  // const [dimensions, setDimensioms] = useState({});
+    const [uploading, setUploading] = useState(false);
+  // useEffect(() => {
+  //   if (productDetails) {
+  //     setProductName(productDetails.productName);
+  //     setShortDescription(productDetails.shortDescription);
+  //     setPrice(productDetails.price);
+  //     setBrand(productDetails.brand);
+  //     setStockQuantity(productDetails.stockQuantity)
+  //     setDiscount(productDetails.discount)
+  //     setLength(productDetails.length)
+  //     setWidth(productDetails.width)
+  //     setHeight(productDetails.height)
+  //     setImages(productDetails.images || [{ name: "" }]);
+  //     setCategories(productDetails.Categories || [{ name: "" }]);
+  //     setTags(productDetails.tags || [{ name: "" }]);
+  //     setColors(productDetails.colors || [{ name: "" }]);
+  //   }
+  // }, [productDetails]);
   //
   // 
   const handleProductNameChange = (e) => {
@@ -154,57 +156,61 @@ const CustomProductModal = ({ open, handleClose, children, type, productDetails 
   }
 
   const [imageUrls, setImageUrls] = useState([]);
-  const handleUploadFiles = (files) => {
-    const uploaded = [...selectedFiles];
-    // let limitExceeded = false;
-    files.some((file) => {
-      if (uploaded.findIndex((f) => f.name === file.name) === -1) {
-        uploaded.push(file);
-        // if (uploaded.length === MAX_COUNT) setFileLimit(true);
-        // if (uploaded.length > MAX_COUNT) {
-        //   alert(`You can only add a maximum of ${MAX_COUNT} files`);
-        //   setFileLimit(false);
-        //   limitExceeded = true;
-        //   return true;
-        // }
-      }
-    });
-    setSelectedFiles(uploaded);
-  };
-
-  const handleFileChange = (e) => {
-    // const chosenFiles = Array.prototype.slice.call(e.target.files);
-    // handleUploadFiles(chosenFiles);
-
-    const files=e.target.files;
-    setSelectedFiles([ ...files ]);
-    // console.log("selected files",files);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+  // const handleUploadFiles = (files) => {
+  //   const uploaded = [...selectedFiles];
+  //   // let limitExceeded = false;
+  //   files.some((file) => {
+  //     if (uploaded.findIndex((f) => f.name === file.name) === -1) {
+  //       uploaded.push(file);
+  //       // if (uploaded.length === MAX_COUNT) setFileLimit(true);
+  //       // if (uploaded.length > MAX_COUNT) {
+  //       //   alert(`You can only add a maximum of ${MAX_COUNT} files`);
+  //       //   setFileLimit(false);
+  //       //   limitExceeded = true;
+  //       //   return true;
+  //       // }
+  //     }
+  //   });
+  //   setSelectedFiles(uploaded);
+  // };
+  const handleImageUpload = async (e) => {
+    setUploading(true);
     const formData = new FormData();
-    // formData.append("files", selectedFiles);
-
-    console.log(selectedFiles)
-    selectedFiles.forEach((image)=>
-    {
-      formData.append("files",image);
-    })
-    // console.log(formData)
+    for (let i = 0; i < e.target.files.length; i++) {
+      formData.append("files", e.target.files[i]);
+    }
     try {
-
       const response = await api.post("/uploads", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${localStorage.getItem("token")}`, // Add authorization header if required
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // Replace with your authentication token
         },
       });
 
-      console.log(response);
-      // setImageUrls(response);
-      // console.log("Image URLs:", response.data.imageUrls);
-      // console.log(response.data)
+      const { images } = response.data;
+      console.log(images);
+      setImageUrls(images); // Assuming you have a state to store image URLs
+      setUploading(false);
+    } catch (error) {
+      console.error("Error uploading images: ", error);
+      setUploading(false);
+    }
+  };
+  console.log(imageUrls)
+  // const handleFileChange = (e) => {
+  //   // const chosenFiles = Array.prototype.slice.call(e.target.files);
+  //   // handleUploadFiles(chosenFiles);
+
+  //   const files=e.target.files;
+  //   setSelectedFiles([ ...files ]);
+  //   // console.log("selected files",files);
+  // };
+  console.log(tags)
+   console.log(categories)
+   console.log(colors)
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
       const res = await api.post(
         "/seller/product",
         {
@@ -218,10 +224,10 @@ const CustomProductModal = ({ open, handleClose, children, type, productDetails 
           width,
           height,
           description,
-          images,
+          imageUrls,
           tags,
           categories,
-          colors,
+          colors
         },
         {
           headers: {
@@ -376,16 +382,6 @@ const CustomProductModal = ({ open, handleClose, children, type, productDetails 
                 width: "100%",
               }}
             >
-              {/* <ReactQuill
-                id="text"
-                name="text"
-                theme="snow"
-                value={description}
-                onChange={handleDescriptionChange}
-                // className="mb-4"
-                // style={{ width: "100%" }}
-                className="rounded-lg border border-gray-300 bg-gray-100 text-gray-700 text-sm w-full outline-none focus:border-blue-500 h-1/2"
-              /> */}
               <ReactQuill
                 theme="snow"
                 value={description}
@@ -445,16 +441,17 @@ const CustomProductModal = ({ open, handleClose, children, type, productDetails 
                 width: "100%",
               }}
             >
-              <input
-                type="file"
-                multiple
-                id="image"
-                name="image"
-                onChange={handleFileChange}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                accept="image/*"
-                required
-              />
+              <div className="mb-4">
+                <label className="block mb-2">Upload Images</label>
+                <input type="file" multiple onChange={handleImageUpload} />
+                <button
+                  type="button"
+                  disabled={uploading}
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2"
+                >
+                  {uploading ? "Uploading..." : "Upload"}
+                </button>
+              </div>
             </Stack>
             <Stack
               sx={{

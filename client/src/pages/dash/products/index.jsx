@@ -167,7 +167,7 @@ export default function Products() {
                   >
                     <Box sx={{ maxHeight: "240px" }}>
                       <img
-                        src={product.image}
+                        src={product.images[0].source}
                         style={{ borderRadius: "0.75rem", objectFit: "cover" }}
                         height="100%"
                         width="100%"

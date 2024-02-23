@@ -143,9 +143,9 @@ function App() {
             />
             <Route path="/dashboard/addproduct" element={<AddProductPage />} />
             <Route
-              path="/dashboard/blogs"
-              role="customer"
-              element={<Updateuser />}
+              path="/dashboard/profile"
+              role="seller"
+              element={<Profile />}
             />
             <Route
               path="/dashboard/createblog"
@@ -153,7 +153,7 @@ function App() {
               element={<CreateBlog />}
             />
             <Route
-              path="/dashboard/profile"
+              path="/dashboard/blogs"
               role="blogger"
               element={<Blog />}
             />

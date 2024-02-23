@@ -12,7 +12,7 @@ const getAllProducts = async (req, res, next) => {
 };
 const addProduct = async (req, res, next) => {
   try {
-    const { productName, shortDescription, price, brand, stockQuantity, discount, length, width, height, description, images, tags,categories, colors } = req.body
+    const { productName, shortDescription, price, brand, stockQuantity, discount, length, width, height, description, imageUrls, tags,categories, colors } = req.body
     if (!productName ||
       !shortDescription ||
       !price ||
@@ -23,7 +23,7 @@ const addProduct = async (req, res, next) => {
       !width ||
       !height ||
       !description ||
-      !images ||
+      !imageUrls ||
       !categories ||
       !colors
     ) {
@@ -35,15 +35,15 @@ const addProduct = async (req, res, next) => {
       description,
       price:parseInt(price),
       brand,
-      tags,
+      tags:tags.map((tag) => { return tag.name }),
       categories: categories.map((category) => { return category.name }),
-      images: images.map((image) => ({type: "image", source: image.name })),
+      images: imageUrls.map((image) => ({type: "image", source: image.name })),
       stockQuantity: parseInt(stockQuantity),
       seller: req.user._id,
       reviews: [],
       ratingCounts: {},
       discount,
-      colors: colors.map((color) => (color.name)),
+      colours: colors.map((color) => (color.name)),
       dimensions: {
         length: parseFloat(length),
         width: parseFloat(width),

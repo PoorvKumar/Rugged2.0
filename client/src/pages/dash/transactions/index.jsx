@@ -1,52 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { Box, useTheme } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
 import { useGetTransactionsQuery } from "../../../features/dashboard/api";
 import Header from "../../../components/dashboard/Header";
 import DataGridCustomToolbar from "../../../components/dashboard/DataGridCustomToolBar";
 import { useNavigate } from "react-router-dom";
-
+import api from "../../../api/api"
 const Transactions = () => {
   const theme = useTheme();
   const navigate=useNavigate()
   // values to be sent to the backend
-  const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(20);
-  const [sort, setSort] = useState({});
-  const [search, setSearch] = useState("");
+  // useEffect(())
+  const [data, setOrders] = useState([]);
+  useEffect(() => {
+    const getOrders = async () => {
+      try {
+        const response = await api.get("/orders/user", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
 
-  const [searchInput, setSearchInput] = useState("");
-  const { data, isLoading } = useGetTransactionsQuery({
-    page,
-    pageSize,
-    sort: JSON.stringify(sort),
-    search,
-  });
+        console.log("Order successfully created", response.data);
+        setOrders(response.data); // Save response data to state variable
+        // navigate("/orders");
+      } catch (err) {
+        console.error("Order placing failed", err);
+      }
+    };
+
+    getOrders(); // Call the function when the component mounts
+  }, []); 
   const columns = [
-    {
-      field: "_id",
-      headerName: "ID",
-      flex: 1,
-    },
     {
       field: "userId",
       headerName: "User ID",
       flex: 1,
     },
     {
-      field: "createdAt",
+      field: "status",
       headerName: "CreatedAt",
       flex: 1,
     },
     {
-      field: "products",
-      headerName: "# of Products",
-      flex: 0.5,
-      sortable: false,
-      renderCell: (params) => params.value.length,
+      field: "paymentMode",
+      headerName: "Payment Mode",
+      flex: 1,
     },
     {
-      field: "cost",
+      field: "totalAmount",
       headerName: "Cost",
       flex: 1,
       renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
@@ -90,25 +92,12 @@ const Transactions = () => {
         }}
       >
         <DataGrid
-          loading={isLoading || !data}
+          // loading={isLoading || !data}
           getRowId={(row) => row._id}
-          rows={(data && data.transactions) || []}
+          rows={data || []}
           columns={columns}
-          rowCount={(data && data.total) || 0}
-          rowsPerPageOptions={[20, 50, 100]}
-          pagination
-          page={page}
-          pageSize={pageSize}
-          paginationMode="server"
-          sortingMode="server"
-          onPageChange={(newPage) => setPage(newPage)}
-          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-          onSortModelChange={(newSortModel) => setSort(...newSortModel)}
           slots={{
-            toolbar: DataGridCustomToolbar,
-          }}
-          slotProps={{
-            toolbar: { searchInput, setSearchInput, setSearch },
+            toolbar: GridToolbar,
           }}
         />
       </Box>
