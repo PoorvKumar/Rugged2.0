@@ -37,6 +37,7 @@ const getSearchedProducts = async (req, res, next) => {
         ]
     });
 
+
     const customerRating = Number(req.query.customerRating);
     const brands = req.query.brands.split(',');
     const priceLL = Number(req.query.priceLL);
@@ -52,10 +53,12 @@ const getSearchedProducts = async (req, res, next) => {
       let priceAfterDiscount = product.price * (1 - product.discount * 0.01);
       return priceAfterDiscount > priceLL && priceAfterDiscount < priceUL;
     };
+    
     const customerRatingFilter = (product) => {
       // console.log(getAverageRating(product));
       return getAverageRating(product) >= customerRating;
     };
+    
     const brandFilter = (product) => {
       let index = 0;
       for (index = 0; index < brands.length; index++) {
@@ -65,9 +68,11 @@ const getSearchedProducts = async (req, res, next) => {
       }
       return false;
     };
+    
     const ruggedVerrifiedFilter = (product) => {
       return product.ruggedVerrified === true;
     };
+    
     const colorFilter = (product) => {
       let index = 0;
       for (index = 0; index < coloursSelected.length; index++) {
@@ -80,6 +85,7 @@ const getSearchedProducts = async (req, res, next) => {
       }
       return false;
     };
+    
     const categoriesFilter = (product) => {
       let index = 0;
       for (index = 0; index < categoriesSelected.length; index++) {
@@ -93,7 +99,7 @@ const getSearchedProducts = async (req, res, next) => {
       return false;
     };
     const availabilityFilter = (product) => {
-      return product.stockQuantity > 1;
+      return product.stockQuantity >= 1;
     };
     // Filter the products based on user's requirements and sort them accordingly
     if (brands[0]!=="all") {
@@ -102,18 +108,22 @@ const getSearchedProducts = async (req, res, next) => {
     if (ruggedVerified==="true") {
       products = products.filter(ruggedVerrifiedFilter);
     }
+    
     if (coloursSelected[0]!=="all") {
       products = products.filter(colorFilter);
     }
     if(categoriesSelected[0]!=="all"){
       products=products.filter(categoriesFilter);
     }
+    
     if (availability) {
       products = products.filter(availabilityFilter);
     }
+    
     if (true) {
       products = products.filter(priceFilter);
     }
+    
     if (customerRating > 0) {
       products = products.filter(customerRatingFilter);
     }
