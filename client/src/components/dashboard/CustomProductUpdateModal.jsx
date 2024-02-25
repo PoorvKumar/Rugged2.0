@@ -9,17 +9,23 @@ import {
   styled,
   Stack,
   useTheme,
-  Chip
+  Chip,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import api from '../../api/api'
+import api from "../../api/api";
 import ReactQuill from "react-quill";
-const CustomProductModal = ({ open, handleClose, children, type, productDetails }) => {
-  const navigate = useNavigate()
-  const theme = useTheme()
+const CustomProductUpdateModal = ({
+  open,
+  handleClose,
+  children,
+  type,
+  productDetails,
+}) => {
+  const navigate = useNavigate();
+  const theme = useTheme();
 
-  const [selectedFiles,setSelectedFiles]=useState([]);
+  const [selectedFiles, setSelectedFiles] = useState([]);
 
   // const [images, setImages] = useState([{ name: "" }]);
   // const handleAddImage = () => {
@@ -68,8 +74,7 @@ const CustomProductModal = ({ open, handleClose, children, type, productDetails 
     setCategories(categories.filter((s, sidx) => idx !== sidx));
   };
 
-
-  // 
+  //
   const [colors, setColors] = useState([{ name: "" }]);
   const handleAddColor = () => {
     setColors([...colors, { name: "" }]);
@@ -85,7 +90,7 @@ const CustomProductModal = ({ open, handleClose, children, type, productDetails 
   const handleRemoveColor = (idx) => {
     setColors(colors.filter((s, sidx) => idx !== sidx));
   };
-  // 
+  //
   const [productName, setProductName] = useState("");
   const [shortDescription, setShortDescription] = useState("");
   const [price, setPrice] = useState("");
@@ -97,26 +102,25 @@ const CustomProductModal = ({ open, handleClose, children, type, productDetails 
   const [height, setHeight] = useState("");
   const [description, setDescription] = useState("");
   // const [dimensions, setDimensioms] = useState({});
-    const [uploading, setUploading] = useState(false);
-  // useEffect(() => {
-  //   if (productDetails) {
-  //     setProductName(productDetails.productName);
-  //     setShortDescription(productDetails.shortDescription);
-  //     setPrice(productDetails.price);
-  //     setBrand(productDetails.brand);
-  //     setStockQuantity(productDetails.stockQuantity)
-  //     setDiscount(productDetails.discount)
-  //     setLength(productDetails.length)
-  //     setWidth(productDetails.width)
-  //     setHeight(productDetails.height)
-  //     setImages(productDetails.images || [{ name: "" }]);
-  //     setCategories(productDetails.Categories || [{ name: "" }]);
-  //     setTags(productDetails.tags || [{ name: "" }]);
-  //     setColors(productDetails.colors || [{ name: "" }]);
-  //   }
-  // }, [productDetails]);
+  const [uploading, setUploading] = useState(false);
+  useEffect(() => {
+    if (productDetails) {
+      setProductName(productDetails.productName);
+      setShortDescription(productDetails.shortDescription);
+      setPrice(productDetails.price);
+      setBrand(productDetails.brand);
+      setStockQuantity(productDetails.stockQuantity)
+      setDiscount(productDetails.discount)
+      setLength(productDetails.length)
+      setWidth(productDetails.width)
+      setHeight(productDetails.height)
+      setCategories(productDetails.Categories || [{ name: "" }]);
+      setTags(productDetails.tags || [{ name: "" }]);
+      setColors(productDetails.colors || [{ name: "" }]);
+    }
+  }, [productDetails]);
   //
-  // 
+  //
   const handleProductNameChange = (e) => {
     setProductName(e.target.value);
   };
@@ -152,27 +156,10 @@ const CustomProductModal = ({ open, handleClose, children, type, productDetails 
     setHeight(e.target.value);
   };
   const handleDescriptionChange = (e) => {
-    setDescription(e)
-  }
+    setDescription(e);
+  };
 
   const [imageUrls, setImageUrls] = useState([]);
-  // const handleUploadFiles = (files) => {
-  //   const uploaded = [...selectedFiles];
-  //   // let limitExceeded = false;
-  //   files.some((file) => {
-  //     if (uploaded.findIndex((f) => f.name === file.name) === -1) {
-  //       uploaded.push(file);
-  //       // if (uploaded.length === MAX_COUNT) setFileLimit(true);
-  //       // if (uploaded.length > MAX_COUNT) {
-  //       //   alert(`You can only add a maximum of ${MAX_COUNT} files`);
-  //       //   setFileLimit(false);
-  //       //   limitExceeded = true;
-  //       //   return true;
-  //       // }
-  //     }
-  //   });
-  //   setSelectedFiles(uploaded);
-  // };
   const handleImageUpload = async (e) => {
     setUploading(true);
     const formData = new FormData();
@@ -196,24 +183,12 @@ const CustomProductModal = ({ open, handleClose, children, type, productDetails 
       setUploading(false);
     }
   };
-  console.log(imageUrls)
-  // const handleFileChange = (e) => {
-  //   // const chosenFiles = Array.prototype.slice.call(e.target.files);
-  //   // handleUploadFiles(chosenFiles);
-
-  //   const files=e.target.files;
-  //   setSelectedFiles([ ...files ]);
-  //   // console.log("selected files",files);
-  // };
-  console.log(tags)
-   console.log(categories)
-   console.log(colors)
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const res = await api.post(
-        "/seller/product",
-        {
+      const res = await api.patch(
+        "/admin/updateproduct",
+        { 
           productName,
           shortDescription,
           price,
@@ -227,11 +202,11 @@ const CustomProductModal = ({ open, handleClose, children, type, productDetails 
           imageUrls,
           tags,
           categories,
-          colors
+          colors,
         },
         {
           headers: {
-            Authorization: "Bearer " + localStorage.getItem("token")
+            Authorization: "Bearer " + localStorage.getItem("token"),
           },
         }
       );
@@ -241,8 +216,7 @@ const CustomProductModal = ({ open, handleClose, children, type, productDetails 
         });
         navigate("/dashboard/products");
       }
-    }
-    catch (err) {
+    } catch (err) {
       console.error("Error adding product", err);
       toast.error("Error Adding Product", {
         position: "top-center",
@@ -636,7 +610,7 @@ const CustomProductModal = ({ open, handleClose, children, type, productDetails 
               variant="subtitle1"
               sx={{ fontSize: "13px", color: "rgb(108,119,125)" }}
             >
-             Fill the fields and add the product
+              Fill the fields and add the product
             </Typography>
           </Stack>
         </Stack>
@@ -645,4 +619,4 @@ const CustomProductModal = ({ open, handleClose, children, type, productDetails 
   );
 };
 
-export default CustomProductModal;
+export default CustomProductUpdateModal;

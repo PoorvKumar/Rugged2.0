@@ -15,7 +15,14 @@ const getAllUsers=async (req,res,next)=>
         next(err);
     }
 };
-
+const getAllUsersNoLimit = async (req, res, next) => {
+  try {
+    const users = await User.find()
+    return res.json(users);
+  } catch (err) {
+    next(err);
+  }
+};
 const getUserById=async (req,res,next)=>
 {
     try
@@ -157,5 +164,6 @@ module.exports={
     deleteUser,
     addAddress,
     changePassword,
-    deleteAddress
+    deleteAddress,
+    getAllUsersNoLimit
 };

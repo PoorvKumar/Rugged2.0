@@ -45,9 +45,14 @@ import ProtectedRoute from './components/ProtectedRoute';
 import { useAuthenticate } from './context/AuthContext';
 import Loader from './components/Loader';
 import ReverseProtectedRoute from './components/ReverseProtectedRoute';
+import AdminProducts from  './pages/Admin/Products'
 import AddProductPage from './pages/AddProductPage';
-import Blog from './pages/dash/dashsettings';
+import Blog from './pages/dash/Blogs';
 import CreateBlog from './pages/dash/CreateBlog';
+import AdminLayout from './pages/Admin/layout'
+import Complaints from './pages/Admin/Complaints';
+import OrderAdmin from './pages/Admin/Orders'
+import UserAdmin from './pages/Admin/Users'
 function App() {
   // const ProtectedRoute = ({ element,role, ...rest }) => {
   //   const isCustomer = JSON.parse(localStorage.getItem("user")).isCustomer;
@@ -152,11 +157,22 @@ function App() {
               role="blogger"
               element={<CreateBlog />}
             />
+            <Route path="/dashboard/blogs" role="blogger" element={<Blog />} />
+          </Route>
+          <Route element={<AdminLayout />}>
+            <Route path="/admin" element={<DashSettings />} />
             <Route
-              path="/dashboard/blogs"
-              role="blogger"
-              element={<Blog />}
+              path="/admin/products"
+              role="admin"
+              element={<AdminProducts />}
             />
+            <Route
+              path="/admin/complaints"
+              role="admin"
+              element={<Complaints />}
+            />
+            <Route path="/admin/orders" role="admin" element={<OrderAdmin />} />
+            <Route path="/admin/users" role="admin" element={<UserAdmin />} />
           </Route>
           <Route path="/user/:activepage" element={<UserProfile />} />
         </Routes>

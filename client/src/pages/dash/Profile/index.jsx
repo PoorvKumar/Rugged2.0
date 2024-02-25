@@ -138,7 +138,7 @@ const Profile = () => {
                             Bank Account Number
                           </dt>
                           <dd className="mt-1 text-base leading-6 text-cyan-950 font-bold sm:col-span-2 sm:mt-0">
-                            {sellerDetails.phone}
+                            {sellerDetails.accountNumber}
                           </dd>
                         </div>
                         <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -146,7 +146,7 @@ const Profile = () => {
                             UPI ID
                           </dt>
                           <dd className="mt-1 text-base leading-6 text-cyan-950 font-bold sm:col-span-2 sm:mt-0">
-                            {sellerDetails.upiID}
+                            {sellerDetails.upiId}
                           </dd>
                         </div>
                         {/* <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">

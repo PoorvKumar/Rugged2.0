@@ -4,7 +4,13 @@ const router=express.Router();
 const { authenticateToken, authorizeRoles }=require("../middlewares/authMiddleware");
 const userController=require("../controllers/userController");
 
-router.get('/',authenticateToken,authorizeRoles(['admin']),userController.getAllUsers);
+router.get('/', authenticateToken, authorizeRoles(['admin']), userController.getAllUsers);
+router.get(
+  "/nolimitUser",
+  authenticateToken,
+  authorizeRoles(["admin"]),
+  userController.getAllUsersNoLimit
+);
 router.get('/getUserById',authenticateToken,userController.getUserById);
 
 router.patch('/updateProfile',authenticateToken,userController.updateProfile);

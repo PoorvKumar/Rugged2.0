@@ -31,15 +31,16 @@ const Transactions = () => {
 
     getOrders(); // Call the function when the component mounts
   }, []); 
+  console.log(data)
   const columns = [
     {
-      field: "userId",
-      headerName: "User ID",
+      field: "shippingAddress",
+      headerName: "Ship Address",
       flex: 1,
     },
     {
       field: "status",
-      headerName: "CreatedAt",
+      headerName: "Status",
       flex: 1,
     },
     {
@@ -72,18 +73,24 @@ const Transactions = () => {
           },
           "& .MuiDataGrid-cell": {
             borderBottom: "none",
+            fontSize: "15px",
+            color: theme.palette.grey[50],
+            backgroundColor: "#3498db",
+            fontWeight: "500",
           },
           "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: theme.palette.background.alt,
-            color: theme.palette.secondary[900],
+            backgroundColor: theme.palette.secondary[900],
+            color: theme.palette.grey[50],
+            fontSize: "15px",
             borderBottom: "none",
           },
           "& .MuiDataGrid-virtualScroller": {
             backgroundColor: theme.palette.primary.light,
           },
           "& .MuiDataGrid-footerContainer": {
-            backgroundColor: theme.palette.background.alt,
-            color: theme.palette.secondary[900],
+            backgroundColor: theme.palette.secondary[900],
+            color: theme.palette.grey[50],
+            fontSize: "15px",
             borderTop: "none",
           },
           "& .MuiDataGrid-toolbarContainer .MuiButton-text": {

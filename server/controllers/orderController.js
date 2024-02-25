@@ -17,7 +17,16 @@ const getAllOrders=async(req,res,next)=>
         next(err);
     }
 };
+const getUserOrders = async (req, res, next) => {
+    try {
+      const orders = await Order.find({ user: req.user._id });
 
+      return res.json(orders);
+    }
+    catch (err) {
+        next(err)
+    }
+}
 const getPlacedOrders=async(req,res,next)=>
 {
     try
@@ -31,7 +40,15 @@ const getPlacedOrders=async(req,res,next)=>
         next(err);
     }
 };
+const getShippedOrders = async (req, res, next) => {
+  try {
+    const orders = await Order.find({ status: "shipped" });
 
+    return res.json(orders);
+  } catch (err) {
+    next(err);
+  }
+};
 const getDeliveredOrders=async(req,res,next)=>
 {
     try
@@ -59,7 +76,25 @@ const getCancelledOrders=async(req,res,next)=>
         next(err);
     }
 };
+const shipOrder = async (req, res, next) => {
+  try {
+    const { id } = req.body;
+    const order = await Order.findById(id);
 
+    if (!order) {
+      return res.status(404).json({ msg: "Order not found" });
+    }
+    if (order.status === "shipped") {
+        return res.status(400).json({ msg: "Order already shipped" });
+    }
+    order.status = "shipped";
+    order.save();
+
+    return res.json(order);
+  } catch (err) {
+    next(err);
+  }
+};
 const createOrder=async (req,res,next)=>
 {
     try
@@ -163,14 +198,16 @@ const cancelOrder=async(req,res,next)=>
 {
     try
     {
-        const { orderId }=req.body;
-        const order=await Order.findById(orderId);
+        const { id } = req.body;
+        const order=await Order.findById(id);
 
         if(!order)
         {
             return res.status(404).json({ msg: "Order not found" });
         }
-
+         if (order.status === "cancelled") {
+           return res.status(400).json({ msg: "Order already cancelled" });
+         }
         order.status="cancelled";
         order.save();
 
@@ -210,5 +247,8 @@ module.exports={
     getCancelledOrders,
     createOrder,
     cancelOrder,
-    deleteOrder
+    deleteOrder,
+    getUserOrders,
+    getShippedOrders,
+    shipOrder
 };

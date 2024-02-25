@@ -9,33 +9,20 @@ import {
   styled,
   Stack,
   useTheme,
-  Chip
+  Chip,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import api from '../../api/api'
+import api from "../../api/api";
 import ReactQuill from "react-quill";
-const CustomProductModal = ({ open, handleClose, children, type, productDetails }) => {
-  const navigate = useNavigate()
-  const theme = useTheme()
-
-  const [selectedFiles,setSelectedFiles]=useState([]);
-
-  // const [images, setImages] = useState([{ name: "" }]);
-  // const handleAddImage = () => {
-  //   setImages([...images, { name: "" }]);
-  // }
-  // const handleImageChange = (idx) => (e) => {
-  //   const newImage = [
-  //     ...images.slice(0, idx),
-  //     { ...images[idx], name: e.target.value },
-  //     ...images.slice(idx + 1)
-  //   ];
-  //   setImages(newImage);
-  // };
-  // const handleRemoveImage = (idx) => {
-  //   setImages(images.filter((s, sidx) => idx !== sidx));
-  // }
+const UpdateProductModal = ({
+  open,
+  handleClose,
+  productDetails,
+  children,
+}) => {
+  const navigate = useNavigate();
+  const theme = useTheme();
   const [tags, setTags] = useState([{ name: "" }]);
   const handleAddTag = () => {
     setTags([...tags, { name: "" }]);
@@ -68,8 +55,7 @@ const CustomProductModal = ({ open, handleClose, children, type, productDetails 
     setCategories(categories.filter((s, sidx) => idx !== sidx));
   };
 
-
-  // 
+  //
   const [colors, setColors] = useState([{ name: "" }]);
   const handleAddColor = () => {
     setColors([...colors, { name: "" }]);
@@ -85,7 +71,7 @@ const CustomProductModal = ({ open, handleClose, children, type, productDetails 
   const handleRemoveColor = (idx) => {
     setColors(colors.filter((s, sidx) => idx !== sidx));
   };
-  // 
+  //
   const [productName, setProductName] = useState("");
   const [shortDescription, setShortDescription] = useState("");
   const [price, setPrice] = useState("");
@@ -97,82 +83,61 @@ const CustomProductModal = ({ open, handleClose, children, type, productDetails 
   const [height, setHeight] = useState("");
   const [description, setDescription] = useState("");
   // const [dimensions, setDimensioms] = useState({});
-    const [uploading, setUploading] = useState(false);
-  // useEffect(() => {
-  //   if (productDetails) {
-  //     setProductName(productDetails.productName);
-  //     setShortDescription(productDetails.shortDescription);
-  //     setPrice(productDetails.price);
-  //     setBrand(productDetails.brand);
-  //     setStockQuantity(productDetails.stockQuantity)
-  //     setDiscount(productDetails.discount)
-  //     setLength(productDetails.length)
-  //     setWidth(productDetails.width)
-  //     setHeight(productDetails.height)
-  //     setImages(productDetails.images || [{ name: "" }]);
-  //     setCategories(productDetails.Categories || [{ name: "" }]);
-  //     setTags(productDetails.tags || [{ name: "" }]);
-  //     setColors(productDetails.colors || [{ name: "" }]);
-  //   }
-  // }, [productDetails]);
-  //
-  // 
+  const [uploading, setUploading] = useState(false);
+  useEffect(() => {
+    if (productDetails) {
+      setProductName(productDetails.name || " ");
+      setShortDescription(productDetails.shortDescription || " ");
+      setPrice(productDetails.price || " ");
+      setBrand(productDetails.brand || " ");
+      setStockQuantity(productDetails.stockQuantity || " ");
+      setDiscount(productDetails.discount || " ");
+      setLength(productDetails.dimensions.length || " ");
+      setWidth(productDetails.dimensions.width || " ");
+      setHeight(productDetails.dimensions.height || " ");
+      setDescription(productDetails.description);
+      setCategories(
+        productDetails.tags.map((category) => ({ name: category })) || [{ name: "" }]
+      );
+      setTags(
+        productDetails.tags.map((tag) => ({ name: tag })) || [{ name: "" }]
+      );
+      setColors(
+        productDetails.colours.map((color) => ({ name: color })) || [{ name: "" }]
+      );
+    }
+  }, [productDetails]);
   const handleProductNameChange = (e) => {
     setProductName(e.target.value);
   };
-
   const handleShortDescriptionChange = (e) => {
     setShortDescription(e.target.value);
   };
-
   const handlePriceChange = (e) => {
     setPrice(e.target.value);
   };
-
   const handleBrandChange = (e) => {
     setBrand(e.target.value);
   };
-
   const handleStockQuantityChange = (e) => {
     setStockQuantity(e.target.value);
   };
-
   const handleDiscountChange = (e) => {
     setDiscount(e.target.value);
   };
   const handleLengthChange = (e) => {
     setLength(e.target.value);
   };
-
   const handleWidthChange = (e) => {
     setWidth(e.target.value);
   };
-
   const handleHeightChange = (e) => {
     setHeight(e.target.value);
   };
   const handleDescriptionChange = (e) => {
-    setDescription(e)
-  }
-
+    setDescription(e);
+  };
   const [imageUrls, setImageUrls] = useState([]);
-  // const handleUploadFiles = (files) => {
-  //   const uploaded = [...selectedFiles];
-  //   // let limitExceeded = false;
-  //   files.some((file) => {
-  //     if (uploaded.findIndex((f) => f.name === file.name) === -1) {
-  //       uploaded.push(file);
-  //       // if (uploaded.length === MAX_COUNT) setFileLimit(true);
-  //       // if (uploaded.length > MAX_COUNT) {
-  //       //   alert(`You can only add a maximum of ${MAX_COUNT} files`);
-  //       //   setFileLimit(false);
-  //       //   limitExceeded = true;
-  //       //   return true;
-  //       // }
-  //     }
-  //   });
-  //   setSelectedFiles(uploaded);
-  // };
   const handleImageUpload = async (e) => {
     setUploading(true);
     const formData = new FormData();
@@ -188,7 +153,6 @@ const CustomProductModal = ({ open, handleClose, children, type, productDetails 
       });
 
       const { images } = response.data;
-      console.log(images);
       setImageUrls(images); // Assuming you have a state to store image URLs
       setUploading(false);
     } catch (error) {
@@ -196,55 +160,43 @@ const CustomProductModal = ({ open, handleClose, children, type, productDetails 
       setUploading(false);
     }
   };
-  console.log(imageUrls)
-  // const handleFileChange = (e) => {
-  //   // const chosenFiles = Array.prototype.slice.call(e.target.files);
-  //   // handleUploadFiles(chosenFiles);
-
-  //   const files=e.target.files;
-  //   setSelectedFiles([ ...files ]);
-  //   // console.log("selected files",files);
-  // };
-  console.log(tags)
-   console.log(categories)
-   console.log(colors)
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    try {
-      const res = await api.post(
-        "/seller/product",
-        {
-          productName,
-          shortDescription,
-          price,
-          brand,
-          stockQuantity,
-          discount,
-          length,
-          width,
-          height,
-          description,
-          imageUrls,
-          tags,
-          categories,
-          colors
-        },
+    const handleSubmit = async (e) => {
+      const id=productDetails._id
+    e.preventDefault();
+        try {
+            const res = await api.patch(
+                "/admin/updateproduct",
+                {
+                        id,
+                        productName,
+                        shortDescription,
+                        price,
+                        brand,
+                        stockQuantity,
+                        discount,
+                        length,
+                        width,
+                        height,
+                        description,
+                        imageUrls,
+                        tags,
+                        categories,
+                        colors,
+                },
         {
           headers: {
-            Authorization: "Bearer " + localStorage.getItem("token")
+            Authorization: "Bearer " + localStorage.getItem("token"),
           },
         }
       );
-      if (res.status === 201) {
-        toast.success("Added Product Successfully", {
+      if (res.status === 200) {
+        toast.success("Updated Product Successfully", {
           position: "top-center",
         });
-        navigate("/dashboard/products");
       }
-    }
-    catch (err) {
-      console.error("Error adding product", err);
-      toast.error("Error Adding Product", {
+    } catch (err) {
+      console.error("Error Updating product", err);
+      toast.error("Error Updating Product", {
         position: "top-center",
       });
     }
@@ -291,7 +243,7 @@ const CustomProductModal = ({ open, handleClose, children, type, productDetails 
           direction="row"
         >
           <Typography variant="h4" sx={{ fontWeight: "600" }}>
-            {type} Details
+            Update Details
           </Typography>
           <Button
             variant="contained"
@@ -600,7 +552,7 @@ const CustomProductModal = ({ open, handleClose, children, type, productDetails 
                     " @media(max-width:479px)": { fontSize: "12px" },
                   }}
                 >
-                  {type} Product
+                  Update Product
                 </Typography>
               </Button>
             </Stack>
@@ -630,13 +582,13 @@ const CustomProductModal = ({ open, handleClose, children, type, productDetails 
                 fontWeight: "600",
                 padding: "1px 6px",
               }}
-              label={<>{type}</>}
+              label={<>Update</>}
             />
             <Typography
               variant="subtitle1"
               sx={{ fontSize: "13px", color: "rgb(108,119,125)" }}
             >
-             Fill the fields and add the product
+              Fill the fields and add the product
             </Typography>
           </Stack>
         </Stack>
@@ -645,4 +597,4 @@ const CustomProductModal = ({ open, handleClose, children, type, productDetails 
   );
 };
 
-export default CustomProductModal;
+export default UpdateProductModal;
