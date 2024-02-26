@@ -1,6 +1,8 @@
 const Product = require("../models/product");
 const Analytics = require("../models/analytics");
-const User=require("../models/user")
+const User = require("../models/user")
+const Order = require("../models/order")
+const Cart=require("../models/cart")
 const getAllProducts = async (req, res, next) => {
   try {
     const products = await Product.find({ seller: req.user._id });
@@ -57,6 +59,113 @@ const addProduct = async (req, res, next) => {
      next(error)
   }
 }
+const updateProduct = async (req, res, next) => {
+  try {
+    const { id } = req.body;
+    const {
+      productName,
+      shortDescription,
+      price,
+      brand,
+      stockQuantity,
+      discount,
+      length,
+      width,
+      height,
+      description,
+      imageUrls,
+      tags,
+      categories,
+      colors,
+      seller_id
+    } = req.body;
+    if (
+      !id ||
+      !productName ||
+      !shortDescription ||
+      !price ||
+      !brand ||
+      !stockQuantity ||
+      !discount ||
+      !length ||
+      !width ||
+      !height ||
+      !description ||
+      !imageUrls ||
+      !categories ||
+      !colors ||
+      !seller_id
+    ) {
+      return res.status(400).json({ msg: "Missing Information" });
+    }
+    if (imageUrls.length == 0) {
+      return res.status(400).json({ msg: "Missing Information" });
+    }
+    if (seller_id !== String(req.user._id)) {
+      return res.status(401).json({ msg: "Unauthorized" });
+    }
+    const product = {
+      name: productName,
+      shortDescription,
+      description,
+      price: parseInt(price),
+      brand,
+      tags: tags.map((tag) => {
+        return tag.name;
+      }),
+      categories: categories.map((category) => {
+        return category.name;
+      }),
+      images: imageUrls.map((image) => ({
+        type: "image",
+        source: image.name,
+      })),
+      stockQuantity: parseInt(stockQuantity),
+      discount,
+      colours: colors.map((color) => color.name),
+      dimensions: {
+        length: parseFloat(length),
+        width: parseFloat(width),
+        height: parseFloat(height),
+      },
+    };
+
+    const newproduct = await Product.findByIdAndUpdate(id, product, {
+      new: true,
+    });
+    if (!newproduct) {
+      return res.status(404).json({ msg: "Product not found" });
+    }
+    console.log(newproduct);
+    res.json(newproduct);
+  } catch (error) {
+    next(error);
+  }
+};
+const deleteProduct = async (req, res, next) => {
+  try {
+    const { id, seller_id } = req.body;
+    if (seller_id !== String(req.user._id)) {
+      return res.status(401).json({ msg: "Unauthorized" });
+    }
+    // Delete the product
+    const product = await Product.findByIdAndDelete(id);
+
+    if (!product) {
+      return res.status(404).json({ msg: "Product not found" });
+    }
+
+    // Delete all orders containing this product
+    await Order.deleteMany({ "items.productId": id });
+
+    // Remove the product from users' carts
+    await Cart.updateMany({}, { $pull: { items: { product: id } } });
+
+    return res.json({ msg: "Product deleted successfully" });
+  } catch (err) {
+    next(err);
+  }
+};
 const becomeSeller = async (req,res,next) => {
   try {
     const { phone, accountNumber, upiId, about } = req.body
@@ -217,5 +326,7 @@ module.exports = {
   getSellerDetails,
   getAllAnalytics,
   becomeSeller,
-  updateDetails
+  updateDetails,
+  updateProduct,
+  deleteProduct
 };

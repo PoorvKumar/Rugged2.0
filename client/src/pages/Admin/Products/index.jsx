@@ -5,6 +5,7 @@ import { Stack } from "@mui/material";
 import { Button } from "@mui/material";
 import { Card, useTheme } from "@mui/material";
 import api from "../../../api/api";
+import { toast } from "react-toastify";
 import UpdateProductModal from "../../../components/AdminDashboard/UpdateProductModal";
 import CustomProductModal from "../../../components/dashboard/CustomProductModal";
 
@@ -19,7 +20,29 @@ const handleCloseModal = () => {
   const theme = useTheme();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const handleDelete = async (id,sellid) => {
+      const seller_id=sellid
+      try {
+        const response = await api.patch(
+          "/admin/deleteProduct",
+          { id,seller_id },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        console.log(response);
+         toast.success("Product Deleted Successfully!", {
+           position: "top-center",
+         });
+      } catch (err) {
+        toast.error("Product Deletion unsuccessfull", {
+          position: "top-center",
+        });
+        console.error("Deletion of product failed", err);
+      }
+    };
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -38,7 +61,7 @@ const handleCloseModal = () => {
       }
     };
     fetchProducts();
-  }, []);
+  }, [products]);
   return (
     <Box
       sx={{
@@ -257,6 +280,7 @@ const handleCloseModal = () => {
                           whiteSpace: "nowrap",
                           textTransform: "none",
                         }}
+                        onClick={() => handleDelete(product._id,product.seller)}
                       >
                         Delete
                       </Button>

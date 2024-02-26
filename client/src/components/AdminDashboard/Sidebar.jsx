@@ -51,10 +51,6 @@ const navItems = [
     icon: <PointOfSaleOutlined />,
   },
   {
-    text: "Blogs",
-    icon: <ReceiptLongOutlined />,
-  },
-  {
     text: "Complaints",
     icon: <Groups2Outlined />,
   },

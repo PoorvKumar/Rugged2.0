@@ -97,16 +97,20 @@ const UpdateProductModal = ({
       setHeight(productDetails.dimensions.height || " ");
       setDescription(productDetails.description);
       setCategories(
-        productDetails.tags.map((category) => ({ name: category })) || [{ name: "" }]
+        productDetails.tags.map((category) => ({ name: category })) || [
+          { name: "" },
+        ]
       );
       setTags(
         productDetails.tags.map((tag) => ({ name: tag })) || [{ name: "" }]
       );
       setColors(
-        productDetails.colours.map((color) => ({ name: color })) || [{ name: "" }]
+        productDetails.colours.map((color) => ({ name: color })) || [
+          { name: "" },
+        ]
       );
     }
-  }, [productDetails]);
+  }, []);
   const handleProductNameChange = (e) => {
     setProductName(e.target.value);
   };
@@ -193,6 +197,7 @@ const UpdateProductModal = ({
         toast.success("Updated Product Successfully", {
           position: "top-center",
         });
+        handleClose()
       }
     } catch (err) {
       console.error("Error Updating product", err);

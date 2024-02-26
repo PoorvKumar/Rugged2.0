@@ -19,7 +19,13 @@ router.post(
 );
 
 router.post("/add-product/bulk", authenticateToken, authorizeRoles(["seller","admin"]),sellerController.addBulkProducts);
-
+router.patch("/updateProduct", authenticateToken, authorizeRoles(["seller"]), sellerController.updateProduct);
+router.patch(
+  "/deleteProduct",
+  authenticateToken,
+  authorizeRoles(["seller"]),
+  sellerController.deleteProduct
+);
 router.post(
   "/become",
   authenticateToken,

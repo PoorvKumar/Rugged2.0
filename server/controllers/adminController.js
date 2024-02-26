@@ -1,6 +1,8 @@
 const Product = require("../models/product");
 const Analytics = require("../models/analytics");
 const User = require("../models/user");
+const Order = require("../models/order")
+const Cart=require("../models/cart")
 const getAllProducts = async (req, res, next) => {
   try {
     const products = await Product.find();
@@ -100,18 +102,43 @@ const updateProduct = async (req, res, next) => {
        },
     };
     
-    const newproduct = Product.findByIdAndUpdate(id, product, { new: true });
+    const newproduct = await Product.findByIdAndUpdate(id, product, { new: true });
     if (!newproduct) {
       return res.status(404).json({ msg: "Product not found" });
     }
-    //  res.json(newproduct)
+    console.log(newproduct)
+     res.json(newproduct)
   } catch (error) {
     next(error);
   }
 };
+const deleteProduct = async (req, res, next) => {
+  try {
+    const { id } = req.body;
+
+    // Delete the product
+    const product = await Product.findByIdAndDelete(id);
+
+    if (!product) {
+      return res.status(404).json({ msg: "Product not found" });
+    }
+
+    // Delete all orders containing this product
+    await Order.deleteMany({ "items.productId": id });
+
+    // Remove the product from users' carts
+    await Cart.updateMany({}, { $pull: { items: { product: id } } });
+
+    return res.json({ msg: "Product deleted successfully" });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   getAllProducts,
   updateUserProfile,
   getUserbyID,
-  updateProduct
+  updateProduct,
+  deleteProduct
 };

@@ -97,41 +97,6 @@ const Orders = () => {
       ),
     },
   ];
-  const columns2 = [
-    {
-      field: "shippingAddress",
-      headerName: "User Name",
-      flex: 0.5,
-    },
-    {
-      field: "_id",
-      headerName: "Ship/Cancel",
-      flex: 0.5,
-      renderCell: (params) => (
-        <div className="flex flex-row">
-          <div>
-            Ship
-          </div>
-          <div style={{ margin: "0 15px" }}></div>{" "}
-          {/* Add space between buttons */}
-          <div>
-            Cancel
-          </div>
-        </div>
-      ),
-    },
-    {
-      field: "paymentMode",
-      headerName: "Payment Mode",
-      flex: 0.5,
-    },
-    {
-      field: "totalAmount",
-      headerName: "Cost",
-      flex: 0.5,
-      renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
-    },
-  ];
   return (
     <Box m="0.1rem 2.5rem">
       <Header title="All Users" subtitle="List all Registered Users" />

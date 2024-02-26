@@ -98,25 +98,6 @@ const CustomProductModal = ({ open, handleClose, children, type, productDetails 
   const [description, setDescription] = useState("");
   // const [dimensions, setDimensioms] = useState({});
     const [uploading, setUploading] = useState(false);
-  // useEffect(() => {
-  //   if (productDetails) {
-  //     setProductName(productDetails.productName);
-  //     setShortDescription(productDetails.shortDescription);
-  //     setPrice(productDetails.price);
-  //     setBrand(productDetails.brand);
-  //     setStockQuantity(productDetails.stockQuantity)
-  //     setDiscount(productDetails.discount)
-  //     setLength(productDetails.length)
-  //     setWidth(productDetails.width)
-  //     setHeight(productDetails.height)
-  //     setImages(productDetails.images || [{ name: "" }]);
-  //     setCategories(productDetails.Categories || [{ name: "" }]);
-  //     setTags(productDetails.tags || [{ name: "" }]);
-  //     setColors(productDetails.colors || [{ name: "" }]);
-  //   }
-  // }, [productDetails]);
-  //
-  // 
   const handleProductNameChange = (e) => {
     setProductName(e.target.value);
   };
@@ -156,23 +137,6 @@ const CustomProductModal = ({ open, handleClose, children, type, productDetails 
   }
 
   const [imageUrls, setImageUrls] = useState([]);
-  // const handleUploadFiles = (files) => {
-  //   const uploaded = [...selectedFiles];
-  //   // let limitExceeded = false;
-  //   files.some((file) => {
-  //     if (uploaded.findIndex((f) => f.name === file.name) === -1) {
-  //       uploaded.push(file);
-  //       // if (uploaded.length === MAX_COUNT) setFileLimit(true);
-  //       // if (uploaded.length > MAX_COUNT) {
-  //       //   alert(`You can only add a maximum of ${MAX_COUNT} files`);
-  //       //   setFileLimit(false);
-  //       //   limitExceeded = true;
-  //       //   return true;
-  //       // }
-  //     }
-  //   });
-  //   setSelectedFiles(uploaded);
-  // };
   const handleImageUpload = async (e) => {
     setUploading(true);
     const formData = new FormData();
@@ -188,7 +152,6 @@ const CustomProductModal = ({ open, handleClose, children, type, productDetails 
       });
 
       const { images } = response.data;
-      console.log(images);
       setImageUrls(images); // Assuming you have a state to store image URLs
       setUploading(false);
     } catch (error) {
@@ -196,15 +159,6 @@ const CustomProductModal = ({ open, handleClose, children, type, productDetails 
       setUploading(false);
     }
   };
-  console.log(imageUrls)
-  // const handleFileChange = (e) => {
-  //   // const chosenFiles = Array.prototype.slice.call(e.target.files);
-  //   // handleUploadFiles(chosenFiles);
-
-  //   const files=e.target.files;
-  //   setSelectedFiles([ ...files ]);
-  //   // console.log("selected files",files);
-  // };
   console.log(tags)
    console.log(categories)
    console.log(colors)

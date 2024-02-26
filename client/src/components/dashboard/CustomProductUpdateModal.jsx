@@ -15,33 +15,13 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../../api/api";
 import ReactQuill from "react-quill";
-const CustomProductUpdateModal = ({
+const UpdateProductModal = ({
   open,
   handleClose,
-  children,
-  type,
   productDetails,
+  children,
 }) => {
-  const navigate = useNavigate();
   const theme = useTheme();
-
-  const [selectedFiles, setSelectedFiles] = useState([]);
-
-  // const [images, setImages] = useState([{ name: "" }]);
-  // const handleAddImage = () => {
-  //   setImages([...images, { name: "" }]);
-  // }
-  // const handleImageChange = (idx) => (e) => {
-  //   const newImage = [
-  //     ...images.slice(0, idx),
-  //     { ...images[idx], name: e.target.value },
-  //     ...images.slice(idx + 1)
-  //   ];
-  //   setImages(newImage);
-  // };
-  // const handleRemoveImage = (idx) => {
-  //   setImages(images.filter((s, sidx) => idx !== sidx));
-  // }
   const [tags, setTags] = useState([{ name: "" }]);
   const handleAddTag = () => {
     setTags([...tags, { name: "" }]);
@@ -105,60 +85,61 @@ const CustomProductUpdateModal = ({
   const [uploading, setUploading] = useState(false);
   useEffect(() => {
     if (productDetails) {
-      setProductName(productDetails.productName);
-      setShortDescription(productDetails.shortDescription);
-      setPrice(productDetails.price);
-      setBrand(productDetails.brand);
-      setStockQuantity(productDetails.stockQuantity)
-      setDiscount(productDetails.discount)
-      setLength(productDetails.length)
-      setWidth(productDetails.width)
-      setHeight(productDetails.height)
-      setCategories(productDetails.Categories || [{ name: "" }]);
-      setTags(productDetails.tags || [{ name: "" }]);
-      setColors(productDetails.colors || [{ name: "" }]);
+      setProductName(productDetails.name || " ");
+      setShortDescription(productDetails.shortDescription || " ");
+      setPrice(productDetails.price || " ");
+      setBrand(productDetails.brand || " ");
+      setStockQuantity(productDetails.stockQuantity || " ");
+      setDiscount(productDetails.discount || " ");
+      setLength(productDetails.dimensions.length || " ");
+      setWidth(productDetails.dimensions.width || " ");
+      setHeight(productDetails.dimensions.height || " ");
+      setDescription(productDetails.description);
+      setCategories(
+        productDetails.tags.map((category) => ({ name: category })) || [
+          { name: "" },
+        ]
+      );
+      setTags(
+        productDetails.tags.map((tag) => ({ name: tag })) || [{ name: "" }]
+      );
+      setColors(
+        productDetails.colours.map((color) => ({ name: color })) || [
+          { name: "" },
+        ]
+      );
     }
-  }, [productDetails]);
-  //
-  //
+  }, []);
   const handleProductNameChange = (e) => {
     setProductName(e.target.value);
   };
-
   const handleShortDescriptionChange = (e) => {
     setShortDescription(e.target.value);
   };
-
   const handlePriceChange = (e) => {
     setPrice(e.target.value);
   };
-
   const handleBrandChange = (e) => {
     setBrand(e.target.value);
   };
-
   const handleStockQuantityChange = (e) => {
     setStockQuantity(e.target.value);
   };
-
   const handleDiscountChange = (e) => {
     setDiscount(e.target.value);
   };
   const handleLengthChange = (e) => {
     setLength(e.target.value);
   };
-
   const handleWidthChange = (e) => {
     setWidth(e.target.value);
   };
-
   const handleHeightChange = (e) => {
     setHeight(e.target.value);
   };
   const handleDescriptionChange = (e) => {
     setDescription(e);
   };
-
   const [imageUrls, setImageUrls] = useState([]);
   const handleImageUpload = async (e) => {
     setUploading(true);
@@ -175,7 +156,6 @@ const CustomProductUpdateModal = ({
       });
 
       const { images } = response.data;
-      console.log(images);
       setImageUrls(images); // Assuming you have a state to store image URLs
       setUploading(false);
     } catch (error) {
@@ -184,11 +164,14 @@ const CustomProductUpdateModal = ({
     }
   };
   const handleSubmit = async (e) => {
+    const id = productDetails._id;
+    const seller_id=productDetails.seller
     e.preventDefault();
     try {
       const res = await api.patch(
-        "/admin/updateproduct",
-        { 
+        "/seller/updateProduct",
+        {
+          id,
           productName,
           shortDescription,
           price,
@@ -203,6 +186,7 @@ const CustomProductUpdateModal = ({
           tags,
           categories,
           colors,
+          seller_id
         },
         {
           headers: {
@@ -210,15 +194,15 @@ const CustomProductUpdateModal = ({
           },
         }
       );
-      if (res.status === 201) {
-        toast.success("Added Product Successfully", {
+      if (res.status === 200) {
+        toast.success("Updated Product Successfully", {
           position: "top-center",
         });
-        navigate("/dashboard/products");
+        handleClose();
       }
     } catch (err) {
-      console.error("Error adding product", err);
-      toast.error("Error Adding Product", {
+      console.error("Error Updating product", err);
+      toast.error("Error Updating Product", {
         position: "top-center",
       });
     }
@@ -265,7 +249,7 @@ const CustomProductUpdateModal = ({
           direction="row"
         >
           <Typography variant="h4" sx={{ fontWeight: "600" }}>
-            {type} Details
+            Update Details
           </Typography>
           <Button
             variant="contained"
@@ -574,7 +558,7 @@ const CustomProductUpdateModal = ({
                     " @media(max-width:479px)": { fontSize: "12px" },
                   }}
                 >
-                  {type} Product
+                  Update Product
                 </Typography>
               </Button>
             </Stack>
@@ -604,7 +588,7 @@ const CustomProductUpdateModal = ({
                 fontWeight: "600",
                 padding: "1px 6px",
               }}
-              label={<>{type}</>}
+              label={<>Update</>}
             />
             <Typography
               variant="subtitle1"
@@ -619,4 +603,4 @@ const CustomProductUpdateModal = ({
   );
 };
 
-export default CustomProductUpdateModal;
+export default UpdateProductModal;

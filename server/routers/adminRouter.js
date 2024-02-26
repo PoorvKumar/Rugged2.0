@@ -23,5 +23,11 @@ router.patch(
   authorizeRoles(["admin"]),
   adminController.updateProduct
 );
+router.patch(
+  "/deleteProduct",
+  authenticateToken,
+  authorizeRoles(["admin"]),
+  adminController.deleteProduct
+);
 router.get("/userbyid", authenticateToken,adminController.getUserbyID);
 module.exports = router;
