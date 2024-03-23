@@ -230,7 +230,7 @@ const ProductSearchPage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       let response = await fetch(
-        `http://localhost:5000/api/products/search?q=${searchInput}&customerRating=${customerRating}&priceLL=0&priceUL=${priceSliderValue}&RuggedVerrified=${isRuggedVerrified}&colours=${color}&availability=${availability}&noOfResultsPerPage=12&pageNo=${page}&categories=${categories}&brands=${brands}`
+        `https://rugged2-0.onrender.com/api/products/search?q=${searchInput}&customerRating=${customerRating}&priceLL=0&priceUL=${priceSliderValue}&RuggedVerrified=${isRuggedVerrified}&colours=${color}&availability=${availability}&noOfResultsPerPage=12&pageNo=${page}&categories=${categories}&brands=${brands}`
       );
       let { productList } = await response.json();
       dispatch(addProducts({ products: productList }));
