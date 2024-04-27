@@ -361,3 +361,35 @@
 ::1 - - [23/Feb/2024:07:03:25 +0000] "GET /api/products/search?q=&customerRating=0&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=12&pageNo=1&categories=all&brands=all HTTP/1.1" 200 10518 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36"
 ::1 - - [23/Feb/2024:07:03:28 +0000] "GET /api/products/search?q=&customerRating=2&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=12&pageNo=1&categories=all&brands=all HTTP/1.1" 200 9055 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36"
 ::1 - - [23/Feb/2024:07:03:30 +0000] "GET /api/products/search?q=&customerRating=3&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=12&pageNo=1&categories=all&brands=all HTTP/1.1" 200 6559 "http://localhost:5173/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36"
+PATCH /api/users/updateProfile 200 - 123.578 ms
+POST /api/auth/google 500 - 217.345 ms
+POST /api/auth/google 500 - 248.051 ms
+POST /api/auth/signin 200 - 214.116 ms
+GET /api/cart 200 - 183.422 ms
+GET /api/cart/ 401 - 0.260 ms
+GET /api/products/search?q=&customerRating=0&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=12&pageNo=1&categories=all&brands=all 200 - 85.261 ms
+GET /api/products/search?q=&customerRating=0&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=12&pageNo=1&categories=all&brands=all 200 - 61.213 ms
+GET /api/products/search?q=&customerRating=0&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=12&pageNo=1&categories=all&brands=all 200 - 62.224 ms
+GET /api/products/search?q=&customerRating=0&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=12&pageNo=1&categories=all&brands=all 200 - 80.821 ms
+GET /api/products/search?q=&customerRating=0&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=12&pageNo=1&categories=all&brands=all 200 - 58.340 ms
+GET /api/products/search?q=&customerRating=0&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=12&pageNo=1&categories=all&brands=all 200 - 61.514 ms
+GET /api/products/search?q=&customerRating=0&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=12&pageNo=1&categories=all&brands=all 200 - 122.710 ms
+GET /api/products/search?q=&customerRating=0&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=12&pageNo=1&categories=all&brands=all 200 - 86.132 ms
+GET /api/products/search?q=&customerRating=0&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=12&pageNo=1&categories=all&brands=all 200 - 69.888 ms
+GET /api/products/search?q=&customerRating=0&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=12&pageNo=1&categories=all&brands=all 200 - 203.428 ms
+GET /api/products/search?q=&customerRating=0&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=12&pageNo=1&categories=all&brands=all 200 - 291.850 ms
+GET /api/products/search?q=&customerRating=0&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=12&pageNo=1&categories=all&brands=all 200 - 289.570 ms
+GET /api/products/search?q=&customerRating=0&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=12&pageNo=1&categories=all&brands=all 200 - 449.861 ms
+GET /api/products/search?q=&customerRating=0&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=12&pageNo=1&categories=all&brands=all 200 - 452.867 ms
+GET /api/products/search?q=&customerRating=0&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=12&pageNo=1&categories=all&brands=all 200 - 391.986 ms
+GET /api/products/search?q=&customerRating=0&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=12&pageNo=1&categories=all&brands=all 200 - 67.906 ms
+GET /api/products/search?q=&customerRating=0&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=12&pageNo=1&categories=all&brands=all 200 - 231.403 ms
+GET /api/products/search?q=&customerRating=0&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=12&pageNo=2&categories=all&brands=all 200 - 108.974 ms
+GET /api/products/search?q=&customerRating=0&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=12&pageNo=10&categories=all&brands=all 200 - 414.885 ms
+GET /api/products/search?q=&customerRating=0&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=12&pageNo=10&categories=all&brands=all 304 - 143.574 ms
+GET /api/products/search?q=&customerRating=0&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=12&pageNo=1&categories=all&brands=all 200 - 94.766 ms
+GET /api/products/search?q=&customerRating=0&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=12&pageNo=1&categories=all&brands=all 200 - 147.492 ms
+GET /api/products/search?q=&customerRating=0&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=4&pageNo=1&categories=all&brands=all 200 - 75.460 ms
+GET /api/products/search?q=&customerRating=0&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=4&pageNo=1&categories=all&brands=all 200 - 213.993 ms
+GET /api/products/search?q=&customerRating=0&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=4&pageNo=2&categories=all&brands=all 200 - 61.164 ms
+GET /api/products/search?q=&customerRating=0&priceLL=0&priceUL=10000&RuggedVerrified=false&colours=all&availability=false&noOfResultsPerPage=12&pageNo=2&categories=all&brands=all 304 - 63.948 ms

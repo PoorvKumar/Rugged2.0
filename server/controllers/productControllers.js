@@ -136,7 +136,8 @@ const getSearchedProducts = async (req, res, next) => {
       newProducts[j]=products[i];
       j=j+1;;
     }
-    res.status(200).json({"productList" : newProducts});
+    const noPages = Math.ceil(products.length / noOfResultsPerPage);
+    res.status(200).json({"productList" : newProducts,"totalNumberOfPages":noPages});
   } catch (error) {
     console.log(error);
     res.status(500).json(error.message);
