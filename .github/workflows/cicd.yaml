@@ -8,13 +8,6 @@ on:
     branches:
         - master
 
-env:
-  MONGODB_URI: mongodb+srv://root:root@atlascluster.r3jgorq.mongodb.net
-  MONGO_DB_NAME: rugged2
-  MONGO_DB_TEST: test
-  ACCESS_TOKEN_SECRET: sfnjkasfjklas
-  REFRESH_TOKEN_SECRET: fnioenlksdnk
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-20.04
@@ -28,10 +21,5 @@ jobs:
 
       - name: Run test
         working-directory: ./server
-        run: | 
-         export MONGODB_URI=$MONGODB_URI
-         export MONGO_DB_NAME=$MONGO_DB_NAME
-         export MONGO_DB_TEST=$MONGO_DB_TEST
-         export ACCESS_TOKEN_SECRET=$ACCESS_TOKEN_SECRET
-         npm run test
+        run: npm run test
 
