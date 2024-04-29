@@ -1,20 +1,31 @@
 const Blog=require("../models/blog");
 const User = require("../models/user");
 
-const getAllBlogs=async (req,res,next)=>
-{
-    try
-    {
-        const { page=1, limit=10 }=req.query;
-        const blogs=await Blog.find().limit(limit*1).skip((page-1)*limit).sort({ createdAt: -1 });
-
-        return res.json(blogs);
+const getAllBlogs = async (req, res, next) => {
+    try {
+      const { page = 1, limit = 10 } = req.query;
+      const cacheKey = `blogs-${page}-${limit}`;
+  
+      // Check Redis cache for existing data
+      const cachedBlogs = await req.redisClient.get(cacheKey);
+  
+      // Serve from cache if available
+      if (cachedBlogs) {
+        console.log("Blogs retrieved from cache!");
+        return res.json(JSON.parse(cachedBlogs)); // Parse cached JSON string
+      }
+  
+      // If not cached, fetch from database
+      const blogs = await Blog.find().limit(limit * 1).skip((page - 1) * limit).sort({ createdAt: -1 });
+  
+      // Set data in cache with expiration time
+      await req.redisClient.set(cacheKey, JSON.stringify(blogs), 'EX', 60 * 60); // Cache for 1 hour
+  
+      return res.json(blogs);
+    } catch (err) {
+      next(err);
     }
-    catch(err)
-    {
-        next(err);
-    }
-};
+  };  
 
 const getBlog=async (req,res,next)=>
 {

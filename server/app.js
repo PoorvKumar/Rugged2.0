@@ -15,11 +15,13 @@ const app = express();
 
 // const { connectToRedisClient, client }=require("./config/redisClient");
 
-const { createClient }=require("redis");
-const client=createClient({
-  url: "redis://redis-server:6379"
+const { createClient } = require("redis");
+const client = createClient({
+  url: "redis://redis-server:6379",
 });
-client.on('connect', () => console.log(`Redis is connected on port ${6379}`));
+client.on("connect", () =>
+  console.log(`Redis is connected on port ${process.env.REDIS_PORT}`)
+);
 client.on("error", (err) => {
   console.error("Error Connecting to Redis Client:", err);
 });
@@ -50,22 +52,15 @@ connectDB();
   await client.connect();
 })();
 
-client.set('visits',0);
+client.set("visits", 0);
 
-app.get('/visits', async (req, res) => {
+app.get("/visits", async (req, res) => {
   try {
-    // Get the current visit count
-    const currentVisits = await client.get('visits');
-
-    // Parse and increment the visit count
-    let visits = parseInt(currentVisits) || 0; // Handle non-existent or non-numeric values
+    const currentVisits = await client.get("visits");
+    let visits = parseInt(currentVisits) || 0;
     visits++;
-
-    // Set the updated visit count in Redis
-    await client.set('visits', visits);
-
-    // Send the response with the updated visit count
-    res.send('Number of visits is: ' + visits);
+    await client.set("visits", visits);
+    res.send("Number of visits is: " + visits);
   } catch (error) {
     console.error("Error getting or setting visit count:", error);
     res.status(500).send("Internal Server Error");
@@ -79,21 +74,35 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, "public")));
 
+// Attach redisClient middleware
+app.use(async (req,res,next)=>
+{
+  try {
+    if (!client) {
+      await client.connect();
+    }
+    req.redisClient = client;
+    next();
+  } catch (err) {
+    console.error("Error connecting to Redis:", err);
+    next(err);
+  }
+});
+
 // const accessStream = rfs.createStream("access.log", {
 //   interval: "1d",
 //   path: path.join(__dirname, "log"),
 // });
 
-morgan.token('id', function getId (req) {
-  return req.id
+morgan.token("id", function getId(req) {
+  return req.id;
 });
 
-app.use((req,res,next)=>
-{
-  req.id=uuidv4();
+app.use((req, res, next) => {
+  req.id = uuidv4();
   next();
 });
-app.use(morgan(':id :method :url :response-time'));
+app.use(morgan(":id :method :url :response-time"));
 
 // app.use(
 //   morgan(":method :url :status - :response-time ms", { stream: accessStream })
@@ -129,7 +138,7 @@ app.post(
     const imageUrls = req.files.map((file) => ({
       name: `${req.protocol}://${req.get("host")}/images/uploads/${
         file.filename
-      }`, // Assuming you are using S3 or another service that provides a location for uploaded files
+      }`, // When susing S3 or another service that provides a location for uploaded files
     }));
 
     res.status(200).json({ images: imageUrls });

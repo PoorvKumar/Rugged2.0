@@ -4,7 +4,7 @@ const client=createClient({
     url: "redis://redis-server:6379"
 });
 
-client.on('connect', () => console.log(`Redis is connected on port ${6379}`));
+client.on('connect', () => console.log(`Redis is connected on port ${process.env.REDIS_PORT}`));
 
 client.on("error",err=>{
     console.log("Error Connecting to Redis Client",err)
