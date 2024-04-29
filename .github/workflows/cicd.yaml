@@ -10,6 +10,8 @@ on:
 
 env:
   MONGODB_URI: mongodb+srv://root:root@atlascluster.r3jgorq.mongodb.net
+  MONGO_DB_NAME: rugged2
+  MONGO_DB_TEST: test
   ACCESS_TOKEN_SECRET: sfnjkasfjklas
   REFRESH_TOKEN_SECRET: fnioenlksdnk
 
