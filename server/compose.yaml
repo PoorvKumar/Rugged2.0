@@ -7,6 +7,7 @@
 # You can add other services your application may depend on here, such as a
 # database or a cache. For examples, see the Awesome Compose repository:
 # https://github.com/docker/awesome-compose
+version: '1.0'
 services:
   server:
     build:
@@ -15,16 +16,14 @@ services:
       NODE_ENV: production
     ports:
       - 5000:5000
+    volumes:
+      - ./:/app
     depends_on:
-      redis-stack:
-        condition: service_started
+      - redis-server
 
-  redis-stack:
-    image: redis/redis-stack:latest
-    ports: 
-      - '6379:6379'
-      - '8001:8001'
-  
+  redis-server:
+    image: "redis"
+    restart: unless-stopped
 
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to

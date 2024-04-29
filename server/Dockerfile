@@ -16,8 +16,7 @@ ENV NODE_ENV production
 WORKDIR /usr/src/app
 
 # Create log directory
-RUN mkdir -p /usr/src/app/log && \
-    chown -R node:node /usr/src/app/log
+RUN mkdir -p /usr/src/app/log
 
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /root/.npm to speed up subsequent builds.

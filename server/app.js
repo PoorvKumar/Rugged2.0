@@ -11,8 +11,20 @@ const rfs = require("rotating-file-stream");
 const path = require("path");
 const app = express();
 
-//REDIS CLIENT
-const client=require("./config/redisClient");
+// =================== REDIS CLIENT ===================
+
+// const { connectToRedisClient, client }=require("./config/redisClient");
+
+const { createClient }=require("redis");
+const client=createClient({
+  url: "redis://redis-server:6379"
+});
+client.on('connect', () => console.log(`Redis is connected on port ${6379}`));
+client.on("error", (err) => {
+  console.error("Error Connecting to Redis Client:", err);
+});
+
+// ====================================================
 
 const errorMiddleware = require("./middlewares/errorMiddleware");
 const notFoundMiddleware = require("./middlewares/notFoundMIddleware");
@@ -33,10 +45,31 @@ const { authenticateToken } = require("./middlewares/authMiddleware");
 connectDB();
 
 //Redis
-// Define a route to check connection
-app.get("/redis-check", (req, res) => {
-  client.setEx("user:1",36000,"Poorv Kumar");
-  return res.status(200).json({msg: "working"});
+// connectToRedisClient();
+(async () => {
+  await client.connect();
+})();
+
+client.set('visits',0);
+
+app.get('/visits', async (req, res) => {
+  try {
+    // Get the current visit count
+    const currentVisits = await client.get('visits');
+
+    // Parse and increment the visit count
+    let visits = parseInt(currentVisits) || 0; // Handle non-existent or non-numeric values
+    visits++;
+
+    // Set the updated visit count in Redis
+    await client.set('visits', visits);
+
+    // Send the response with the updated visit count
+    res.send('Number of visits is: ' + visits);
+  } catch (error) {
+    console.error("Error getting or setting visit count:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 // Middlewares
@@ -46,25 +79,25 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, "public")));
 
-const accessStream = rfs.createStream("access.log", {
-  interval: "1d",
-  path: path.join(__dirname, "log"),
+// const accessStream = rfs.createStream("access.log", {
+//   interval: "1d",
+//   path: path.join(__dirname, "log"),
+// });
+
+morgan.token('id', function getId (req) {
+  return req.id
 });
 
-// morgan.token('id', function getId (req) {
-//   return req.id
-// });
+app.use((req,res,next)=>
+{
+  req.id=uuidv4();
+  next();
+});
+app.use(morgan(':id :method :url :response-time'));
 
-// app.use((req,res,next)=>
-// {
-//   req.id=uuidv4();
-//   next();
-// });
-// app.use(morgan(':id :method :url :response-time'));
-
-app.use(
-  morgan(":method :url :status - :response-time ms", { stream: accessStream })
-);
+// app.use(
+//   morgan(":method :url :status - :response-time ms", { stream: accessStream })
+// );
 
 // Multer file upload
 const upload = require("./utils/multer");

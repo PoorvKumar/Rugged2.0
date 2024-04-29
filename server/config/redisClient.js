@@ -1,20 +1,27 @@
 const { createClient }=require("redis");
 
 const client=createClient({
-    port: 6379
+    url: "redis://redis-server:6379"
 });
+
+client.on('connect', () => console.log(`Redis is connected on port ${6379}`));
+
 client.on("error",err=>{
     console.log("Error Connecting to Redis Client",err)
 });
 
-// async function connectToRedisClient()
-// {
-//     await client.connect();
-//     console.log("Connected to Redis Client");
-// }
+async function connectToRedisClient()
+{
+    try {
+        await client.connect();
+        return client;
+      } catch (error) {
+        throw error;
+      }
+    
+}
 
-// connectToRedisClient();
-
-client.on('connect', () => console.log(`Redis is connected on port ${6379}`));
-
-module.exports=client;
+module.exports={
+    connectToRedisClient,
+    client
+};
