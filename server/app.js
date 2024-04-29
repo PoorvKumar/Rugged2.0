@@ -8,7 +8,7 @@ const morgan = require("morgan");
 const { v4: uuidv4 } = require("uuid");
 const multer = require("multer");
 const rfs = require("rotating-file-stream");
-const swaggerRouter = require('./config/swagger');
+const swaggerRouter = require("./config/swagger");
 const path = require("path");
 const app = express();
 
@@ -49,24 +49,41 @@ connectDB();
 
 //Redis
 // connectToRedisClient();
-(async () => {
-  await client.connect();
-})();
 
-client.set("visits", 0);
+if (process.env.NODE_ENV !== "test") {
+  (async () => {
+    await client.connect();
+  })();
 
-app.get("/visits", async (req, res) => {
-  try {
-    const currentVisits = await client.get("visits");
-    let visits = parseInt(currentVisits) || 0;
-    visits++;
-    await client.set("visits", visits);
-    res.send("Number of visits is: " + visits);
-  } catch (error) {
-    console.error("Error getting or setting visit count:", error);
-    res.status(500).send("Internal Server Error");
-  }
-});
+  client.set("visits", 0);
+
+  app.get("/visits", async (req, res) => {
+    try {
+      const currentVisits = await client.get("visits");
+      let visits = parseInt(currentVisits) || 0;
+      visits++;
+      await client.set("visits", visits);
+      res.send("Number of visits is: " + visits);
+    } catch (error) {
+      console.error("Error getting or setting visit count:", error);
+      res.status(500).send("Internal Server Error");
+    }
+  });
+
+  // Attach redisClient middleware
+  app.use(async (req, res, next) => {
+    try {
+      if (!client) {
+        await client.connect();
+      }
+      req.redisClient = client;
+      next();
+    } catch (err) {
+      console.error("Error connecting to Redis:", err);
+      next(err);
+    }
+  });
+}
 
 // Middlewares
 app.use(cors(corsOptions));
@@ -74,21 +91,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, "public")));
-
-// Attach redisClient middleware
-app.use(async (req,res,next)=>
-{
-  try {
-    if (!client) {
-      await client.connect();
-    }
-    req.redisClient = client;
-    next();
-  } catch (err) {
-    console.error("Error connecting to Redis:", err);
-    next(err);
-  }
-});
 
 // const accessStream = rfs.createStream("access.log", {
 //   interval: "1d",
@@ -147,7 +149,7 @@ app.post(
 );
 
 // Use Swagger documentation route
-app.use('/api-docs', swaggerRouter);
+app.use("/api-docs", swaggerRouter);
 
 app.get("/", (req, res) => {
   return res.json({ msg: "Server running!" });
