@@ -19,6 +19,16 @@ jobs:
         working-directory: ./server
         run: npm install
 
+      - name: Create .env file
+        working-directory: ./server
+        run: |
+          touch .env
+          echo "PORT=5000" >> .env
+          echo "MONGO_URI=mongodb+srv://root:root@atlascluster.r3jgorq.mongodb.net" >> .env
+          echo "MONGO_DB_NAME=rugged2" >> .env
+          echo "MONGO_DB_TEST=test" >> .env
+          echo "ACCESS_TOKEN_SECRET=sfnjkasfjklas" >> .env
+
       - name: Run test
         working-directory: ./server
         run: npm run test
