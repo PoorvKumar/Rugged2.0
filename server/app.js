@@ -18,7 +18,7 @@ const app = express();
 
 const { createClient } = require("redis");
 const client = createClient({
-  url: "redis://redis-server:6379",
+  url: process.env.REDIS_URL,
 });
 client.on("connect", () =>
   console.log(`Redis is connected on port ${process.env.REDIS_PORT}`)
@@ -155,11 +155,6 @@ app.get("/", (req, res) => {
 
 // Route not found
 app.use(notFoundMiddleware);
-
 app.use(errorMiddleware);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server listeing on PORT:${PORT}`);
-});
 module.exports = app;
