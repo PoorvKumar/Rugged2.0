@@ -28,5 +28,10 @@ jobs:
 
       - name: Run test
         working-directory: ./server
-        run: npm run test
+        run: | 
+         export MONGODB_URI=$MONGODB_URI
+         export MONGO_DB_NAME=$MONGO_DB_NAME
+         export MONGO_DB_TEST=$MONGO_DB_TEST
+         export ACCESS_TOKEN_SECRET=$ACCESS_TOKEN_SECRET
+         npm run test
 
