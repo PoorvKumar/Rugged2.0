@@ -8,6 +8,7 @@ const morgan = require("morgan");
 const { v4: uuidv4 } = require("uuid");
 const multer = require("multer");
 const rfs = require("rotating-file-stream");
+const swaggerRouter = require('./config/swagger');
 const path = require("path");
 const app = express();
 
@@ -144,6 +145,9 @@ app.post(
     res.status(200).json({ images: imageUrls });
   }
 );
+
+// Use Swagger documentation route
+app.use('/api-docs', swaggerRouter);
 
 app.get("/", (req, res) => {
   return res.json({ msg: "Server running!" });
