@@ -3,15 +3,12 @@ const bcrypt = require("bcryptjs");
 
 const getAllUsers=async (req,res,next)=>
 {
-    try
-    {
+    try{
         const { page=1, limit=10 }=req.query;
         const users=await User.find().limit(limit*1).skip((page-1)*limit).sort({ createdAt: -1 });
-
         return res.json(users);
     }
-    catch(err)
-    {
+    catch(err){
         next(err);
     }
 };
@@ -29,16 +26,12 @@ const getUserById=async (req,res,next)=>
     {
         const { id }=req.params;
         const user=await User.findById(id);
-
-        if(!user)
-        {
+        if(!user){
             return res.status(404).json({ msg: "User not found" });
         }
-
         return res.json(user);
     }
-    catch(err)
-    {
+    catch(err){
         next(err);
     }
 };
@@ -50,16 +43,12 @@ const updateProfile=async (req,res,next)=>
         const id =req.user._id;
         const update=req.body;
         const user=await User.findByIdAndUpdate(id,update,{ new: true });
-
-        if(!user)
-        {
+        if(!user){
             return res.status(404).json({ msg: "User not found" });
         }
-
         return res.json(user);
     }
-    catch(err)
-    {
+    catch(err){
         next(err);
     }
 };
@@ -71,16 +60,12 @@ const deleteUser=async (req,res,next)=>
         const { id }=req.params;
         const update=req.body;
         const user=await User.findByIdAndDelete(id);
-
-        if(!user)
-        {
+        if(!user){
             return res.status(404).json({ msg: "User not found" });
         }
-
         return res.json({ msg: "User deleted successfully" });
     }
-    catch(err)
-    {
+    catch(err){
         next(err);
     }
 };
@@ -88,7 +73,6 @@ const deleteUser=async (req,res,next)=>
 const addAddress=async (req,res,next)=>
 {
     const { name, phoneNumber, street, city, landmark, state, pincode } = req.body;
-    
     try {
         const newAddress = {
             name,
@@ -99,23 +83,18 @@ const addAddress=async (req,res,next)=>
             state,
             pincode
         };
-
         const user=req.user;
         user.addresses.push(newAddress);
-        
         await user.save();
-
         res.status(201).json({ message: 'Address added successfully', user });
     } catch (err) {
         next(err);
     }
-
 };
 
 const deleteAddress=async (req,res,next)=>
 {
     const {_id, name, phoneNumber, street, city, landmark, state, pincode } = req.body;
-    
     try {
         const newAddress = {
             _id,
@@ -127,7 +106,6 @@ const deleteAddress=async (req,res,next)=>
             state,
             pincode
         };
-
         const user=req.user;
         const adr = user.addresses.find((addr) => addr._id !== newAddress._id); 
         user.addresses=adr;
