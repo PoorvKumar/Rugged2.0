@@ -18,8 +18,6 @@ const CustomCard = ({ productData, id }) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const dispatch = useDispatch();
-
   const [isAddedToWishlist, setIsAddedToWishlist] = useState(false);
   const [hoverState, setHoverState] = useState(false);
   const [hoverCompare, setHoverCompare] = useState(false);
@@ -27,7 +25,7 @@ const CustomCard = ({ productData, id }) => {
   const [isAddedToCompareList, setIsAddedToCompareList] = useState(false);
   const categoriesList = productData.categories.join(", ");
 
-  const { addToCart }=useAuthenticate();
+  const { addToCart,addToWishlist }=useAuthenticate();
 
   const handleAddToCart=()=>
   {
@@ -38,7 +36,10 @@ const CustomCard = ({ productData, id }) => {
 
     addToCart(cartData);
   }
-
+  const handleAddToWishList = () => {
+    addToWishlist({ productId: id});
+    setIsAddedToWishlist((curr) => !curr);
+  };
   let totalNumberOfRatingCounts=0;
   let average=0;
   let index=0;
@@ -83,10 +84,7 @@ const CustomCard = ({ productData, id }) => {
             {majorHoverState && (
               <div className="flex flex-col justify-start items-end">
                 <div
-                  onClick={() => {
-                    setIsAddedToWishlist((curr) => !curr);
-                    dispatch(addToWishlist(productData));
-                  }}
+                  onClick={handleAddToWishList}
                   onMouseEnter={() => {
                     setHoverState(true);
                   }}

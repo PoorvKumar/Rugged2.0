@@ -198,6 +198,7 @@ const AuthProvider = ({ children }) => {
             const { data } = response;
             setWishlist(data);
             localStorage.setItem("wishlist", JSON.stringify(data));
+            await fetchWishlistFromBackend();
         } catch (error) {
             console.log("Error adding product to wishlist:", error.message);
         }

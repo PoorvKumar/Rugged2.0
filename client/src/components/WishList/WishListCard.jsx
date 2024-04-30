@@ -1,57 +1,59 @@
 import React from 'react'
 import { useDispatch} from 'react-redux';
-
-import { addToCart } from '../../features/cartReducer';
+import { useAuthenticate } from "../../context/AuthContext";
 import { removeFromWishlist } from '../../features/wishListReducer';
 import { Button } from '@mui/material';
 import WishList from './WishList';
 import { useSelector } from 'react-redux/es/hooks/useSelector';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import api from '../../api/api'
 import { IoCart } from 'react-icons/io5';
 
 
 
 
-function WishListCard(item) {
-  const {id,name,brand,desc,price,image,quantity}=item.item;
-  const {productsData}=useSelector(state=>state.cart)
-  let avilable=''
-  
-    if (quantity>=0){
+function WishListCard({ item,setWishListChange }) {
+  const { _id, name, shortDescription, price, images, stockQuantity } = item;
+  const { addToCart } = useAuthenticate();
+  const handleAddToCart = (id, quan) => {
+    addToCart({ productId: id, quantity: quan });
+  };
+    const Delete = async () => {
+      await DeleteProduct();
+      setWishListChange((prevCartChange) => !prevCartChange);
+      setTimeout(() => {
+        setWishListChange((prevCartChange) => !prevCartChange);
+      }, 0);
+    };
+    const DeleteProduct = async () => {
+      try {
+        const response = await api.post("/wishlist/removeProduct", {productId:_id},{
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+        // console.log(response.data)
+      } catch (error) {
+        console.error(`Error fetching blogs: ${error}`);
+      }
+    };
+  console.log("quantity::",item)
+  let avilable='' 
+    if (stockQuantity>=0){
     avilable='Available'
     }
     else{
       avilable='Not Available'
-      
     }
-    
-  
-
-
-  
-   
-    
-    const dispatch=useDispatch();
-    // console.log(item,item.item.name);
-
-    
   return (
     <div>
-
-
-
      <div className=' grid grid-cols-5 gap-2 p-2  items-center  border-y border-gray-300 border-collapse'>
-        
-
         <div className='box-border h-28 col-span-2  flex justify-start gap-9'>
-        <img src={image}></img>
+        <img src={images[0].source}></img>
         <div className='grid grid-cols-1 justify-center items-center'>
     <div>{name}</div>
-    <div>{desc}</div>
+    <div>{shortDescription}</div>
     </div>
-    
-    
-
     </div>
     <div className=' flex justify-center items-center'>
     ${price}
@@ -70,7 +72,7 @@ function WishListCard(item) {
         <div className='w-2/3'>
         <button
         className='box bg-cyan-500 hover:bg-cyan-600 flex items-center justify-center gap-4 p-4 rounded-xl text-white'
-          onClick={() => dispatch(addToCart(item.item))}
+              onClick={() => { handleAddToCart(_id, 1) }}
           
         >
           <IoCart />
@@ -80,7 +82,7 @@ function WishListCard(item) {
 
         <div className='w-1/3'>
 
-        <button onClick={()=>dispatch(removeFromWishlist(item.item))} className='flex justify-center items-center'> <DeleteOutlineOutlinedIcon/> <span>Delete</span></button>
+        <button onClick={Delete} className='flex justify-center items-center'> <DeleteOutlineOutlinedIcon/> <span>Delete</span></button>
         </div>
         </div>
 

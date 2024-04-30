@@ -1,7 +1,7 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import { useSelector } from "react-redux";
 import WishListCard from "./WishListCard";
-
+import api from "../../api/api";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -9,8 +9,26 @@ import HeaderTitle from "../HeaderTitle";
 import BreadCrumb from "../BreadCrumb";
 
 function WishList() {
-  const { wishlist } = useSelector((state) => state.wishlist);
-
+  const [products, setProducts] = useState([])
+  const [loading,setLoading]=useState("")
+  const [wishListChange, setWishListChange] = useState(false);
+    useEffect(() => {
+      const fetchProducts = async () => {
+        try {
+          const response = await api.get("/wishlist", {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          });
+          setProducts(response.data.items);
+        } catch (error) {
+          console.error(`Error fetching blogs: ${error}`);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchProducts();
+    }, [wishListChange]);
   const bc = [
     { name: 'Wishlist', link: '/wishlist' },
     // { name: 'Default', link: '/product/Default' },
@@ -20,7 +38,7 @@ function WishList() {
     <div className="min-h-screen bg-gray-100 px-12">
     <HeaderTitle title={"Your Wishlist"} subtitle={"View your favorites"}/>
       <BreadCrumb breadcrumbs={bc} style={`pc`} />
-      {wishlist.length ? (
+      {products.length ? (
         <>
           <div className="grid grid-cols-5 pt-10">
             <div className="col-span-2 pl-4 h-10 text-lg ">
@@ -39,8 +57,8 @@ function WishList() {
               <h2>Stock</h2>
             </div>
           </div>
-          {wishlist.map((item) => (
-            <WishListCard item={item} />
+          {products.map((item) => (
+            <WishListCard key={ item._id} item={item} setWishListChange={setWishListChange} />
           ))}
         </>
       ) : (
