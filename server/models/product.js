@@ -118,5 +118,9 @@ const productSchema = new mongoose.Schema({
     },
 });
 
+// DB Optimization to create index
+productSchema.index('name'); 
+productSchema.index('price');
+
 const Product = mongoose.model('Product', productSchema);
 module.exports = Product

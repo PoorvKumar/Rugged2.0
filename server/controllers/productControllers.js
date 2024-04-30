@@ -58,8 +58,6 @@ const getAverageRating = (product) => {
     sum;
   return avg;
 };
-
-// const getSearchedProducts = async (req, res, next) => {
 //   try {
 //     const searchTerm = req.query.q;
 //     let pattern = new RegExp(searchTerm, "i");
@@ -234,7 +232,7 @@ const getSearchedProducts = async (req, res, next) => {
           query = { ...query, categories: { $in: categoriesSelected } };
         }
       }
-      console.log(query);
+      // console.log(query);
       let products = await Product.find(query);
       console.log(products);
       // Pagination
