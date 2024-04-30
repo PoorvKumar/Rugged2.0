@@ -36,7 +36,7 @@ jobs:
       - name: Build Docker Image for Server
         working-directory: ./server
         run: |
-          docker built -t poorvkumar/rugged:server-${{ github.run_number }} .
+          docker built -t ${{ secrets.DOCKER_USERNAME }}/rugged:server-${{ github.run_number }} .
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
@@ -45,8 +45,9 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push Image to DockerHub
+        working-directory: ./server
         run: |
-          docker push poorvkumar/rugged:server-${{ github.run_number }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/rugged:server-${{ github.run_number }}
 
       
 
