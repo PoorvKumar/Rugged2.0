@@ -10,8 +10,8 @@ router.get('/', cartController.getCart);
 
 // Route to add a product to the cart
 router.post('/', cartController.addToCart);
-
+router.delete('/emptycart',cartController.emptyCart)
 // Route to remove a product from the cart
-router.delete('/:productId', cartController.removeFromCart);
+// router.delete('/:productId', cartController.removeFromCart);
 
 module.exports = router;
