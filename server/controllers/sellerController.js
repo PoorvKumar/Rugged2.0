@@ -5,11 +5,21 @@ const Order = require("../models/order")
 const Cart=require("../models/cart")
 const getAllProducts = async (req, res, next) => {
   try {
-    const products = await Product.find({ seller: req.user._id });
-    // console.log(req.user)
-    return res.json(products);
-  } catch (err) {
-    next(err);
+    let products = await req.redisClient.get(`seller-${req.user._id}-all_products`);
+    if (products) {
+      return res.status(200).json(JSON.parse(products));
+    } else {
+      products = await Product.find({ seller: req.user._id });
+      await req.redisClient.set(
+        `seller-${req.user._id}-all_products`,
+        JSON.stringify(products),
+        "EX",
+        3600
+      ); // Cache for 1 hour
+      return res.status(200).json(products);
+    }
+  } catch (error) {
+    res.status(500).json(error);
   }
 };
 const addProduct = async (req, res, next) => {
