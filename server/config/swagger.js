@@ -6,9 +6,9 @@ const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'Your API Documentation',
+      title: 'RUGGED API Documentation',
       version: '1.0.0',
-      description: 'Documentation for your API endpoints',
+      description: 'Documentation for API endpoints',
     },
   },
   apis: ['./routers/*.js'], // Path to the API routes folder
