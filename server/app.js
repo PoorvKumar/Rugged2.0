@@ -42,6 +42,7 @@ const cartRouter = require("./routers/cartRouter");
 const reviewRouter = require("./routers/reviewRouter");
 const contactRouter = require("./routers/contactRouter");
 const adminRouter = require("./routers/adminRouter");
+const wishListRouter=require("./routers/wishlistRouter")
 const { authenticateToken } = require("./middlewares/authMiddleware");
 
 //Database Connection
@@ -124,6 +125,7 @@ app.use("/api/cart", cartRouter);
 app.use("/api/reviews", reviewRouter);
 app.use("/api/contact", contactRouter);
 app.use("/api/admin", adminRouter);
+app.use("/api/wishlist", wishListRouter);
 // File uploading route
 app.post(
   "/api/uploads",
