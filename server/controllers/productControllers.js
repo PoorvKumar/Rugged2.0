@@ -59,7 +59,7 @@ const getAverageRating = (product) => {
   return avg;
 };
 
-const getSearchedProducts1 = async (req, res, next) => {
+const getSearchedProducts = async (req, res, next) => {
   try {
     const searchTerm = req.query.q;
     let pattern = new RegExp(searchTerm, "i");
