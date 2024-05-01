@@ -129,7 +129,7 @@ const CustomCard = ({ productData, id }) => {
                     </div>
                   )}
                 </div>
-                <div
+                {/* <div
                   onClick={() => {
                     setIsAddedToCompareList((curr) => !curr);
                   }}
@@ -178,7 +178,7 @@ const CustomCard = ({ productData, id }) => {
                       <MdCompare />
                     </div>
                   )}
-                </div>
+                </div> */}
               </div>
             )}
           </div>

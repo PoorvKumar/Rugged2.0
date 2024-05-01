@@ -40,12 +40,23 @@ const InitialProductInfo = ({ productData, id }) => {
       });
     }
   };
-  const AddToCompare = () => {
-    // use redux and redux-toolkit
-    setIsComparison((prevState) => !prevState);
-  };
-  const shareLink = () => {
+  // const AddToCompare = () => {
+  //   // use redux and redux-toolkit
+  //   setIsComparison((prevState) => !prevState);
+  // };
+  const shareLink = async () => {
     //to do share link
+    try {
+      const shareData = {
+        title: productData.name,
+        text: productData.shortDescription,
+        url: `https://rugged-five.vercel.app/products/${productData._id}`,
+      };
+      await navigator.share(shareData);
+      resultPara.textContent = "MDN shared successfully";
+    } catch (err) {
+      resultPara.textContent = `Error: ${err}`;
+    }
   };
   const colours = [
     {
@@ -93,8 +104,8 @@ const InitialProductInfo = ({ productData, id }) => {
     average+=((index+1)*productData.ratingCounts[`${index+1}`]);
   }
   average/=totalNumberOfRatingCounts;
-  console.log(average);
-  console.log(totalNumberOfRatingCounts);
+  // console.log(average);
+  // console.log(totalNumberOfRatingCounts);
 
   const { addToCart }=useAuthenticate();
 
@@ -116,7 +127,7 @@ const InitialProductInfo = ({ productData, id }) => {
           {productData.name}
         </h1>
         <div className="flex flex-row gap-4 ">
-          <div
+          {/* <div
             className="text-2xl mt-[-0.75rem] text-cyan-400 cursor-pointer rounded-md"
             onClick={() => {
               AddToCompare();
@@ -129,7 +140,7 @@ const InitialProductInfo = ({ productData, id }) => {
             ) : (
               <MdCompare />
             )}
-          </div>
+          </div> */}
           <div
             onClick={() => {
               setInCart((previnfo) => !previnfo);
@@ -141,7 +152,7 @@ const InitialProductInfo = ({ productData, id }) => {
           </div>
           <div
             className="text-2xl mt-[-0.75rem] text-grey-400 cursor-pointer"
-            onClick={shareLink()}
+            onClick={shareLink}
           >
             <FaShareSquare />
           </div>
