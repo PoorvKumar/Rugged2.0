@@ -184,7 +184,7 @@ const getAverageRating = (product) => {
 const getSearchedProducts = async (req, res, next) => {
   try {
     const searchTerm = req.query.q;
-    let redisOutput = await req.redisClient.get(`search_${searchTerm}`);
+    let redisOutput = await req.redisClient.get(`search_q=${searchTerm}&customerRating=${req.query.customerRating}&priceLL=${req.query.priceLL}&priceUL=${req.query.priceUL}&RuggedVerrified=${req.query.RuggedVerrified}&colours=${req.query.colours}&availability=${req.query.availability}&noOfResultsPerPage=12&pageNo=${req.query.pageNo}&categories=${req.query.categories}&brands=${req.query.brands}`);
 
     if (redisOutput) {
       return res.status(200).json(JSON.parse(redisOutput));
@@ -232,19 +232,16 @@ const getSearchedProducts = async (req, res, next) => {
           query = { ...query, categories: { $in: categoriesSelected } };
         }
       }
-      // console.log(query);
       let products = await Product.find(query);
-      console.log(products);
       // Pagination
       const pageNo = req.query.pageNo ? Number(req.query.pageNo) : 1;
       const noOfResultsPerPage = req.query.noOfResultsPerPage ? Number(req.query.noOfResultsPerPage) : 10;
-      const startIndex = (pageNo - 1) * noOfResultsPerPage;
-      const endIndex = pageNo * noOfResultsPerPage;
+      const startIndex = ((pageNo - 1) * noOfResultsPerPage);
+      const endIndex = Math.min(pageNo * noOfResultsPerPage,products.length);
       const newProducts = products.slice(startIndex, endIndex);
       const noPages = Math.ceil(products.length / noOfResultsPerPage);
-
       await req.redisClient.set(
-        `search_${searchTerm}`,
+        `search_q=${searchTerm}&customerRating=${req.query.customerRating}&priceLL=${req.query.priceLL}&priceUL=${req.query.priceUL}&RuggedVerrified=${req.query.RuggedVerrified}&colours=${req.query.colours}&availability=${req.query.availability}&noOfResultsPerPage=12&pageNo=${req.query.pageNo}&categories=${req.query.categories}&brands=${req.query.brands}`,
         JSON.stringify({ productList: newProducts, totalNumberOfPages: noPages }),
         "EX",
         3600

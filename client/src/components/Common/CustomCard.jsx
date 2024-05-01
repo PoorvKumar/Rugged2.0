@@ -14,6 +14,7 @@ import { addToWishlist } from "../../features/wishListReducer";
 import { useAuthenticate } from "@/context/AuthContext";
 
 const CustomCard = ({ productData, id }) => {
+  // console.log(productData);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -25,29 +26,28 @@ const CustomCard = ({ productData, id }) => {
   const [isAddedToCompareList, setIsAddedToCompareList] = useState(false);
   const categoriesList = productData.categories.join(", ");
 
-  const { addToCart,addToWishlist }=useAuthenticate();
+  const { addToCart, addToWishlist } = useAuthenticate();
 
-  const handleAddToCart=()=>
-  {
-    const cartData={
+  const handleAddToCart = () => {
+    const cartData = {
       productId: id,
-      quantity: 1
+      quantity: 1,
     };
 
     addToCart(cartData);
-  }
+  };
   const handleAddToWishList = () => {
-    addToWishlist({ productId: id});
+    addToWishlist({ productId: id });
     setIsAddedToWishlist((curr) => !curr);
   };
-  let totalNumberOfRatingCounts=0;
-  let average=0;
-  let index=0;
-  for(index=0;index<5;index++){
-    totalNumberOfRatingCounts+=productData.ratingCounts[`${index+1}`];
-    average+=((index+1)*productData.ratingCounts[`${index+1}`]);
+  let totalNumberOfRatingCounts = 0;
+  let average = 0;
+  let index = 0;
+  for (index = 0; index < 5; index++) {
+    totalNumberOfRatingCounts += productData.ratingCounts[`${index + 1}`];
+    average += (index + 1) * productData.ratingCounts[`${index + 1}`];
   }
-  average/=totalNumberOfRatingCounts;
+  average /= totalNumberOfRatingCounts;
   return (
     <div className="w-60 mt-[10%] mx-4 rounded-3xl relative hover:shadow-lg ">
       <div className="flex flex-col justify-start items-center">
@@ -182,16 +182,21 @@ const CustomCard = ({ productData, id }) => {
               </div>
             )}
           </div>
+          {console.log(productData.images[0]?.source)}
           {!majorHoverState && (
             <img
-              src={productData.images[0].source}
+              src={productData.images[0]?.source}
               alt="image1"
               className={`w-full h-full mt-[-44%] rounded-3xl object-cover`}
             />
           )}
           {majorHoverState && (
             <img
-              src={productData.images.length>1?productData.images[1].source:productData.images[0].source}
+              src={
+                productData.images?.length > 1
+                  ? productData.images[1].source
+                  : productData.images[0].source
+              }
               alt="image1"
               className={`w-full h-full mt-[-44%] rounded-3xl object-cover`}
             />
@@ -230,8 +235,15 @@ const CustomCard = ({ productData, id }) => {
             </div>
           </a>
           <div>
-            <span className="text-gray-600 text-sm line-through">₹{productData.price}</span>
-            <span className="text-cyan-600 text-2xl font-medium">₹ {(productData.price*(1-(productData.discount/100))).toFixed(2)}</span>
+            <span className="text-gray-600 text-sm line-through">
+              ₹{productData.price}
+            </span>
+            <span className="text-cyan-600 text-2xl font-medium">
+              ₹{" "}
+              {(productData.price * (1 - productData.discount / 100)).toFixed(
+                2
+              )}
+            </span>
           </div>
           <div>
             <Rating
