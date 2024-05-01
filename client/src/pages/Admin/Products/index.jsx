@@ -10,7 +10,8 @@ import UpdateProductModal from "../../../components/AdminDashboard/UpdateProduct
 import CustomProductModal from "../../../components/dashboard/CustomProductModal";
 
 export default function Products() {
-const [openUserId, setOpenUserId] = useState(null);
+  const [openUserId, setOpenUserId] = useState(null);
+  const [isChanged, setIsChanged] = useState(false);
 const handleOpenModal = (userId) => {
   setOpenUserId(userId); // Set the ID of the user for which the modal should be open
 };
@@ -19,6 +20,7 @@ const handleCloseModal = () => {
 };
   const theme = useTheme();
   const [products, setProducts] = useState([]);
+  // console.log(products)
   const [loading, setLoading] = useState(true);
   const handleDelete = async (id,sellid) => {
       const seller_id=sellid
@@ -33,6 +35,7 @@ const handleCloseModal = () => {
           }
         );
         console.log(response);
+        setIsChanged(!isChanged)
          toast.success("Product Deleted Successfully!", {
            position: "top-center",
          });
@@ -51,7 +54,7 @@ const handleCloseModal = () => {
             Authorization: "Bearer " + localStorage.getItem("token"),
           },
         });
-        console.log(response);
+        // console.log(response.data);
         const data = response.data;
         setProducts(data);
       } catch (error) {
@@ -61,7 +64,7 @@ const handleCloseModal = () => {
       }
     };
     fetchProducts();
-  }, [products]);
+  }, [isChanged]);
   return (
     <Box
       sx={{

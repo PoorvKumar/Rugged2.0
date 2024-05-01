@@ -77,7 +77,6 @@ const navItems = [
 ];
 
 const Sidebar = ({
-  user,
   drawerWidth,
   isSidebarOpen,
   setIsSidebarOpen,
@@ -92,7 +91,7 @@ const Sidebar = ({
   let isAdmin=false
   let isSeller=false
   let isBlogger = false
-  console.log(JSON.parse(localStorage.getItem("user")));
+  // console.log(JSON.parse(localStorage.getItem("user")));
   if (isCustomer) {
     isAdmin = JSON.parse(localStorage.getItem("user")).isAdmin;
     isSeller = JSON.parse(localStorage.getItem('user')).isSeller;
@@ -179,7 +178,9 @@ const Sidebar = ({
                     >
                       <ListItemButton
                         onClick={() => {
-                          navigate(`/dashboard/${lcText}`);
+                          lcText === "updateuser"
+                            ? navigate('/user/accountsettings')
+                            : navigate(`/dashboard/${lcText}`);
                           setActive(lcText);
                         }}
                         sx={{
@@ -363,13 +364,13 @@ const Sidebar = ({
                   fontSize="0.9rem"
                   sx={{ color: theme.palette.primary[100] }}
                 >
-                  {user.name}
+                  {/* {user.name} */}
                 </Typography>
                 <Typography
                   fontSize="0.8rem"
                   sx={{ color: theme.palette.primary[800] }}
                 >
-                  {user.occupation}
+                  {/* {user.occupation} */}
                 </Typography>
               </Box>
               <SettingsOutlined

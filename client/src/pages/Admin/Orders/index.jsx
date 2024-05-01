@@ -10,6 +10,7 @@ import api from "../../../api/api";
 const Orders = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const [isChanged, setIsChanged] = useState(false);
   // values to be sent to the backend
   // useEffect(())
     const [dataPlaced, setOrdersPlaced] = useState([]);
@@ -29,7 +30,7 @@ const Orders = () => {
         toast.success("Order Shipped Successfully", {
           position: "top-center",
         });
-          navigate("/admin/orders");
+        setIsChanged(!isChanged)
       } catch (err) {
         toast.error("Order shipping failed", {
           position: "top-center",
@@ -51,7 +52,7 @@ const Orders = () => {
         toast.success("Order Cancelled Successfully", {
           position: "top-center",
         });
-          navigate('/admin/orders')
+          setIsChanged(!isChanged)
       } catch (err) {
         toast.error("Order cancelling failed", {
           position: "top-center",
@@ -106,7 +107,7 @@ const Orders = () => {
     getPlacedOrders(); // Call the function when the component mounts
     getShippedOrders(); // Call the function when the component mounts
     getCancelledOrders(); // Call the function when the component mounts
-  }, [dataPlaced,dataShipped,dataCancelled]);
+  }, [isChanged]);
 //   console.log(data);
   const columns = [
     {

@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect, } from "react";
+import { useNavigate } from "react-router-dom";
 import { Box, useMediaQuery } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Navbar from "../../../components/dashboard/Navbar";
 import Sidebar from "../../../components/AdminDashboard/Sidebar";
-import { useGetUserQuery } from "../../../features/dashboard/api";
+// import { useGetUserQuery } from "../../../features/dashboard/api";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "../../../components/dashboard/theme";
@@ -14,15 +15,24 @@ const Layout = () => {
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const userId = useSelector((state) => state.mode.userId);
-  const { data } = useGetUserQuery(userId);
+  // const userId = useSelector((state) => state.mode.userId);
+  // const { data } = useGetUserQuery(userId);
   // console.log(data)
+    const navigate = useNavigate();
+
+    useEffect(() => {
+      const isAdmin = JSON.parse(localStorage.getItem("user")).isAdmin;
+
+      if (isAdmin !== "true") {
+        // If isAdmin is not true, redirect to the home page or any other page
+        navigate("/");
+      }
+    }, [navigate]);
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box display={isNonMobile ? "flex" : "block"} width="100%" height="100%">
         <Sidebar
-          user={data || {}}
           isNonMobile={isNonMobile}
           drawerWidth="250px"
           isSidebarOpen={isSidebarOpen}
@@ -30,7 +40,6 @@ const Layout = () => {
         />
         <Box flexGrow={1}>
           <Navbar
-            user={data || {}}
             isSidebarOpen={isSidebarOpen}
             setIsSidebarOpen={setIsSidebarOpen}
           />

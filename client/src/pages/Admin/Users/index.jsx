@@ -9,14 +9,35 @@ import UpdateUserModal from '../../../components/AdminDashboard/UpdateUserModal'
 import { toast } from "react-toastify";
 import api from "../../../api/api";
 const Orders = () => {
-    const theme = useTheme();
+  const theme = useTheme();
+  const [isDeleted, setIsDeleted] = useState(false);
     const [openUserId, setOpenUserId] = useState(null);
     const handleOpenModal = (userId) => {
       setOpenUserId(userId); // Set the ID of the user for which the modal should be open
     };
      const handleCloseModal = () => {
        setOpenUserId(null); // Reset the modal state when closing the modal
-     };
+  };
+  const handleDeleteUser = async (id) => {
+       try {
+         const response = await api.delete(`/users/deleteUser/${id}`, {
+           headers: {
+             Authorization: "Bearer " + localStorage.getItem("token"),
+           },
+         });
+          toast.success("User Deleted Successfully", {
+            position: "top-center",
+          });
+         setIsDeleted(!isDeleted)
+         return response.data;
+       } catch (error) {
+         console.error("Error deleting user:", error);
+         toast.error("Unable to Delete User", {
+           position: "top-center",
+         });
+         throw error;
+       }
+  }
   const [datausers, setUsers] = useState([]);
   useEffect(() => {
     const getAllUsers = async () => {
@@ -28,11 +49,11 @@ const Orders = () => {
         });
         setUsers(response.data);
       } catch (err) {
-        console.error("Order placing failed", err);
+        console.error("fetching failed", err);
       }
     };
     getAllUsers(); // Call the function when the component mounts
-  }, [datausers]);
+  }, [isDeleted]);
   //   console.log(data);
   const columns = [
     {
@@ -54,6 +75,12 @@ const Orders = () => {
               id={params.value}
             />
           )}
+          <Button
+            variant="contained"
+            onClick={() => handleDeleteUser(params.value)}
+          >
+            Delete
+          </Button>
         </div>
       ),
     },

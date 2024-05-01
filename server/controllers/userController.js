@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
-
+const mongoose = require('mongoose')
+const { ObjectId } = require("mongodb");
 const getAllUsers = async (req, res, next) => {
   try {
     const { page = 1, limit = 10 } = req.query;
@@ -100,11 +101,13 @@ const updateProfile = async (req, res, next) => {
 const deleteUser = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const update = req.body;
-    const user = await User.findByIdAndDelete(id);
+    const nid = new ObjectId(id);
+    const user = await User.findByIdAndDelete(nid);
+    console.log("id hai yehh ",nid)
     if (!user) {
-      return res.status(404).json({ msg: "User not found" });
+      return res.status(404).json({ msg: `User not found ${id}` });
     }
+    await req.redisClient.del("all_users");
     return res.json({ msg: "User deleted successfully" });
   } catch (err) {
     next(err);

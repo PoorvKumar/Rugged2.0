@@ -231,7 +231,7 @@ router.post('/changePassword',authenticateToken, userController.changePassword);
  *         description: Internal Server Error
  */
 
-router.delete('/deleteUser',authenticateToken, userController.deleteUser);
+router.delete('/deleteUser/:id',authenticateToken, userController.deleteUser);
 
 /**
  * @swagger

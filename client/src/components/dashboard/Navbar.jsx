@@ -16,7 +16,6 @@ import profileImage from '../../assets/banner-1.jpg'
 import { AppBar, IconButton, InputBase, Toolbar, useTheme,Box,Typography,Menu,MenuItem } from "@mui/material";
 import FlexBetween from "./FlexBetween";
 const Navbar = ({
-  user,
   isSidebarOpen,
   setIsSidebarOpen
 }) => {
@@ -94,13 +93,13 @@ const Navbar = ({
                     fontSize="0.85rem"
                     sx={{ color: theme.palette.secondary[900] }}
                   >
-                    {user.name}
+                    {/* {user.name} */}
                   </Typography>
                   <Typography
                     fontSize="0.75rem"
                     sx={{ color: theme.palette.secondary[900] }}
                   >
-                    {user.occupation}
+                    {/* {user.occupation} */}
                   </Typography>
                 </Box>
                 <ArrowDropDownOutlined

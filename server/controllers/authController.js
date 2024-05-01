@@ -27,7 +27,7 @@ const signup = async (req, res, next) => {
         });
 
         await user.save();
-
+        await req.redisClient.del("all_users");
         return res.status(201).json({ msg: "User registered seccessfully!" });
     }
     catch (err) {
