@@ -28,7 +28,7 @@ const Home = () => {
 
       <ShopNowSection />
       <TrendingSection />
-      <FeatureProd />
+      {/* <FeatureProd /> */}
       <SpringSummer />
       <EmailSubscribe />
       <LatestBlogs />
