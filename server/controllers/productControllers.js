@@ -69,7 +69,6 @@ const getAverageRating = (product) => {
 //         { brand: { $in: [pattern] } },
 //       ],
 //     });
-
 //     const customerRating = Number(req.query.customerRating);
 //     const brands = req.query.brands.split(",");
 //     const priceLL = Number(req.query.priceLL);
@@ -80,17 +79,14 @@ const getAverageRating = (product) => {
 //     const pageNo = req.query.pageNo;
 //     const noOfResultsPerPage = Number(req.query.noOfResultsPerPage);
 //     const categoriesSelected = req.query.categories.split(",");
-
 //     const priceFilter = (product) => {
 //       let priceAfterDiscount = product.price * (1 - product.discount * 0.01);
 //       return priceAfterDiscount > priceLL && priceAfterDiscount < priceUL;
 //     };
-
-//     const customerRatingFilter = (product) => {
-//       // console.log(getAverageRating(product));
-//       return getAverageRating(product) >= customerRating;
-//     };
-
+    // const customerRatingFilter = (product) => {
+    //   // console.log(getAverageRating(product));
+    //   return getAverageRating(product) >= customerRating;
+    // };
 //     const brandFilter = (product) => {
 //       let index = 0;
 //       for (index = 0; index < brands.length; index++) {
@@ -100,11 +96,9 @@ const getAverageRating = (product) => {
 //       }
 //       return false;
 //     };
-
 //     const ruggedVerrifiedFilter = (product) => {
 //       return product.ruggedVerrified === true;
 //     };
-
 //     const colorFilter = (product) => {
 //       let index = 0;
 //       for (index = 0; index < coloursSelected.length; index++) {
@@ -117,7 +111,6 @@ const getAverageRating = (product) => {
 //       }
 //       return false;
 //     };
-
 //     const categoriesFilter = (product) => {
 //       let index = 0;
 //       for (index = 0; index < categoriesSelected.length; index++) {
@@ -140,26 +133,21 @@ const getAverageRating = (product) => {
 //     if (ruggedVerified === "true") {
 //       products = products.filter(ruggedVerrifiedFilter);
 //     }
-
 //     if (coloursSelected[0] !== "all") {
 //       products = products.filter(colorFilter);
 //     }
 //     if (categoriesSelected[0] !== "all") {
 //       products = products.filter(categoriesFilter);
 //     }
-
 //     if (availability) {
 //       products = products.filter(availabilityFilter);
 //     }
-
 //     if (true) {
 //       products = products.filter(priceFilter);
 //     }
-
 //     if (customerRating > 0) {
 //       products = products.filter(customerRatingFilter);
 //     }
-
 //     let newProducts = [];
 //     let i = 0;
 //     let j = 0;
@@ -200,9 +188,6 @@ const getSearchedProducts = async (req, res, next) => {
       };
 
       // Check if other query parameters exist and modify the query accordingly
-      if (req.query.customerRating && Number(req.query.customerRating) > 0) {
-        query = { ...query, customerRating: { $gte: Number(req.query.customerRating) } };
-      }
       if (req.query.brands) {
         const brands = req.query.brands.split(",");
         if (brands[0] !== "all") {
@@ -233,6 +218,12 @@ const getSearchedProducts = async (req, res, next) => {
         }
       }
       let products = await Product.find(query);
+      const customerRatingFilter = (product) => {
+        return getAverageRating(product) >= req.query.customerRating;
+      };
+      if (req.query.customerRating && Number(req.query.customerRating) > 0) {
+        products = products.filter(customerRatingFilter);
+      }
       // Pagination
       const pageNo = req.query.pageNo ? Number(req.query.pageNo) : 1;
       const noOfResultsPerPage = req.query.noOfResultsPerPage ? Number(req.query.noOfResultsPerPage) : 10;
