@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./UserAddress.css";
 import api from "@/api/api";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const UserAddress = () => {
   const [show, setShow] = useState(false);
@@ -16,83 +17,88 @@ const UserAddress = () => {
   const [savedaddress, setSavedaddress] = useState(
     JSON.parse(localStorage.getItem("user")).addresses
   );
+  const navigate = useNavigate();
   const saveaddress = async () => {
     try {
-        let addr = {
-            name:name,
-            phoneNumber:Phone,
-            street:street,
-            city:city,
-            landmark:landmark,
-            state:state,
-            pincode:PinCode,
-        };
-        localStorage.setItem(
-            "user",
-            JSON.stringify({
-              ...JSON.parse(localStorage.getItem("user")),
-              addresses:[addr]
-            })
-          );
-          const finalUser = await api.post(
-            "/users/addAddress",
-            { ...addr },
-            {
-              headers: {
-                Authorization: "Bearer " + localStorage.getItem("token"),
-              },
-            }
-          );
-          if(finalUser.data._id){
-            toast.success("Address Added Successfully!", {
-              position: "top-center",
-            });
-          }
+      let addr = {
+        name: name,
+        phoneNumber: Phone,
+        street: street,
+        city: city,
+        landmark: landmark,
+        state: state,
+        pincode: PinCode,
+      };
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          ...JSON.parse(localStorage.getItem("user")),
+          addresses: [addr],
+        })
+      );
+      const finalUser = await api.post(
+        "/users/addAddress",
+        { ...addr },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      );
+      setSavedaddress(JSON.parse(localStorage.getItem("user")).addresses);
+      // if (finalUser.data._id) {
+      //   toast.success("Address Added Successfully!", {
+      //     position: "top-center",
+      //   });
+      // }
     } catch (error) {
       toast.error("Address couldn't be added. Please try again.", {
         position: "top-center",
       });
     }
   };
-  const deleteAddress = async (id)=>{
+  const deleteAddress = async (id) => {
     try {
-        let addr = {
-            _id:id,
-            name:name,
-            phoneNumber:Phone,
-            street:street,
-            city:city,
-            landmark:landmark,
-            state:state,
-            pincode:PinCode,
-        };
-        localStorage.setItem(
-            "user",
-            JSON.stringify({
-              ...JSON.parse(localStorage.getItem("user")),
-              addresses:JSON.parse(localStorage.getItem("user")).addresses.filter((item)=> item._id !== addr._id )
-            })
-          );
-          const finalUser = await api.post(
-            "/users/deleteAddress",
-            { ...addr },
-            {
-              headers: {
-                Authorization: "Bearer " + localStorage.getItem("token"),
-              },
-            }
-          );
-          if(finalUser.data._id){
-            toast.success("Address Deleted Successfully!", {
-              position: "top-center",
-            });
-          }
+      let addr = {
+        _id: id,
+        name: name,
+        phoneNumber: Phone,
+        street: street,
+        city: city,
+        landmark: landmark,
+        state: state,
+        pincode: PinCode,
+      };
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          ...JSON.parse(localStorage.getItem("user")),
+          addresses: JSON.parse(localStorage.getItem("user")).addresses.filter(
+            (item) => item._id !== addr._id
+          ),
+        })
+      );
+      const finalUser = await api.post(
+        "/users/deleteAddress",
+        { ...addr },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      );
+      setSavedaddress(JSON.parse(localStorage.getItem("user")).addresses);
+      // if (finalUser.data._id) {
+      //   toast.success("Address Deleted Successfully!", {
+      //     position: "top-center",
+      //   });
+      // }
     } catch (error) {
       toast.error("Address couldn't be Deleted. Please try again.", {
         position: "top-center",
       });
     }
-  }
+  };
   return (
     <div className="useraddress">
       {!show && <h1 className="mainhead1">Your Address</h1>}
@@ -101,14 +107,17 @@ const UserAddress = () => {
           {savedaddress.map((item, index) => {
             return (
               <div className="address" key={index}>
-                <span>{item.name}</span>,
-                <span>{item.phoneNumber}</span>,
-                <span>{item.street}</span>,
-                <span>{item.landmark}</span>,
+                <span>{item.name}</span>,<span>{item.phoneNumber}</span>,
+                <span>{item.street}</span>,<span>{item.landmark}</span>,
                 <span>{item.city}</span>
                 <span>{item.state}</span>
                 <span>{item.pincode}</span>
-                <div className="delbtn" onClick={()=>{deleteAddress(item._id)}} >  
+                <div
+                  className="delbtn"
+                  onClick={() => {
+                    deleteAddress(item._id);
+                  }}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -131,7 +140,10 @@ const UserAddress = () => {
       )}
 
       {!show && (
-        <div className="p-4 px-6 hover:cursor-pointer bg-cyan-600 rounded-full text-3xl text-white" onClick={() => setShow(true)}>
+        <div
+          className="p-4 px-6 hover:cursor-pointer bg-cyan-600 rounded-full text-3xl text-white"
+          onClick={() => setShow(true)}
+        >
           +
         </div>
       )}
@@ -216,6 +228,7 @@ const UserAddress = () => {
             onClick={() => {
               saveaddress();
               setShow(false);
+              // window.location.reload();
             }}
           >
             Save
