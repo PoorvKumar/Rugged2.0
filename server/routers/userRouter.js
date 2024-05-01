@@ -21,6 +21,10 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/userController");
+const {
+  authenticateToken,
+  authorizeRoles,
+} = require("../middlewares/authMiddleware");
 
 /**
  * @swagger
@@ -65,7 +69,7 @@ const userController = require("../controllers/userController");
  *         description: Internal Server Error
  */
 
-router.get('/', userController.getAllUsers);
+router.get('/', authenticateToken, authorizeRoles(['admin']), userController.getAllUsers);
 
 /**
  * @swagger
@@ -90,7 +94,12 @@ router.get('/', userController.getAllUsers);
  *         description: Internal Server Error
  */
 
-router.get('/nolimitUser', userController.getAllUsersNoLimit);
+router.get(
+  "/nolimitUser",
+  authenticateToken,
+  authorizeRoles(["admin"]),
+  userController.getAllUsersNoLimit
+);
 
 /**
  * @swagger
@@ -122,8 +131,8 @@ router.get('/nolimitUser', userController.getAllUsersNoLimit);
  *         description: Internal Server Error
  */
 
-router.get('/getUserById/:id', userController.getUserById);
-
+router.get("/getUserById/:id", authenticateToken, userController.getUserById);
+router.get("/getPostId",authenticateToken,userController.getUserPostById)
 
 /**
  * @swagger
@@ -170,7 +179,7 @@ router.get('/getUserById/:id', userController.getUserById);
  *         description: Internal Server Error
  */
 
-router.patch('/updateProfile', userController.updateProfile);
+router.patch('/updateProfile',authenticateToken, userController.updateProfile);
 
 /**
  * @swagger
@@ -203,7 +212,7 @@ router.patch('/updateProfile', userController.updateProfile);
  *         description: Internal Server Error
  */
 
-router.post('/changePassword', userController.changePassword);
+router.post('/changePassword',authenticateToken, userController.changePassword);
 
 /**
  * @swagger
@@ -222,7 +231,7 @@ router.post('/changePassword', userController.changePassword);
  *         description: Internal Server Error
  */
 
-router.delete('/deleteUser', userController.deleteUser);
+router.delete('/deleteUser',authenticateToken, userController.deleteUser);
 
 /**
  * @swagger
@@ -272,7 +281,7 @@ router.delete('/deleteUser', userController.deleteUser);
  *         description: Internal Server Error
  */
 
-router.post('/addAddress', userController.addAddress);
+router.post('/addAddress',authenticateToken, userController.addAddress);
 
 /**
  * @swagger
@@ -303,6 +312,6 @@ router.post('/addAddress', userController.addAddress);
  *         description: Internal Server Error
  */
 
-router.post('/deleteAddress', userController.deleteAddress);
+router.post('/deleteAddress',authenticateToken, userController.deleteAddress);
 
 module.exports = router;

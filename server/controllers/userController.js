@@ -40,7 +40,23 @@ const getAllUsersNoLimit = async (req, res, next) => {
     next(err);
   }
 };
+const getUserPostById = async (req, res, next) => {
+  try {
+    // Extract user ID from req._id
+    const userId = req.user._id;
 
+    // Call your UserPost model method here using userId
+    const userPosts = await User.find({ _id: userId }); // Assuming you have a UserPost model
+
+    // You can further process the userPosts as needed
+
+    return res.json(userPosts);
+  } catch (err) {
+    console.error(err);
+    // Pass the error to the error handling middleware
+    next(err);
+  }
+};
 const getUserById = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -109,6 +125,8 @@ const addAddress = async (req, res, next) => {
       pincode,
     };
     const user = req.user;
+    // console.log(newAddress)
+    // console.log("need", user.addresses)
     user.addresses.push(newAddress);
     await user.save();
     res.status(201).json({ message: "Address added successfully", user });
@@ -168,6 +186,7 @@ const changePassword = async (req, res, next) => {
 module.exports = {
   getAllUsers,
   getUserById,
+  getUserPostById,
   updateProfile,
   deleteUser,
   addAddress,

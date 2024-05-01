@@ -12,10 +12,29 @@ const Checkout = () => {
   const [showAddAddressForm, setShowAddAddressForm] = useState(false);
 
   useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem('user'));
-    if (userData && userData.addresses) {
-      setAddresses(userData.addresses);
-    }
+    // const userData = JSON.parse(localStorage.getItem('user'));
+    // if (userData && userData.addresses) {
+    //   setAddresses(userData.addresses);
+    // }
+    const fetchUserById = async () => {
+      try {
+        // Make a GET request to the server endpoint which handles user retrieval
+        const response = await api.get("/users/getPostId", {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+
+        // If the request is successful, return the user data
+        console.log(response.data[0])
+        setAddresses(response.data[0].addresses);
+      } catch (error) {
+        // If there's an error, log it and handle it accordingly
+        console.error("Error fetching user:", error);
+        throw error; // Propagate the error to the caller
+      }
+    };
+    fetchUserById()
   }, []);
 
   const navigate=useNavigate();
@@ -85,8 +104,29 @@ const Checkout = () => {
     setShowAddAddressForm(false);
   };
 
-  const handleSaveAddress = (newAddress) => {
+  const handleSaveAddress = async(newAddress) => {
     setAddresses([...addresses, newAddress]);
+    // const handleSave = async (formData) => {
+      try {
+        // Send the form data to the server using axios or another HTTP client
+        const response = await api.post("/users/addAddress", newAddress, {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+         if (response.data._id) {
+           toast.success("Address Added Successfully!", {
+             position: "top-center",
+           });
+         }
+        console.log(response.data.message);
+      } catch (err) {
+        console.error(err);
+         toast.error("Address couldn't be added. Please try again.", {
+           position: "top-center",
+         });
+      }
+    // };
   };
 
   return (
