@@ -74,7 +74,7 @@ const cartController = require('../controllers/cartController');
 
  */
 
-router.get('/', cartController.getCart);
+router.get('/',authenticateToken, cartController.getCart);
 
 /**
  * @swagger
@@ -111,7 +111,7 @@ router.get('/', cartController.getCart);
  *         description: Internal Server Error
  */
 
-router.post('/', cartController.addToCart);
+router.post('/',authenticateToken, cartController.addToCart);
 
 /**
  * @swagger
@@ -134,6 +134,6 @@ router.post('/', cartController.addToCart);
  *         description: Internal Server Error
  */
 
-router.delete('/emptycart', cartController.emptyCart);
+router.delete('/emptycart',authenticateToken, cartController.emptyCart);
 
 module.exports = router;
