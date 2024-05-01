@@ -15,54 +15,9 @@ beforeAll(async () => {
 
 // Clear the test database before each test
 beforeEach(async () => {
-const testProducts = [
-  {
-    name: "Product 1",
-    shortDescription: "Short description for product 1",
-    description: "Description for product 1",
-    price: 19.99,
-    brand: "Brand 1",
-    tags: ["tag1", "tag2"],
-    categories: ["category1"],
-    images: [
-      { type: "image", source: "source1" },
-      { type: "image", source: "source2" },
-    ],
-    stockQuantity: 100,
-    seller: "60bf9fecef199b42e86cd96a", // Assuming this is the ObjectId of the user who is the seller
-    reviews: [],
-    ratingCounts: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
-    discount: 0,
-    colours: ["red", "blue"],
-    dimensions: { length: 10, width: 5, height: 15 },
-    ruggedVerrified: true,
-  },
-  {
-    name: "Product 2",
-    shortDescription: "Short description for product 2",
-    description: "Description for product 2",
-    price: 29.99,
-    brand: "Brand 2",
-    tags: ["tag3", "tag4"],
-    categories: ["category2"],
-    images: [
-      { type: "image", source: "source3" },
-      { type: "image", source: "source4" },
-    ],
-    stockQuantity: 50,
-    seller: "60bf9fecef199b42e86cd96b", // Assuming this is the ObjectId of the user who is the seller
-    reviews: [],
-    ratingCounts: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
-    discount: 5,
-    colours: ["green", "yellow"],
-    dimensions: { length: 15, width: 8, height: 20 },
-    ruggedVerrified: false,
-  },
-];
-await Product.insertMany(testProducts);
 },50000);
 afterEach(async () => {
-  await Product.deleteMany();
+  // await Product.deleteMany();
 });
 // Disconnect from the test database after all tests
 afterAll(async () => {
@@ -101,29 +56,40 @@ test("GET /api/products", async () => {
     .set("Authorization", "Bearer " + token);
 
   expect(response.status).toBe(200);
-  expect(response.body.length).toBe(2); // Check if products are returned
+  expect(response.body.length).toBe(16); // Check if products are returned
   // Add more assertions based on your API response
-},50000);
+}, 50000);
+  test("GET /api/products with invalid token", async () => {
+    // Generate a mock token
+    const token ='invalid';
 
- // Test for updateUserProfile
-//  test("PUT /api/user/:id", async () => {
-//    const user = await createUser(); // Function to create a user for testing
-//    const update = { name: "New Name" }; // Example update
-//    const response = await request(app)
-//      .put(`/api/user/${user._id}`)
-//      .send({ update });
+    const response = await request(app)
+      .get("/api/admin/products")
+      .set("Authorization", "Bearer " +token);
 
-//    expect(response.status).toBe(200);
-//    expect(response.body.name).toBe(update.name); // Check if user name is updated
-//  });
+    expect(response.status).toBe(430);
+   // Check if products are returned
+    // Add more assertions based on your API response
+  }, 50000);
+test("GET /api/non-existent-route", async () => {
+  const response = await request(app).get("/api/non-existent-route");
+  expect(response.status).toBe(404); // Expect 404 Not Found
+  
+});
 
-//  // Test for getUserByID
-//  test("GET /api/user", async () => {
-//    const user = await createUser(); // Function to create a user for testing
-//    const response = await request(app).get(`/api/user?userId=${user._id}`);
-//    expect(response.status).toBe(200);
-//    expect(response.body._id).toBe(user._id.toString()); // Check if correct user is returned
-//  });
+
+ // Test for getUserByID
+ test("GET /api/user", async () => {
+   //  const user = await createUser(); // Function to create a user for testing
+   const user = findUserById("662fd0b42ba9fbb1c6a5eb3c");
+   const uid = "662fd0b42ba9fbb1c6a5eb3c";
+  const token=generateToken(user)
+   const response = await request(app)
+     .get(`/api/admin/userbyid?userId=${uid}`)
+     .set("Authorization", "Bearer " + token);
+   expect(response.status).toBe(200);
+   expect(response.body._id).toBe(uid); // Check if correct user is returned
+ });
 
 //  // Test for updateProduct
 //  test("PUT /api/product/:id", async () => {
