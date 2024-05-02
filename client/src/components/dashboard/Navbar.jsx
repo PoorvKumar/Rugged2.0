@@ -49,10 +49,10 @@ const Navbar = ({
               gap="3rem"
               p="0.1rem 1.5 rem"
             >
-              <InputBase placeholder="Search..." />
+              {/* <InputBase placeholder="Search..." />
               <IconButton>
                 <Search />
-              </IconButton>
+              </IconButton> */}
             </FlexBetween>
           </FlexBetween>
           {/* Right Side */}
@@ -64,10 +64,10 @@ const Navbar = ({
                 <LightModeOutlined sx={{ fontSize: "25px" }} />
               )}
             </IconButton>
-            <IconButton>
+            {/* <IconButton>
               <SettingsOutlined sx={{ fontSize: "25px" }} />
-            </IconButton>
-            <FlexBetween>
+            </IconButton> */}
+            {/* <FlexBetween>
               <Button
                 onClick={handleCLick}
                 sx={{
@@ -93,13 +93,13 @@ const Navbar = ({
                     fontSize="0.85rem"
                     sx={{ color: theme.palette.secondary[900] }}
                   >
-                    {/* {user.name} */}
+                    
                   </Typography>
                   <Typography
                     fontSize="0.75rem"
                     sx={{ color: theme.palette.secondary[900] }}
                   >
-                    {/* {user.occupation} */}
+                   
                   </Typography>
                 </Box>
                 <ArrowDropDownOutlined
@@ -109,7 +109,7 @@ const Navbar = ({
               <Menu anchorEl={anchorEl} open={isOpen} onClose={handleClose} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
                 <MenuItem onClick={handleClose}>Log Out</MenuItem>
               </Menu>
-            </FlexBetween>
+            </FlexBetween> */}
           </FlexBetween>
         </Toolbar>
       </AppBar>

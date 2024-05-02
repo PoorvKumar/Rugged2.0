@@ -6,6 +6,7 @@ import { ImHappy } from "react-icons/im";
 import { MdCompare } from "react-icons/md";
 import { FaShareSquare } from "react-icons/fa";
 import { GiTwoCoins } from "react-icons/gi";
+import { useNavigate } from "react-router-dom";
 import {
   AiOutlineHeart,
   AiFillHeart,
@@ -13,11 +14,12 @@ import {
   AiOutlineLink,
 } from "react-icons/ai";
 import { useDispatch } from "react-redux";
-import { addToWishlist } from "../../features/wishListReducer";
-import { addToCart } from "../../features/cartReducer";
+// import { addToWishlist } from "../../features/wishListReducer";
+// import { addToCart } from "../../features/cartReducer";
 import { useAuthenticate } from "@/context/AuthContext";
 
 const InitialProductInfo = ({ productData, id }) => {
+  const navigate=useNavigate()
   const dispatch=useDispatch();
   const [buyInfo, setBuyInfo] = useState({
     quantity: 1,
@@ -107,13 +109,26 @@ const InitialProductInfo = ({ productData, id }) => {
   // console.log(average);
   // console.log(totalNumberOfRatingCounts);
 
-  const { addToCart }=useAuthenticate();
+  const { addToCart,addToWishlist }=useAuthenticate();
+  const placeBuyNow = () => {
+    const cartData = {
+      productId: id,
+      quantity: buyInfo.quantity,
+    };
 
+    addToCart(cartData);
+    navigate('/cart')
+  }
+  const handleAddToWishList = () => {
+    setInCart((previnfo) => !previnfo);
+    addToWishlist({ productId: id });
+    // setIsAddedToWishlist((curr) => !curr);
+  };
   const handleAddToCart=()=>
   {
     const cartData={
       productId: id,
-      quantity: 1
+      quantity: buyInfo.quantity
     };
 
     addToCart(cartData);
@@ -142,10 +157,7 @@ const InitialProductInfo = ({ productData, id }) => {
             )}
           </div> */}
           <div
-            onClick={() => {
-              setInCart((previnfo) => !previnfo);
-              dispatch(addToWishlist(productData));
-            }}
+            onClick={handleAddToWishList}
             className="text-red-500 text-2xl mt-[-0.75rem] cursor-pointer"
           >
             {inCart ? <AiFillHeart /> : <AiOutlineHeart />}
@@ -167,9 +179,7 @@ const InitialProductInfo = ({ productData, id }) => {
             precision={0.1}
             readOnly
           />
-          <div className="mt-1 ml-5 text-sm">
-            {average} Stars
-          </div>
+          <div className="mt-1 ml-5 text-sm">{average} Stars</div>
           <div className="bg-gray-700 py-3 px-[1px] ml-2"></div>
           <div className="mt-1 ml-5 text-sm">
             {totalNumberOfRatingCounts} Reviews
@@ -234,7 +244,10 @@ const InitialProductInfo = ({ productData, id }) => {
           href="#"
           className="hover:bg-cyan-600 hover:text-white text-cyan-600 border-[2px] border-cyan-600 px-4 py-2 w-fit m-2 ml-0"
         >
-          <span className="text-[1rem] uppercase transition-all flex flex-row align-middle items-center">
+          <span
+            className="text-[1rem] uppercase transition-all flex flex-row align-middle items-center"
+            onClick={() => { placeBuyNow() }}
+          >
             <div className="mr-3 pt-[0.5px]">
               <ImHappy />
             </div>
@@ -245,7 +258,10 @@ const InitialProductInfo = ({ productData, id }) => {
           href="#"
           className="hover:text-cyan-300 hover:underline text-gray-700 border-[2px] border-transparent px-4 py-2 w-fit m-2 ml-0"
         >
-          <span className="text-[1rem] uppercase transition-all flex flex-row align-middle items-center font-bold" onClick={handleAddToCart}>
+          <span
+            className="text-[1rem] uppercase transition-all flex flex-row align-middle items-center font-bold"
+            onClick={handleAddToCart}
+          >
             <div className="mr-3 pt-[0.5px] text-2xl">
               <BsCartPlus />
             </div>
