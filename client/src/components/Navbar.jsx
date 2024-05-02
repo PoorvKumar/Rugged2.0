@@ -123,14 +123,14 @@ const handleHoverLeave = () => {
                                 Shop
                             </a>
                         </li>
-                        <li>
+                        {/* <li>
                             <a
                                 href="/blogs"
                                 className="text-white uppercase hover:text-cyan-500 hover:underline hover:underline-offset-4"
                             >
                                 Blog
                             </a>
-                        </li>
+                        </li> */}
                         <li>
                             <a
                                 href="/about"
