@@ -42,19 +42,7 @@ router.post(
   authorizeRoles(["customer"]),
   sellerController.becomeSeller
 );
-// router.patch(
-//   "/products/:id",
-//   authenticateToken,
-//   authorizeRoles(["seller"]),
-//   sellerController.updateProduct
-// );
 // Important Route
-// router.delete(
-//   "/products/:id",
-//   authenticateToken,
-//   authorizeRoles(["seller"]),
-//   sellerController.deleteProduct
-// );
 router.get(
   "/details",
   authenticateToken,

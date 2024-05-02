@@ -38,7 +38,7 @@ export default function Products() {
         }
       };
       fetchProducts();
-    }, [products]);
+    }, []);
   const handleDelete = async (id,sellid) => {
     const seller_id=sellid
     try {

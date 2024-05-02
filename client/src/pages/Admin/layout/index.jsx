@@ -22,12 +22,12 @@ const Layout = () => {
 
     useEffect(() => {
       const isAdmin = JSON.parse(localStorage.getItem("user")).isAdmin;
-
-      if (isAdmin !== "true") {
+      console.log(isAdmin)
+      if (!isAdmin) {
         // If isAdmin is not true, redirect to the home page or any other page
         navigate("/");
       }
-    }, [navigate]);
+    }, []);
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

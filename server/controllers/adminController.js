@@ -2,7 +2,8 @@ const Product = require("../models/product");
 const Analytics = require("../models/analytics");
 const User = require("../models/user");
 const Order = require("../models/order")
-const Cart=require("../models/cart")
+const Cart = require("../models/cart")
+const Wishlist=require('../models/wishlist')
 const getAllProducts = async (req, res, next) => {
   try {
     const products = await Product.find();
@@ -128,7 +129,7 @@ const deleteProduct = async (req, res, next) => {
 
     // Remove the product from users' carts
     await Cart.updateMany({}, { $pull: { items: { product: id } } });
-
+    await Wishlist.updateMany({}, { $pull: { items: id } });
     return res.json({ msg: "Product deleted successfully" });
   } catch (err) {
     next(err);
