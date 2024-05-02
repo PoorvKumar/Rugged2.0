@@ -23,7 +23,37 @@ const { addComplaint, getComplaints } = require('../controllers/ComplaintControl
 
 /**
  * @swagger
- * /api/complaints/addcomplaint:
+ * components:
+ *   schemas:
+ *     Complaint:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *           description: Name of the person making the complaint
+ *         email:
+ *           type: string
+ *           format: email
+ *           description: Email address of the person making the complaint
+ *         phone:
+ *           type: string
+ *           description: Phone number of the person making the complaint
+ *         subject:
+ *           type: string
+ *           description: Subject of the complaint
+ *         message:
+ *           type: string
+ *           description: Message or details of the complaint
+ *       required:
+ *         - name
+ *         - email
+ *         - subject
+ *         - message
+ */
+
+/**
+ * @swagger
+ * /api/contact/addcomplaint:
  *   post:
  *     summary: Add a new complaint
  *     tags: [Complaints]
@@ -57,7 +87,7 @@ router.post('/addcomplaint', addComplaint);
 
 /**
  * @swagger
- * /api/complaints/getcomplaints:
+ * /api/contact/getcomplaints:
  *   get:
  *     summary: Get all complaints
  *     tags: [Complaints]
