@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default axios.create({
-    // baseURL: "http://localhost:5000/api"
+    baseURL: "http://localhost:5000/api"
     // baseURL: "https://rugged-server.onrender.com/api"
-    baseURL: "https://rugged2-0.onrender.com/"
+    // baseURL: "https://rugged2-0.onrender.com/api"
 });
