@@ -60,40 +60,82 @@ const Checkout = () => {
       return;
     }
 
-    const orderItems = cart.items.map(item => ({
-      productId: item.product._id, // Assuming product ID is stored in _id field
-      quantity: item.quantity,
-      price: item.product.price
-    }));
+    if(selectedPaymentMethod==='cod'){
+      const orderItems = cart.items.map(item => ({
+        productId: item.product._id, // Assuming product ID is stored in _id field
+        quantity: item.quantity,
+        price: item.product.price
+      }));
+      const orderData = {
+        items: orderItems,
+        totalAmount: subtotal,
+        shippingAddress: selectedAddress,
+        paymentMode: selectedPaymentMethod
+      };
+      try
+      {
+        const response=await api.post('/orders',orderData,{
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        });
+  
+        console.log("Order successfully created",response.data);
+        navigate('/orders');
+        toast.success("Order placed successfully",{
+          position: "top-center"
+        });
+      }
+      catch(err)
+      {
+        console.error("Order placing failed",err);
+        toast.error("Unable to place order",{
+          position: "top-center"
+        });
+      }
+    }
+    else{
 
-    const orderData = {
-      items: orderItems,
-      totalAmount: subtotal,
-      shippingAddress: selectedAddress,
-      paymentMode: selectedPaymentMethod
-    };
+      // Razorpay implementation 
 
-    try
-    {
-      const response=await api.post('/orders',orderData,{
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`
+      const paymentdone=true;
+      if(paymentdone==true){
+        
+        const orderItems = cart.items.map(item => ({
+          productId: item.product._id, // Assuming product ID is stored in _id field
+          quantity: item.quantity,
+          price: item.product.price
+        }));
+        const orderData = {
+          items: orderItems,
+          totalAmount: subtotal,
+          shippingAddress: selectedAddress,
+          paymentMode: selectedPaymentMethod
+        };
+        try
+        {
+          const response=await api.post('/orders',orderData,{
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+          });
+    
+          console.log("Order successfully created",response.data);
+          navigate('/orders');
+          toast.success("Order placed successfully",{
+            position: "top-center"
+          });
         }
-      });
-
-      console.log("Order successfully created",response.data);
-      navigate('/orders');
-      toast.success("Order placed successfully",{
-        position: "top-center"
-      });
+        catch(err)
+        {
+          console.error("Order placing failed",err);
+          toast.error("Unable to place order",{
+            position: "top-center"
+          });
+        }
+      }
     }
-    catch(err)
-    {
-      console.error("Order placing failed",err);
-      toast.error("Unable to place order",{
-        position: "top-center"
-      });
-    }
+    
   };
 
   const handleAddAddress = () => {
