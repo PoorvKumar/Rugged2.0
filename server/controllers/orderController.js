@@ -1,4 +1,5 @@
 const Order = require("../models/order");
+const Product=require("../models/product")
 // const RazorPay=require("razorpay");
 const Cart = require('../models/cart');
 const crypto = require("crypto");
@@ -97,6 +98,29 @@ const createOrder = async (req, res, next) => {
     });
     const savedOrder = await order.save();
     const deletionResult = await Cart.deleteOne({ user: req.user });
+for (const item of items) {
+  // Find the product in the database
+  const product = await Product.findById(item.productId);
+  if (!product) {
+    // Handle if the product is not found
+    console.log(`Product with ID ${item.productId} not found.`);
+    continue;
+  }
+
+  // Reduce the quantity of the product
+  product.stockQuantity -= item.quantity;
+
+  // If quantity becomes less than zero, remove the product
+  if (product.stockQuantity < 0) {
+    console.log(
+      `Removing product with ID ${product._id} because quantity is less than 0.`
+    );
+    await Product.findByIdAndDelete(product._id);
+  } else {
+    // Save the updated product
+    await product.save();
+  }
+}
     if (deletionResult.deletedCount > 0) {
       console.log('Cart deleted successfully');
     } else {

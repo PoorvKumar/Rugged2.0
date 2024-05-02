@@ -157,6 +157,7 @@ const Orders = () => {
        field: "shippingAddress",
        headerName: "User Name",
        flex: 0.5,
+       renderCell: (params) => `${params.value.state}`,
      },
      {
        field: "_id",
@@ -164,11 +165,7 @@ const Orders = () => {
        flex: 0.5,
        renderCell: (params) => (
          <div className="flex flex-row">
-           <Button
-             variant="contained"
-             color="success"
-             disabled
-           >
+           <Button variant="contained" color="success" disabled>
              Shipped
            </Button>
          </div>
@@ -185,12 +182,13 @@ const Orders = () => {
        flex: 0.5,
        renderCell: (params) => `$${Number(params.value).toFixed(2)}`,
      },
-    ];
+   ];
     const columns2 = [
       {
         field: "shippingAddress",
         headerName: "User Name",
         flex: 0.5,
+        renderCell: (params) => `${params.value.country}`,
       },
       {
         field: "_id",
@@ -198,11 +196,7 @@ const Orders = () => {
         flex: 0.5,
         renderCell: (params) => (
           <div className="flex flex-row">
-            <Button
-              variant="contained"
-              color="error"
-              disabled
-            >
+            <Button variant="contained" color="error" disabled>
               Cancelled
             </Button>
           </div>
