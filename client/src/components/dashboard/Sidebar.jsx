@@ -50,10 +50,10 @@ const navItems = [
     text: "Seller",
     icon: null,
   },
-  {
-    text: "Analytics",
-    icon: <HomeOutlined />,
-  },
+  // {
+  //   text: "Analytics",
+  //   icon: <HomeOutlined />,
+  // },
   {
     text: "Products",
     icon: <ShoppingCartOutlined />,

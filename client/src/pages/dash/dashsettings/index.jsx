@@ -35,21 +35,23 @@ const Blog = () => {
                   Welcome to Rugged
                 </h2>
                 <p className="text-base text-body-color dark:text-dark-6">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Beatae possimus necessitatibus tempore quod, repellat sequi
-                  laborum laboriosam numquam dolore voluptatem?
+                  Rugged is an e-commerce platform specializing in trekking
+                  equipment, catering to outdoor enthusiasts and adventurers
+                  alike. Our website offers a wide range of high-quality gear,
+                  including backpacks, tents, hiking boots, and outdoor
+                  clothing, designed to withstand the rigors of the wilderness.
                 </p>
               </div>
             </div>
           </div>
 
           <div className="-mx-4 flex flex-wrap">
-            {(isCustomer || isAdmin) && (
+            {(isCustomer) && (
               <BlogCard
                 date={true}
                 val="Customer"
                 CardTitle="ThankYou for Value Customer"
-                CardDescription="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+                CardDescription=""
                 image="https://i.ibb.co/Cnwd4q6/image-01.jpg"
               />
             )}
@@ -58,16 +60,16 @@ const Blog = () => {
                 date={false}
                 val={"Customer"}
                 CardTitle="Please Login to Become our Customer"
-                CardDescription="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+                CardDescription=""
                 image="https://i.ibb.co/Cnwd4q6/image-01.jpg"
               />
             )}
-            {(isSeller || isAdmin) && (
+            {(isSeller) && (
               <BlogCard
                 date={true}
                 val={"Seller"}
                 CardTitle="ThankYou for Value Seller"
-                CardDescription="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+                CardDescription=""
                 image="https://i.ibb.co/Cnwd4q6/image-01.jpg"
               />
             )}
@@ -76,16 +78,16 @@ const Blog = () => {
                 date={false}
                 val={"Seller"}
                 CardTitle="You can become seller"
-                CardDescription="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+                CardDescription=""
                 image="https://i.ibb.co/Cnwd4q6/image-01.jpg"
               />
             )}
-            {(isBlogger || isAdmin) && (
+            {(isBlogger) && (
               <BlogCard
                 date={true}
                 val={"Blogger"}
                 CardTitle="ThankYou for Value Blogger"
-                CardDescription="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+                CardDescription=""
                 image="https://i.ibb.co/Cnwd4q6/image-01.jpg"
               />
             )}
@@ -94,7 +96,7 @@ const Blog = () => {
                 date={false}
                 val={"Blogger"}
                 CardTitle="You can Become Blogger"
-                CardDescription="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+                CardDescription=""
                 image="https://i.ibb.co/Cnwd4q6/image-01.jpg"
               />
             )}
